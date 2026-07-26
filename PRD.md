@@ -1,10 +1,10 @@
-# Awl Vertex Glow Marker — PRD
+# Awl Vertex Glow Market — PRD
 
 ## Product Overview
 
 A static B2B wholesale independent station for a Chinese beauty tools source factory. The site showcases 6 product lines (Nail Supplies, Eyelash Supplies, Permanent Makeup, Beauty Tools, Daily Chemical, Makeup Tools) and serves as a lead-generation funnel for international wholesale buyers.
 
-**URL:** https://awlvertexglowmarker.com  
+**URL:** https://awlvertexglowmarket.com  
 **Target Audience:** International beauty product importers, distributors, and brand owners  
 **Factory Location:** Yiwu, Zhejiang, China  
 **Export Reach:** 60+ countries

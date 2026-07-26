@@ -1,19 +1,19 @@
-// Site-wide configuration for Awl Vertex Glow Marker
+// Site-wide configuration for Awl Vertex Glow Market
 // Beauty Tools Source Factory — B2B Wholesale Independent Station
 
 export const SITE = {
-  name: "Awl Vertex Glow Marker",
+  name: "Awl Vertex Glow Market",
   tagline: "Professional Beauty Tools Source Factory",
   description:
     "China source factory for nail, eyelash, permanent makeup, beauty tools, daily chemical & makeup accessories. Wholesale B2B supplier exporting to 60+ countries.",
-  url: "https://awlvertexglowmarker.com",
+  url: "https://awlvertexglowmarket.com",
   location: "Zhejiang, China",
   founded: 2015,
   experience: "10+ Years",
   exportCountries: 60,
   factoryCount: 2,
   whatsapp: "+8618898634001",
-  email: "info@awlvertexglowmarker.com",
+  email: "info@awlvertexglowmarket.com",
   phone: "+8618898634001",
   address: "Yiwu, Zhejiang, China",
 };
