@@ -52,75 +52,78 @@ import { Icon } from "astro-icon/components";
     </div>
 
     <CheckoutTicket />
-</Layout>
 
-<script>
+  <script>
     import {
         completePurchase,
         cartItems,
         totalPrice,
     } from "../store/cartStore";
 
-    const form = document.getElementById("checkout-form") as HTMLFormElement;
-    const ticketModal = document.getElementById("ticket-modal");
-    const ticketProducts = document.getElementById("ticket-products");
-    const ticketTotal = document.getElementById("ticket-total");
-    const ticketCustomer = document.getElementById("ticket-customer");
-    const ticketDate = document.getElementById("ticket-date");
-    const ticketId = document.getElementById("ticket-id");
-
     const formatPrice = (price: number) =>
         new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" })
             .format(price)
             .replace("$", "$ ");
 
-    form?.addEventListener("submit", (e) => {
-        e.preventDefault();
+    function initCheckout() {
+      const form = document.getElementById("checkout-form") as HTMLFormElement;
+      if (!form) return;
 
-        const formData = new FormData(form);
-        const name = formData.get("name") as string;
-        const currentItems = cartItems.get();
-        const currentTotal = totalPrice.get();
+      const ticketModal = document.getElementById("ticket-modal");
+      const ticketProducts = document.getElementById("ticket-products");
+      const ticketTotal = document.getElementById("ticket-total");
+      const ticketCustomer = document.getElementById("ticket-customer");
+      const ticketDate = document.getElementById("ticket-date");
+      const ticketId = document.getElementById("ticket-id");
 
-        if (currentItems.length === 0) {
-            alert("Your cart is empty!");
-            return;
-        }
+      form.addEventListener("submit", (e) => {
+          e.preventDefault();
 
-        // Prepare ticket data
-        if (ticketProducts) {
-            ticketProducts.innerHTML = currentItems
-                .map(
-                    (item) => `
-                <div class="flex justify-between items-center text-sm">
-                    <div class="flex flex-col">
-                        <span class="font-black text-slate-950 uppercase italic text-xs tracking-tight">${item.name}</span>
-                        <span class="text-[10px] font-bold text-slate-400">QTY: ${item.quantity}</span>
-                    </div>
-                    <span class="font-black italic text-slate-900">${formatPrice(item.price * (1 - (item.discount || 0) / 100) * item.quantity)}</span>
-                </div>
-            `,
-                )
-                .join("");
-        }
+          const formData = new FormData(form);
+          const name = formData.get("name") as string;
+          const currentItems = cartItems.get();
+          const currentTotal = totalPrice.get();
 
-        if (ticketTotal) ticketTotal.textContent = formatPrice(currentTotal);
-        if (ticketCustomer) ticketCustomer.textContent = name;
-        if (ticketDate)
-            ticketDate.textContent = new Date().toLocaleDateString("en-US", {
-                month: "short",
-                day: "numeric",
-                year: "numeric",
-            });
-        if (ticketId)
-            ticketId.textContent =
-                "TRX-" +
-                Math.random().toString(36).substring(2, 11).toUpperCase();
+          if (currentItems.length === 0) {
+              alert("Your cart is empty!");
+              return;
+          }
 
-        // Perform "Purchase"
-        completePurchase();
+          if (ticketProducts) {
+              ticketProducts.innerHTML = currentItems
+                  .map(
+                      (item) => `
+                  <div class="flex justify-between items-center text-sm">
+                      <div class="flex flex-col">
+                          <span class="font-black text-slate-950 uppercase italic text-xs tracking-tight">${item.name}</span>
+                          <span class="text-[10px] font-bold text-slate-400">QTY: ${item.quantity}</span>
+                      </div>
+                      <span class="font-black italic text-slate-900">${formatPrice(item.price * (1 - (item.discount || 0) / 100) * item.quantity)}</span>
+                  </div>
+              `,
+                  )
+                  .join("");
+          }
 
-        // Show Ticket Modal
-        ticketModal?.classList.add("open");
-    });
-</script>
+          if (ticketTotal) ticketTotal.textContent = formatPrice(currentTotal);
+          if (ticketCustomer) ticketCustomer.textContent = name;
+          if (ticketDate)
+              ticketDate.textContent = new Date().toLocaleDateString("en-US", {
+                  month: "short",
+                  day: "numeric",
+                  year: "numeric",
+              });
+          if (ticketId)
+              ticketId.textContent =
+                  "TRX-" +
+                  Math.random().toString(36).substring(2, 11).toUpperCase();
+
+          completePurchase();
+          ticketModal?.classList.add("open");
+      });
+    }
+
+    initCheckout();
+    document.addEventListener("astro:after-swap", initCheckout);
+  </script>
+</Layout>

@@ -215,8 +215,6 @@ const priceRange = { min: 0, max: 50 };
       </div>
     </div>
   </section>
-</Layout>
-
 <style>
   .line-clamp-2 {
     display: -webkit-box;
@@ -227,29 +225,22 @@ const priceRange = { min: 0, max: 50 };
 </style>
 
 <script>
-  // Client-side filtering
+  // ── Client-side filtering ──
   function filterProducts() {
-    // Desktop
     const searchQ = (document.getElementById("search-products") as HTMLInputElement)?.value?.toLowerCase() || "";
     const searchQMobile = (document.getElementById("search-products-mobile") as HTMLInputElement)?.value?.toLowerCase() || "";
     const query = searchQ || searchQMobile;
 
-    // Selected categories
     const desktopChecks = document.querySelectorAll<HTMLInputElement>(".filter-category:checked");
     const mobileChecks = document.querySelectorAll<HTMLInputElement>(".filter-category-mobile:checked");
     const selectedCats = [...Array.from(desktopChecks), ...Array.from(mobileChecks)].map(c => c.value);
 
-    // Price range
     const priceLimit = parseInt((document.getElementById("price-range") as HTMLInputElement)?.value || "50");
     const priceLimitMobile = parseInt((document.getElementById("price-range-mobile") as HTMLInputElement)?.value || "50");
     const maxPrice = Math.min(priceLimit, priceLimitMobile);
 
-    // Badges
     const badgeChecks = document.querySelectorAll<HTMLInputElement>(".filter-badge:checked");
     const selectedBadges = Array.from(badgeChecks).map(c => c.value);
-
-    // Sort
-    const sortVal = (document.getElementById("sort-select") as HTMLSelectElement)?.value || "default";
 
     const cards = document.querySelectorAll<HTMLElement>(".product-card");
     let visible = 0;
@@ -273,17 +264,14 @@ const priceRange = { min: 0, max: 50 };
       }
     });
 
-    // Update count
     const countEl = document.getElementById("product-count");
     if (countEl) countEl.textContent = `${visible} products`;
 
-    // Show/hide no results
     const noResults = document.getElementById("no-results");
     if (noResults) noResults.classList.toggle("hidden", visible > 0);
   }
 
   function resetFilters() {
-    // Desktop
     document.querySelectorAll<HTMLInputElement>(".filter-category").forEach(c => { c.checked = c.value === "all"; });
     document.querySelectorAll<HTMLInputElement>(".filter-badge").forEach(c => { c.checked = false; });
     const priceEl = document.getElementById("price-range") as HTMLInputElement;
@@ -293,7 +281,6 @@ const priceRange = { min: 0, max: 50 };
     const searchEl = document.getElementById("search-products") as HTMLInputElement;
     if (searchEl) searchEl.value = "";
 
-    // Mobile
     document.querySelectorAll<HTMLInputElement>(".filter-category-mobile").forEach(c => { c.checked = c.value === "all"; });
     const priceMobile = document.getElementById("price-range-mobile") as HTMLInputElement;
     if (priceMobile) { priceMobile.value = "50"; }
@@ -305,56 +292,72 @@ const priceRange = { min: 0, max: 50 };
     filterProducts();
   }
 
-  // Sort
-  document.getElementById("sort-select")?.addEventListener("change", () => {
-    const val = (document.getElementById("sort-select") as HTMLSelectElement).value;
-    const grid = document.getElementById("products-grid");
-    if (!grid) return;
-    const cards = [...grid.querySelectorAll<HTMLElement>(".product-card")];
+  function bindSort() {
+    document.getElementById("sort-select")?.addEventListener("change", () => {
+      const val = (document.getElementById("sort-select") as HTMLSelectElement).value;
+      const grid = document.getElementById("products-grid");
+      if (!grid) return;
+      const cards = [...grid.querySelectorAll<HTMLElement>(".product-card")];
 
-    cards.sort((a, b) => {
-      const priceA = parseFloat(a.dataset.price || "0");
-      const priceB = parseFloat(b.dataset.price || "0");
-      const nameA = a.dataset.name || "";
-      const nameB = b.dataset.name || "";
+      cards.sort((a, b) => {
+        const priceA = parseFloat(a.dataset.price || "0");
+        const priceB = parseFloat(b.dataset.price || "0");
+        const nameA = a.dataset.name || "";
+        const nameB = b.dataset.name || "";
 
-      if (val === "price-asc") return priceA - priceB;
-      if (val === "price-desc") return priceB - priceA;
-      if (val === "name-asc") return nameA.localeCompare(nameB);
-      if (val === "name-desc") return nameB.localeCompare(nameA);
-      return 0;
+        if (val === "price-asc") return priceA - priceB;
+        if (val === "price-desc") return priceB - priceA;
+        if (val === "name-asc") return nameA.localeCompare(nameB);
+        if (val === "name-desc") return nameB.localeCompare(nameA);
+        return 0;
+      });
+
+      cards.forEach(c => grid.appendChild(c));
+    });
+  }
+
+  function bindFilters() {
+    // Search inputs
+    document.getElementById("search-products")?.addEventListener("input", filterProducts);
+    document.getElementById("search-products-mobile")?.addEventListener("input", filterProducts);
+
+    // Category & badge checkboxes
+    document.querySelectorAll(".filter-category").forEach(c => c.addEventListener("change", filterProducts));
+    document.querySelectorAll(".filter-category-mobile").forEach(c => c.addEventListener("change", filterProducts));
+    document.querySelectorAll(".filter-badge").forEach(c => c.addEventListener("change", filterProducts));
+
+    // Price range
+    document.getElementById("price-range")?.addEventListener("input", function() {
+      const display = document.getElementById("price-display");
+      if (display) display.textContent = `$${(this as HTMLInputElement).value} max`;
+      filterProducts();
+    });
+    document.getElementById("price-range-mobile")?.addEventListener("input", function() {
+      const display = document.getElementById("price-display-mobile");
+      if (display) display.textContent = `$${(this as HTMLInputElement).value} max`;
+      filterProducts();
     });
 
-    cards.forEach(c => grid.appendChild(c));
-  });
+    // Reset
+    document.getElementById("reset-filters")?.addEventListener("click", resetFilters);
+    document.getElementById("reset-filters-mobile")?.addEventListener("click", resetFilters);
 
-  // Event listeners
-  document.getElementById("search-products")?.addEventListener("input", filterProducts);
-  document.getElementById("search-products-mobile")?.addEventListener("input", filterProducts);
-  document.querySelectorAll(".filter-category").forEach(c => c.addEventListener("change", filterProducts));
-  document.querySelectorAll(".filter-category-mobile").forEach(c => c.addEventListener("change", filterProducts));
-  document.querySelectorAll(".filter-badge").forEach(c => c.addEventListener("change", filterProducts));
-  document.getElementById("price-range")?.addEventListener("input", function() {
-    const display = document.getElementById("price-display");
-    if (display) display.textContent = `$${(this as HTMLInputElement).value} max`;
-    filterProducts();
-  });
-  document.getElementById("price-range-mobile")?.addEventListener("input", function() {
-    const display = document.getElementById("price-display-mobile");
-    if (display) display.textContent = `$${(this as HTMLInputElement).value} max`;
-    filterProducts();
-  });
-  document.getElementById("reset-filters")?.addEventListener("click", resetFilters);
-  document.getElementById("reset-filters-mobile")?.addEventListener("click", resetFilters);
+    // Mobile filter drawer
+    document.getElementById("open-mobile-filter")?.addEventListener("click", () => {
+      document.getElementById("mobile-filter-overlay")?.classList.remove("hidden");
+    });
+    document.getElementById("close-mobile-filter")?.addEventListener("click", () => {
+      document.getElementById("mobile-filter-overlay")?.classList.add("hidden");
+    });
+    document.getElementById("mobile-filter-backdrop")?.addEventListener("click", () => {
+      document.getElementById("mobile-filter-overlay")?.classList.add("hidden");
+    });
 
-  // Mobile filter drawer
-  document.getElementById("open-mobile-filter")?.addEventListener("click", () => {
-    document.getElementById("mobile-filter-overlay")?.classList.remove("hidden");
-  });
-  document.getElementById("close-mobile-filter")?.addEventListener("click", () => {
-    document.getElementById("mobile-filter-overlay")?.classList.add("hidden");
-  });
-  document.getElementById("mobile-filter-backdrop")?.addEventListener("click", () => {
-    document.getElementById("mobile-filter-overlay")?.classList.add("hidden");
-  });
+    bindSort();
+  }
+
+  // ── Init + SPA re-init ──
+  bindFilters();
+  document.addEventListener("astro:after-swap", bindFilters);
 </script>
+</Layout>
