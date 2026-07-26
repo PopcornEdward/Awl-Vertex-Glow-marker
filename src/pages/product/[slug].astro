@@ -1,0 +1,142 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { Icon } from "astro-icon/components";
+import { products, getRelatedProducts } from "../../data/products";
+import { SITE } from "../../data/site";
+
+export async function getStaticPaths() {
+  return products.map((product) => ({
+    params: { slug: product.slug },
+    props: { product },
+  }));
+}
+
+const { product } = Astro.props;
+const relatedProducts = getRelatedProducts(product.category, product.slug);
+---
+
+<Layout>
+  <div class="bg-white min-h-screen pb-20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8">
+      <!-- Breadcrumb -->
+      <div class="mb-8 text-sm">
+        <a href="/" class="text-gray-400 hover:text-pink-600">Home</a>
+        <span class="mx-2 text-gray-300">/</span>
+        <a href={`/category/${product.category}`} class="text-gray-400 hover:text-pink-600">{product.category}</a>
+        <span class="mx-2 text-gray-300">/</span>
+        <span class="text-gray-600">{product.name}</span>
+      </div>
+
+      <!-- Product Detail -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 xl:gap-16">
+        <!-- Image Gallery -->
+        <div class="space-y-4">
+          <div class="aspect-square rounded-2xl overflow-hidden bg-gray-100">
+            <img src={product.images[0]} alt={product.name}
+              class="w-full h-full object-cover" id="main-image" />
+          </div>
+          {product.images.length > 1 && (
+            <div class="grid grid-cols-4 gap-3">
+              {product.images.map((img, i) => (
+                <button class="aspect-square rounded-xl overflow-hidden border-2 border-gray-200 hover:border-pink-400 transition-colors"
+                  data-image={img}>
+                  <img src={img} alt={`${product.name} ${i + 1}`} class="w-full h-full object-cover" />
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
+
+        <!-- Product Info -->
+        <div>
+          <div class="flex flex-wrap gap-2 mb-4">
+            {product.badge && <span class="badge badge-primary font-bold">{product.badge}</span>}
+            {product.discount && product.discount > 0 && <span class="badge badge-error font-bold">-{product.discount}% OFF</span>}
+          </div>
+
+          <h1 class="text-2xl md:text-3xl font-black text-gray-900 mb-4">{product.name}</h1>
+
+          <div class="flex items-baseline gap-3 mb-6">
+            <span class="text-3xl font-black text-pink-600">${product.price.toFixed(2)}</span>
+            <span class="text-sm text-gray-400">/ unit (wholesale)</span>
+          </div>
+
+          <p class="text-gray-600 leading-relaxed mb-6">{product.description}</p>
+
+          <!-- Specs Table -->
+          {product.specs && product.specs.length > 0 && (
+            <div class="mb-8">
+              <h3 class="font-bold text-gray-900 mb-3">Specifications</h3>
+              <div class="grid grid-cols-2 gap-2">
+                {product.specs.map((spec) => (
+                  <div class="flex justify-between py-2 px-3 bg-gray-50 rounded-lg text-sm">
+                    <span class="text-gray-500">{spec.label}</span>
+                    <span class="font-semibold text-gray-900">{spec.value}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          <!-- MOQ & Stock -->
+          <div class="flex flex-wrap gap-4 mb-8">
+            <div class="bg-pink-50 rounded-xl px-4 py-3 text-center">
+              <div class="text-xs text-pink-500 font-medium">MOQ</div>
+              <div class="text-lg font-bold text-pink-600">{product.moq || "Contact Us"}</div>
+            </div>
+            <div class="bg-green-50 rounded-xl px-4 py-3 text-center">
+              <div class="text-xs text-green-500 font-medium">In Stock</div>
+              <div class="text-lg font-bold text-green-600">{product.stock > 0 ? `${product.stock}+ units` : "Contact Us"}</div>
+            </div>
+          </div>
+
+          <!-- CTAs -->
+          <div class="flex flex-wrap gap-3">
+            <a href={`https://api.whatsapp.com/send?phone=${SITE.whatsapp}&text=Hello%2C%20I%27m%20interested%20in%20${encodeURIComponent(product.name)}`}
+               target="_blank" rel="noopener noreferrer"
+               class="btn bg-green-500 border-green-500 text-white rounded-full px-8 hover:bg-green-600 flex-1 sm:flex-none">
+              <Icon name="lucide:message-circle" class="w-5 h-5" />
+              Inquire on WhatsApp
+            </a>
+            <a href="/contact"
+               class="btn btn-primary rounded-full px-8 flex-1 sm:flex-none">
+              Send Inquiry
+            </a>
+          </div>
+          <p class="text-xs text-gray-400 mt-4">Response within 24 hours. Samples available upon request.</p>
+        </div>
+      </div>
+
+      <!-- Related Products -->
+      {relatedProducts.length > 0 && (
+        <section class="mt-24">
+          <h2 class="text-2xl font-black text-gray-900 uppercase mb-8">Related Products</h2>
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {relatedProducts.map((rp) => (
+              <a href={`/product/${rp.slug}`}
+                class="group bg-white rounded-2xl shadow-sm hover:shadow-lg transition-all overflow-hidden border border-gray-100">
+                <div class="aspect-square overflow-hidden">
+                  <img src={rp.images[0]} alt={rp.name}
+                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                </div>
+                <div class="p-3">
+                  <h3 class="font-semibold text-gray-900 group-hover:text-pink-600 text-sm line-clamp-2">{rp.name}</h3>
+                  <span class="text-pink-600 font-bold text-sm">${rp.price.toFixed(2)}</span>
+                </div>
+              </a>
+            ))}
+          </div>
+        </section>
+      )}
+    </div>
+  </div>
+</Layout>
+
+<style>
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+</style>

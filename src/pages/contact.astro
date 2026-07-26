@@ -1,0 +1,118 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { Icon } from "astro-icon/components";
+import { SITE } from "../data/site";
+---
+
+<Layout>
+  <!-- Hero -->
+  <section class="relative h-48 sm:h-64 overflow-hidden">
+    <img src="https://images.pexels.com/photos/8864652/pexels-photo-8864652.jpeg?auto=compress&cs=tinysrgb&w=1920"
+      alt="Contact Us" class="absolute inset-0 w-full h-full object-cover" />
+    <div class="absolute inset-0 bg-black/50 flex items-center justify-center">
+      <div class="text-center px-4">
+        <h1 class="text-3xl md:text-5xl font-black text-white uppercase">Contact Us</h1>
+        <p class="text-white/80 mt-2">Get in touch — we respond within 24 hours</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-16 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
+        <!-- Contact Info Sidebar -->
+        <div class="space-y-6">
+          <div class="bg-green-50 rounded-2xl p-6">
+            <div class="w-10 h-10 bg-green-500 rounded-xl flex items-center justify-center mb-3">
+              <Icon name="lucide:message-circle" class="w-5 h-5 text-white" />
+            </div>
+            <h3 class="font-bold text-gray-900 mb-1">WhatsApp</h3>
+            <p class="text-gray-600 text-xs mb-2">Fastest response</p>
+            <a href={`https://api.whatsapp.com/send?phone=${SITE.whatsapp}&text=Hello`}
+               target="_blank" rel="noopener noreferrer"
+               class="btn bg-green-500 border-green-500 text-white rounded-full btn-sm hover:bg-green-600 w-full text-xs">
+              {SITE.whatsapp} <Icon name="lucide:external-link" class="w-3 h-3 ml-1" />
+            </a>
+          </div>
+          <div class="bg-blue-50 rounded-2xl p-6">
+            <div class="w-10 h-10 bg-blue-500 rounded-xl flex items-center justify-center mb-3">
+              <Icon name="lucide:mail" class="w-5 h-5 text-white" />
+            </div>
+            <h3 class="font-bold text-gray-900 mb-1">Email</h3>
+            <p class="text-gray-600 text-xs mb-2">For product lists & quotations</p>
+            <a href={`mailto:${SITE.email}`}
+               class="btn bg-blue-500 border-blue-500 text-white rounded-full btn-sm hover:bg-blue-600 w-full text-xs">
+              {SITE.email}
+            </a>
+          </div>
+          <div class="bg-gray-50 rounded-2xl p-6">
+            <div class="w-10 h-10 bg-gray-700 rounded-xl flex items-center justify-center mb-3">
+              <Icon name="lucide:map-pin" class="w-5 h-5 text-white" />
+            </div>
+            <h3 class="font-bold text-gray-900 mb-1">Factory Address</h3>
+            <p class="text-gray-600 text-xs">{SITE.address}</p>
+          </div>
+        </div>
+
+        <!-- Inquiry Form -->
+        <div class="lg:col-span-2">
+          <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-8">
+            <h2 class="text-2xl font-black text-gray-900 mb-2">Send an Inquiry</h2>
+            <p class="text-gray-500 text-sm mb-8">Fill out the form and our team will respond within 24 hours.</p>
+            <form class="space-y-5">
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                <div>
+                  <label class="block text-sm font-semibold text-gray-700 mb-1">Your Name *</label>
+                  <input type="text" required placeholder="Full name"
+                    class="input input-bordered w-full focus:outline-none focus:border-pink-400" />
+                </div>
+                <div>
+                  <label class="block text-sm font-semibold text-gray-700 mb-1">WhatsApp / Phone *</label>
+                  <input type="text" required placeholder="+ country code + number"
+                    class="input input-bordered w-full focus:outline-none focus:border-pink-400" />
+                </div>
+                <div>
+                  <label class="block text-sm font-semibold text-gray-700 mb-1">Email *</label>
+                  <input type="email" required placeholder="you@example.com"
+                    class="input input-bordered w-full focus:outline-none focus:border-pink-400" />
+                </div>
+                <div>
+                  <label class="block text-sm font-semibold text-gray-700 mb-1">Country</label>
+                  <input type="text" placeholder="Your country"
+                    class="input input-bordered w-full focus:outline-none focus:border-pink-400" />
+                </div>
+                <div>
+                  <label class="block text-sm font-semibold text-gray-700 mb-1">Product Category</label>
+                  <select class="select select-bordered w-full focus:outline-none focus:border-pink-400">
+                    <option value="">Select category</option>
+                    <option>Nail Supplies</option>
+                    <option>Eyelash Supplies</option>
+                    <option>Permanent Makeup</option>
+                    <option>Beauty Tools</option>
+                    <option>Daily Chemical</option>
+                    <option>Makeup Tools</option>
+                    <option>Multiple / Other</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="block text-sm font-semibold text-gray-700 mb-1">Previous Supplier?</label>
+                  <input type="text" placeholder="Where did you purchase from before? (optional)"
+                    class="input input-bordered w-full focus:outline-none focus:border-pink-400" />
+                </div>
+              </div>
+              <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-1">Message *</label>
+                <textarea required rows="5" placeholder="Tell us about the products you're interested in, quantities, and any special requirements..."
+                  class="textarea textarea-bordered w-full focus:outline-none focus:border-pink-400 resize-none"></textarea>
+              </div>
+              <button type="submit"
+                class="btn btn-primary btn-lg rounded-full px-12 shadow-lg hover:shadow-xl hover:scale-105 transition-transform">
+                <Icon name="lucide:send" class="w-5 h-5" /> Send Inquiry
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>

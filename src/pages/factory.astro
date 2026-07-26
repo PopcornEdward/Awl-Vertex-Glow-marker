@@ -1,0 +1,109 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { Icon } from "astro-icon/components";
+import { SITE } from "../data/site";
+---
+
+<Layout>
+  <section class="relative h-48 sm:h-64 overflow-hidden">
+    <img src="https://images.pexels.com/photos/3997388/pexels-photo-3997388.jpeg?auto=compress&cs=tinysrgb&w=1920"
+      alt="Factory Tour" class="absolute inset-0 w-full h-full object-cover" />
+    <div class="absolute inset-0 bg-black/50 flex items-center justify-center">
+      <div class="text-center px-4">
+        <h1 class="text-3xl md:text-5xl font-black text-white uppercase">Factory Tour</h1>
+        <p class="text-white/80 mt-2">See where your products are made</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Factory Highlights -->
+  <section class="py-16 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-16">
+        <div>
+          <h2 class="text-3xl font-black text-gray-900 mb-6">Manufacturing Excellence</h2>
+          <p class="text-gray-600 leading-relaxed mb-4">
+            Our main factory is located in Zhejiang Province — the heart of China's manufacturing hub.
+            Spanning 5,000+ sqm, our facility houses dedicated production lines for each product category:
+            nail supplies, eyelash tools, PMU equipment, beauty devices, and daily chemical products.
+          </p>
+          <ul class="space-y-3 text-gray-600">
+            <li class="flex items-start gap-3">
+              <Icon name="lucide:check-circle" class="w-5 h-5 text-green-500 mt-0.5 shrink-0" />
+              <span><strong>R&D Center:</strong> In-house product development team that tracks global beauty trends and creates new products monthly.</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <Icon name="lucide:check-circle" class="w-5 h-5 text-green-500 mt-0.5 shrink-0" />
+              <span><strong>Production Lines:</strong> 6 dedicated assembly lines with modern equipment for consistent quality at scale.</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <Icon name="lucide:check-circle" class="w-5 h-5 text-green-500 mt-0.5 shrink-0" />
+              <span><strong>QC Stations:</strong> 6-stage quality inspection integrated into every production batch.</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <Icon name="lucide:check-circle" class="w-5 h-5 text-green-500 mt-0.5 shrink-0" />
+              <span><strong>Warehouse:</strong> 2000+ sqm storage capacity for fast order fulfillment.</span>
+            </li>
+          </ul>
+        </div>
+        <img src="https://images.pexels.com/photos/5069610/pexels-photo-5069610.jpeg?auto=compress&cs=tinysrgb&w=800"
+          alt="Factory Interior" class="rounded-2xl w-full h-80 object-cover shadow-lg" />
+      </div>
+
+      <!-- Photo Grid -->
+      <div class="text-center mb-10">
+        <h2 class="text-2xl font-black text-gray-900 uppercase">Inside Our Factory</h2>
+        <p class="text-gray-500 mt-2">A transparent look at our production environment</p>
+      </div>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div class="relative group overflow-hidden rounded-xl">
+          <img src="https://images.pexels.com/photos/3997388/pexels-photo-3997388.jpeg?auto=compress&cs=tinysrgb&w=600"
+            alt="Raw Materials" class="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-500" />
+          <div class="absolute bottom-0 left-0 right-0 bg-black/60 text-white text-sm text-center py-2 font-medium">Raw Materials</div>
+        </div>
+        <div class="relative group overflow-hidden rounded-xl">
+          <img src="https://images.pexels.com/photos/5069610/pexels-photo-5069610.jpeg?auto=compress&cs=tinysrgb&w=600"
+            alt="Production" class="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-500" />
+          <div class="absolute bottom-0 left-0 right-0 bg-black/60 text-white text-sm text-center py-2 font-medium">Production Line</div>
+        </div>
+        <div class="relative group overflow-hidden rounded-xl">
+          <img src="https://images.pexels.com/photos/3738346/pexels-photo-3738346.jpeg?auto=compress&cs=tinysrgb&w=600"
+            alt="QC" class="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-500" />
+          <div class="absolute bottom-0 left-0 right-0 bg-black/60 text-white text-sm text-center py-2 font-medium">Quality Control</div>
+        </div>
+        <div class="relative group overflow-hidden rounded-xl">
+          <img src="https://images.pexels.com/photos/4465124/pexels-photo-4465124.jpeg?auto=compress&cs=tinysrgb&w=600"
+            alt="Packing" class="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-500" />
+          <div class="absolute bottom-0 left-0 right-0 bg-black/60 text-white text-sm text-center py-2 font-medium">Packing & Loading</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- QC Process -->
+  <section class="py-16 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h2 class="text-2xl font-black text-gray-900 text-center mb-12 uppercase">6-Stage Quality Control</h2>
+      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
+        {["Material Inspection", "Production QC", "Function Test", "Appearance Check", "Packaging QC", "Final Audit"].map((stage, i) => (
+          <div class="bg-white rounded-xl p-6 text-center shadow-sm">
+            <div class="w-10 h-10 bg-pink-100 rounded-full flex items-center justify-center mx-auto mb-3 text-pink-600 font-black">{i + 1}</div>
+            <div class="font-semibold text-gray-900 text-sm">{stage}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="py-16 bg-gray-900 text-white text-center">
+    <div class="max-w-2xl mx-auto px-4">
+      <h2 class="text-3xl font-black uppercase mb-4">Want a Live Video Tour?</h2>
+      <p class="text-gray-300 mb-8">Contact us to schedule a live video walkthrough of our factory. We're proud to show you where your products come from.</p>
+      <a href={`https://api.whatsapp.com/send?phone=${SITE.whatsapp}&text=Hello%2C%20I%20would%20like%20a%20factory%20video%20tour`}
+         target="_blank" rel="noopener noreferrer"
+         class="btn bg-green-500 border-green-500 text-white btn-lg rounded-full px-10 hover:bg-green-600">
+        <Icon name="lucide:video" class="w-5 h-5" /> Request Video Tour
+      </a>
+    </div>
+  </section>
+</Layout>

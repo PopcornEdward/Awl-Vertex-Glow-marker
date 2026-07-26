@@ -1,0 +1,133 @@
+---
+import { Icon } from "astro-icon/components";
+import Links from "./Links.astro";
+import { SITE } from "../../data/site";
+---
+
+<div
+  id="main-navbar"
+  class="sticky top-0 z-999 w-full font-sans transition-transform duration-300"
+>
+  <div class="bg-base-100 shadow-md">
+    <nav class="navbar max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <!-- Mobile Menu Toggle -->
+      <div class="navbar-start lg:hidden">
+        <button
+          id="mobile-menu-btn"
+          class="btn btn-ghost btn-circle"
+          aria-label="Menu"
+        >
+          <Icon name="lucide:menu" class="w-6 h-6" />
+        </button>
+      </div>
+
+      <!-- Logo -->
+      <div class="navbar-start hidden lg:flex">
+        <a href="/" class="flex items-center gap-2 group">
+          <div
+            class="w-8 h-8 bg-pink-500 rounded-lg flex items-center justify-center group-hover:rotate-12 transition-transform shadow-sm"
+          >
+            <Icon name="lucide:sparkles" class="w-5 h-5 text-white" />
+          </div>
+          <span class="text-lg font-bold tracking-tight sm:text-xl text-pink-600">
+            {SITE.name}
+          </span>
+        </a>
+      </div>
+
+      <!-- Mobile Logo (smaller) -->
+      <div class="navbar-start flex lg:hidden">
+        <a href="/" class="flex items-center gap-1">
+          <div class="w-7 h-7 bg-pink-500 rounded-lg flex items-center justify-center">
+            <Icon name="lucide:sparkles" class="w-4 h-4 text-white" />
+          </div>
+          <span class="text-base font-bold text-pink-600">AVGM</span>
+        </a>
+      </div>
+
+      <!-- Desktop Nav Links -->
+      <div class="navbar-center hidden lg:flex">
+        <Links />
+      </div>
+
+      <!-- Right: CTA -->
+      <div class="navbar-end gap-2">
+        <a
+          href={`https://api.whatsapp.com/send?phone=${SITE.whatsapp}&text=Hello`}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="btn btn-sm bg-green-500 text-white border-none hover:bg-green-600 rounded-full px-4 hidden sm:inline-flex"
+        >
+          <Icon name="lucide:message-circle" class="w-4 h-4" />
+          WhatsApp
+        </a>
+        <a
+          href="/contact"
+          class="btn btn-sm btn-primary rounded-full px-4"
+        >
+          Get Quote
+        </a>
+      </div>
+    </nav>
+  </div>
+
+  <!-- Mobile Menu (hidden by default) -->
+  <div
+    id="mobile-menu"
+    class="hidden lg:hidden bg-base-100 border-t border-base-200 shadow-lg"
+  >
+    <div class="p-4 space-y-2">
+      <a href="/" class="block py-2 px-3 rounded-lg hover:bg-pink-50 font-medium">Home</a>
+      <details class="group">
+        <summary class="py-2 px-3 rounded-lg hover:bg-pink-50 font-medium cursor-pointer list-none flex items-center justify-between">
+          Products
+          <Icon name="lucide:chevron-down" class="w-4 h-4 transition group-open:rotate-180" />
+        </summary>
+        <div class="ml-4 mt-1 space-y-1">
+          <a href="/category/nails" class="block py-1.5 px-3 text-sm rounded hover:bg-pink-50">Nail Supplies</a>
+          <a href="/category/eyelashes" class="block py-1.5 px-3 text-sm rounded hover:bg-pink-50">Eyelash Supplies</a>
+          <a href="/category/permanent-makeup" class="block py-1.5 px-3 text-sm rounded hover:bg-pink-50">Permanent Makeup</a>
+          <a href="/category/beauty-tools" class="block py-1.5 px-3 text-sm rounded hover:bg-pink-50">Beauty Tools</a>
+          <a href="/category/daily-chemical" class="block py-1.5 px-3 text-sm rounded hover:bg-pink-50">Daily Chemical</a>
+          <a href="/category/makeup-tools" class="block py-1.5 px-3 text-sm rounded hover:bg-pink-50">Makeup Tools</a>
+        </div>
+      </details>
+      <a href="/about" class="block py-2 px-3 rounded-lg hover:bg-pink-50 font-medium">About Us</a>
+      <a href="/factory" class="block py-2 px-3 rounded-lg hover:bg-pink-50 font-medium">Factory Tour</a>
+      <a href="/how-to-order" class="block py-2 px-3 rounded-lg hover:bg-pink-50 font-medium">How to Order</a>
+      <a href="/contact" class="block py-2 px-3 rounded-lg hover:bg-pink-50 font-medium">Contact</a>
+    </div>
+  </div>
+</div>
+
+<script>
+  const btn = document.getElementById("mobile-menu-btn");
+  const menu = document.getElementById("mobile-menu");
+  btn?.addEventListener("click", () => {
+    menu?.classList.toggle("hidden");
+  });
+
+  let lastScrollY = window.scrollY;
+  const navbar = document.getElementById("main-navbar");
+  window.addEventListener("scroll", () => {
+    if (!navbar) return;
+    const currentScrollY = window.scrollY;
+    if (currentScrollY <= 0) {
+      navbar.classList.remove("navbar-hidden");
+      lastScrollY = currentScrollY;
+      return;
+    }
+    if (currentScrollY > lastScrollY) {
+      navbar.classList.add("navbar-hidden");
+    } else {
+      navbar.classList.remove("navbar-hidden");
+    }
+    lastScrollY = currentScrollY;
+  });
+</script>
+
+<style>
+  .navbar-hidden {
+    transform: translateY(-100%);
+  }
+</style>

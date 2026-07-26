@@ -1,0 +1,47 @@
+---
+import "../styles/global.css";
+import Navbar from "../components/navbar/NavBar.astro";
+import Footer from "../components/footer/Footer.astro";
+import { SITE } from "../data/site";
+---
+
+<!doctype html>
+<html lang="en" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="description" content={SITE.description} />
+    <meta property="og:title" content={`${SITE.name} — ${SITE.tagline}`} />
+    <meta property="og:description" content={SITE.description} />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="robots" content="index, follow" />
+    <title>{SITE.name} — {SITE.tagline}</title>
+  </head>
+  <body class="bg-base-200 min-h-screen">
+    <Navbar />
+    <main>
+      <slot />
+    </main>
+    <Footer />
+    <!-- WhatsApp Floating Button -->
+    <a
+      href={`https://api.whatsapp.com/send?phone=${SITE.whatsapp}&text=Hello%20I%27m%20interested%20in%20your%20products`}
+      target="_blank"
+      rel="noopener noreferrer"
+      class="fixed bottom-6 right-6 z-50 w-14 h-14 bg-green-500 rounded-full flex items-center justify-center shadow-lg hover:scale-110 transition-transform duration-200 hover:shadow-xl"
+      aria-label="Chat on WhatsApp"
+    >
+      <span class="text-white text-2xl font-bold">WA</span>
+    </a>
+  </body>
+</html>
+
+<style>
+  html,
+  body {
+    margin: 0;
+  }
+</style>

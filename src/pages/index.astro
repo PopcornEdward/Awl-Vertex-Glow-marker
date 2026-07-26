@@ -1,0 +1,389 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { Icon } from "astro-icon/components";
+import { SITE, CATEGORIES, TRUST_PILLARS, PROCESS_STEPS } from "../data/site";
+import { getFeaturedProducts } from "../data/products";
+
+const featuredProducts = getFeaturedProducts();
+---
+
+<Layout>
+  <!-- ===== HERO SLIDER (TOFU) ===== -->
+  <section class="relative w-full overflow-hidden">
+    <div class="swiper hero-swiper h-[420px] sm:h-[500px] md:h-[580px]">
+      <div class="swiper-wrapper">
+        <!-- Slide 1: Factory -->
+        <div class="swiper-slide relative">
+          <img
+            src="https://images.pexels.com/photos/3997388/pexels-photo-3997388.jpeg?auto=compress&cs=tinysrgb&w=1920"
+            alt="Beauty Tools Factory"
+            class="absolute inset-0 w-full h-full object-cover"
+          />
+          <div class="absolute inset-0 bg-black/50 flex items-center justify-center text-center px-4">
+            <div class="max-w-3xl animate-fade-in">
+              <span class="badge badge-primary mb-4 px-4 py-3 font-bold uppercase tracking-widest text-sm">Source Factory Since 2015</span>
+              <h1 class="text-3xl md:text-5xl lg:text-6xl font-bold text-white mb-4 tracking-tight leading-tight">
+                Professional Beauty Tools<br/>Wholesale Supplier
+              </h1>
+              <p class="text-base md:text-xl text-white/90 mb-8 max-w-xl mx-auto">
+                {SITE.name} exports nail, eyelash, permanent makeup, beauty tools & daily chemical products to 60+ countries.
+              </p>
+              <div class="flex flex-wrap justify-center gap-4">
+                <a href="/contact" class="btn btn-primary btn-lg rounded-full px-8 shadow-xl hover:scale-105 transition-transform">
+                  Get Factory Quote
+                </a>
+                <a href={`https://api.whatsapp.com/send?phone=${SITE.whatsapp}&text=Hello`}
+                   target="_blank" rel="noopener noreferrer"
+                   class="btn btn-outline btn-white btn-lg rounded-full px-8 text-white hover:bg-white hover:text-black transition-all">
+                  <Icon name="lucide:message-circle" class="w-5 h-5" />
+                  WhatsApp Us
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Slide 2: Product Range -->
+        <div class="swiper-slide relative">
+          <img
+            src="https://images.pexels.com/photos/7754652/pexels-photo-7754652.jpeg?auto=compress&cs=tinysrgb&w=1920"
+            alt="Beauty Products Range"
+            class="absolute inset-0 w-full h-full object-cover"
+          />
+          <div class="absolute inset-0 bg-gradient-to-r from-black/60 to-transparent flex items-center px-8 md:px-24">
+            <div class="max-w-2xl text-left">
+              <span class="badge badge-secondary mb-4 px-4 py-3 font-bold uppercase tracking-widest">6 Product Lines</span>
+              <h2 class="text-3xl md:text-5xl font-bold text-white mb-4 tracking-tight">
+                1000+ Hot-Selling<br/>Beauty Products
+              </h2>
+              <p class="text-base md:text-xl text-white/90 mb-6">
+                Nail art · Eyelash extensions · PMU supplies · Beauty devices · Hair care · Makeup tools. All from one trusted factory.
+              </p>
+              <a href="#categories" class="btn btn-secondary btn-lg rounded-full px-8 shadow-xl hover:scale-105 transition-transform">
+                Explore Categories
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Slide 3: OEM/ODM -->
+        <div class="swiper-slide relative">
+          <img
+            src="https://images.pexels.com/photos/3993449/pexels-photo-3993449.jpeg?auto=compress&cs=tinysrgb&w=1920"
+            alt="Custom Manufacturing"
+            class="absolute inset-0 w-full h-full object-cover"
+          />
+          <div class="absolute inset-0 bg-black/45 flex items-center justify-center text-center px-4">
+            <div class="max-w-3xl">
+              <h2 class="text-3xl md:text-5xl font-bold text-white mb-4 tracking-tight">Custom OEM / ODM Service</h2>
+              <p class="text-base md:text-xl text-white/90 mb-8 max-w-xl mx-auto">
+                Private labeling, custom packaging, and product customization. Your brand, our quality manufacturing.
+              </p>
+              <a href="/contact" class="btn btn-primary btn-lg rounded-full px-8 shadow-xl hover:scale-105 transition-transform">
+                Request Custom Quote
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Nav Arrows -->
+      <div class="hero-next text-white! w-10 h-10 hover:scale-110 transition-transform hidden sm:flex items-center justify-center bg-black/20 hover:bg-black/40 rounded-full cursor-pointer absolute right-4 top-1/2 -translate-y-1/2 z-50">
+        <Icon name="lucide:chevron-right" class="w-6 h-6" />
+      </div>
+      <div class="hero-prev text-white! w-10 h-10 hover:scale-110 transition-transform hidden sm:flex items-center justify-center bg-black/20 hover:bg-black/40 rounded-full cursor-pointer absolute left-4 top-1/2 -translate-y-1/2 z-50">
+        <Icon name="lucide:chevron-left" class="w-6 h-6" />
+      </div>
+      <div class="swiper-pagination bottom-8!"></div>
+    </div>
+  </section>
+
+  <!-- ===== CATEGORIES GRID (MOFU-1) ===== -->
+  <section id="categories" class="py-16 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl md:text-4xl font-black text-gray-900 uppercase tracking-tight mb-4">Product Categories</h2>
+        <p class="text-gray-500 max-w-2xl mx-auto">6 major product lines covering all your beauty & salon supply needs. Click any category to browse products.</p>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {CATEGORIES.map((cat) => (
+          <a href={`/category/${cat.slug}`} class="group relative overflow-hidden rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 h-72">
+            <img src={cat.image} alt={cat.name}
+              class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent flex flex-col justify-end p-6">
+              <h3 class="text-xl font-bold text-white mb-1">{cat.name}</h3>
+              <p class="text-white/80 text-sm">{cat.description}</p>
+              <span class="inline-flex items-center gap-1 text-pink-300 text-sm font-medium mt-2 group-hover:gap-2 transition-all">
+                Browse Products <Icon name="lucide:arrow-right" class="w-4 h-4" />
+              </span>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== TRUST PILLARS (MOFU-2) ===== -->
+  <section class="py-16 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl md:text-4xl font-black text-gray-900 uppercase tracking-tight mb-4">Why Choose Us</h2>
+        <p class="text-gray-500 max-w-2xl mx-auto">10+ years of manufacturing excellence. Trusted by beauty importers in 60+ countries.</p>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+        {TRUST_PILLARS.map((pillar) => (
+          <div class="bg-white rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow text-center">
+            <div class="w-14 h-14 bg-pink-100 rounded-xl flex items-center justify-center mx-auto mb-4">
+              <Icon name={pillar.icon} class="w-7 h-7 text-pink-600" />
+            </div>
+            <h3 class="text-lg font-bold text-gray-900 mb-2">{pillar.title}</h3>
+            <p class="text-gray-500 text-sm leading-relaxed">{pillar.description}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== HOT PRODUCTS (MOFU) ===== -->
+  <section class="py-16 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col sm:flex-row justify-between items-start sm:items-end mb-12 gap-4">
+        <div>
+          <h2 class="text-3xl md:text-4xl font-black text-gray-900 uppercase tracking-tight mb-2">Hot Products</h2>
+          <p class="text-gray-500">Trending items that importers are ordering right now</p>
+        </div>
+        <a href="/category/nails" class="btn btn-outline btn-primary rounded-full btn-sm">View All Products</a>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        {featuredProducts.slice(0, 8).map((product) => (
+          <a href={`/product/${product.slug}`} class="group bg-white rounded-2xl shadow-sm hover:shadow-lg transition-all overflow-hidden border border-gray-100">
+            <div class="relative aspect-square overflow-hidden">
+              <img src={product.images[0]} alt={product.name}
+                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+              {product.badge && (
+                <span class="absolute top-3 left-3 badge badge-primary badge-sm font-bold">{product.badge}</span>
+              )}
+              {product.discount && product.discount > 0 && (
+                <span class="absolute top-3 right-3 badge badge-error badge-sm font-bold">-{product.discount}%</span>
+              )}
+            </div>
+            <div class="p-4">
+              <h3 class="font-semibold text-gray-900 group-hover:text-pink-600 transition-colors line-clamp-2 text-sm">{product.name}</h3>
+              <div class="flex items-center justify-between mt-2">
+                <span class="text-lg font-bold text-pink-600">${product.price.toFixed(2)}</span>
+                <span class="text-xs text-gray-400">MOQ: {product.moq}</span>
+              </div>
+              <p class="text-xs text-gray-400 mt-1">Wholesale price / unit</p>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FACTORY OVERVIEW (MOFU-2) ===== -->
+  <section class="py-16 bg-gray-900 text-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        <div>
+          <h2 class="text-3xl md:text-4xl font-black uppercase tracking-tight mb-6">Our Factory</h2>
+          <p class="text-gray-300 leading-relaxed mb-6">
+            With 2 factories in Zhejiang, China, we operate over 5,000 sqm of production space.
+            Our facility is equipped with modern manufacturing lines, strict QC stations, and a professional
+            R&D team that continuously develops trending beauty products.
+          </p>
+          <ul class="space-y-3 mb-8">
+            <li class="flex items-center gap-3 text-gray-300">
+              <Icon name="lucide:check-circle" class="w-5 h-5 text-green-400 shrink-0" />
+              <span>2 production bases in Zhejiang, China</span>
+            </li>
+            <li class="flex items-center gap-3 text-gray-300">
+              <Icon name="lucide:check-circle" class="w-5 h-5 text-green-400 shrink-0" />
+              <span>5000+ sqm manufacturing facility</span>
+            </li>
+            <li class="flex items-center gap-3 text-gray-300">
+              <Icon name="lucide:check-circle" class="w-5 h-5 text-green-400 shrink-0" />
+              <span>6-stage quality control system</span>
+            </li>
+            <li class="flex items-center gap-3 text-gray-300">
+              <Icon name="lucide:check-circle" class="w-5 h-5 text-green-400 shrink-0" />
+              <span>OEM/ODM with custom packaging & labeling</span>
+            </li>
+          </ul>
+          <a href="/factory" class="btn btn-primary rounded-full px-8">
+            Tour Our Factory <Icon name="lucide:arrow-right" class="w-4 h-4 ml-1" />
+          </a>
+        </div>
+        <div class="grid grid-cols-2 gap-4">
+          <img src="https://images.pexels.com/photos/3997388/pexels-photo-3997388.jpeg?auto=compress&cs=tinysrgb&w=600"
+               alt="Factory Floor" class="rounded-xl w-full h-48 object-cover" />
+          <img src="https://images.pexels.com/photos/5069610/pexels-photo-5069610.jpeg?auto=compress&cs=tinysrgb&w=600"
+               alt="Production Line" class="rounded-xl w-full h-48 object-cover" />
+          <img src="https://images.pexels.com/photos/3738346/pexels-photo-3738346.jpeg?auto=compress&cs=tinysrgb&w=600"
+               alt="QC Process" class="rounded-xl w-full h-48 object-cover" />
+          <img src="https://images.pexels.com/photos/4465124/pexels-photo-4465124.jpeg?auto=compress&cs=tinysrgb&w=600"
+               alt="Packing & Loading" class="rounded-xl w-full h-48 object-cover" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== PROCESS STEPS (MOFU-2) ===== -->
+  <section class="py-16 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl md:text-4xl font-black text-gray-900 uppercase tracking-tight mb-4">How We Work</h2>
+        <p class="text-gray-500 max-w-2xl mx-auto">From inquiry to delivery — a transparent 6-step process for worry-free wholesale purchasing.</p>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-6">
+        {PROCESS_STEPS.map((step) => (
+          <div class="text-center relative">
+            <div class="w-14 h-14 bg-pink-100 rounded-full flex items-center justify-center mx-auto mb-3 relative z-10">
+              <span class="text-lg font-black text-pink-600">{step.step}</span>
+            </div>
+            <h4 class="font-bold text-gray-900 text-sm mb-1">{step.title}</h4>
+            <p class="text-gray-500 text-xs leading-relaxed">{step.description}</p>
+            {step.step < 6 && (
+              <div class="hidden lg:block absolute top-7 left-[calc(50%+2rem)] w-[calc(100%-4rem)] h-0.5 bg-pink-200 z-0"></div>
+            )}
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== STATS BAR ===== -->
+  <section class="py-12 bg-pink-500">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-8 text-center text-white">
+        <div>
+          <div class="text-3xl md:text-4xl font-black">10+</div>
+          <div class="text-white/80 text-sm mt-1">Years Experience</div>
+        </div>
+        <div>
+          <div class="text-3xl md:text-4xl font-black">60+</div>
+          <div class="text-white/80 text-sm mt-1">Export Countries</div>
+        </div>
+        <div>
+          <div class="text-3xl md:text-4xl font-black">1000+</div>
+          <div class="text-white/80 text-sm mt-1">Product SKUs</div>
+        </div>
+        <div>
+          <div class="text-3xl md:text-4xl font-black">2</div>
+          <div class="text-white/80 text-sm mt-1">Manufacturing Bases</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FOR NEW BUYERS / FOR PROFESSIONALS (MOFU-2) ===== -->
+  <section class="py-16 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <!-- For New Buyers -->
+        <div class="bg-white rounded-2xl p-8 shadow-sm border border-gray-100">
+          <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mb-4">
+            <Icon name="lucide:user-plus" class="w-6 h-6 text-blue-600" />
+          </div>
+          <h3 class="text-xl font-bold text-gray-900 mb-3">For New Buyers</h3>
+          <p class="text-gray-500 text-sm mb-4 leading-relaxed">
+            First time importing beauty products? We guide you through the entire process — from sample selection to customs clearance.
+          </p>
+          <ul class="space-y-2 text-sm text-gray-600 mb-6">
+            <li class="flex items-center gap-2"><Icon name="lucide:check" class="w-4 h-4 text-green-500" /> Free sample consultation</li>
+            <li class="flex items-center gap-2"><Icon name="lucide:check" class="w-4 h-4 text-green-500" /> Low MOQ for trial orders</li>
+            <li class="flex items-center gap-2"><Icon name="lucide:check" class="w-4 h-4 text-green-500" /> Step-by-step ordering guide</li>
+          </ul>
+          <a href="/how-to-order" class="btn btn-outline btn-primary rounded-full btn-sm">Learn How to Order</a>
+        </div>
+
+        <!-- For Professionals -->
+        <div class="bg-white rounded-2xl p-8 shadow-sm border border-gray-100">
+          <div class="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center mb-4">
+            <Icon name="lucide:briefcase" class="w-6 h-6 text-purple-600" />
+          </div>
+          <h3 class="text-xl font-bold text-gray-900 mb-3">For Professional Importers</h3>
+          <p class="text-gray-500 text-sm mb-4 leading-relaxed">
+            Already in the beauty business? Access our VIP wholesale program with priority production, dedicated account management, and competitive bulk pricing.
+          </p>
+          <ul class="space-y-2 text-sm text-gray-600 mb-6">
+            <li class="flex items-center gap-2"><Icon name="lucide:check" class="w-4 h-4 text-green-500" /> Dedicated account manager</li>
+            <li class="flex items-center gap-2"><Icon name="lucide:check" class="w-4 h-4 text-green-500" /> OEM/ODM customization</li>
+            <li class="flex items-center gap-2"><Icon name="lucide:check" class="w-4 h-4 text-green-500" /> Priority production scheduling</li>
+          </ul>
+          <a href="/contact" class="btn btn-primary rounded-full btn-sm">Get VIP Quote</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CTA: READY TO ORDER? (BOFU) ===== -->
+  <section class="py-20 bg-gray-900 text-white text-center">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h2 class="text-3xl md:text-4xl font-black uppercase tracking-tight mb-4">Ready to Start an Order?</h2>
+      <p class="text-gray-300 text-lg mb-8 max-w-xl mx-auto">
+        Contact us today for wholesale pricing, samples, or a customized quote.
+        Our team responds within 24 hours.
+      </p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="/contact"
+           class="btn btn-primary btn-lg rounded-full px-10 shadow-xl hover:scale-105 transition-transform text-lg">
+          Send Inquiry
+        </a>
+        <a href={`https://api.whatsapp.com/send?phone=${SITE.whatsapp}&text=Hello%20I%27m%20interested%20in%20your%20beauty%20products`}
+           target="_blank" rel="noopener noreferrer"
+           class="btn bg-green-500 border-green-500 text-white btn-lg rounded-full px-10 hover:bg-green-600 hover:scale-105 transition-transform text-lg">
+          <Icon name="lucide:message-circle" class="w-5 h-5" />
+          Chat on WhatsApp
+        </a>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<!-- Swiper CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+
+<style>
+  :root {
+    --swiper-pagination-color: var(--color-primary, #ec4899);
+    --swiper-pagination-bullet-inactive-color: #fff;
+    --swiper-pagination-bullet-inactive-opacity: 0.5;
+  }
+  .swiper-pagination-bullet-active {
+    width: 24px;
+    border-radius: 5px;
+    transition: width 0.3s ease;
+  }
+  @keyframes fade-in {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .animate-fade-in {
+    animation: fade-in 1s ease-out forwards;
+  }
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+</style>
+
+<script>
+  import Swiper from "swiper";
+  import { Navigation, Pagination, Autoplay, EffectFade } from "swiper/modules";
+
+  const initHeroSwiper = () => {
+    new Swiper(".hero-swiper", {
+      modules: [Navigation, Pagination, Autoplay, EffectFade],
+      loop: true,
+      effect: "fade",
+      autoplay: { delay: 5000, disableOnInteraction: false },
+      pagination: { el: ".swiper-pagination", clickable: true },
+      navigation: { nextEl: ".hero-next", prevEl: ".hero-prev" },
+    });
+  };
+  initHeroSwiper();
+  document.addEventListener("astro:after-swap", initHeroSwiper);
+</script>

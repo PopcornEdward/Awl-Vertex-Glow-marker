@@ -1,0 +1,75 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { Icon } from "astro-icon/components";
+import { SITE } from "../data/site";
+---
+
+<Layout>
+  <section class="relative h-48 sm:h-64 overflow-hidden">
+    <img src="https://images.pexels.com/photos/8864652/pexels-photo-8864652.jpeg?auto=compress&cs=tinysrgb&w=1920"
+      alt="After-Sales Service" class="absolute inset-0 w-full h-full object-cover" />
+    <div class="absolute inset-0 bg-black/50 flex items-center justify-center">
+      <div class="text-center px-4">
+        <h1 class="text-3xl md:text-5xl font-black text-white uppercase">After-Sales Service</h1>
+        <p class="text-white/80 mt-2">We stand behind every order</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-16 bg-white">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="prose prose-lg max-w-none">
+        <p class="text-xl text-gray-600 leading-relaxed mb-12 text-center">
+          At {SITE.name}, after-sales service is not an afterthought — it's a core part of our business.
+          Our commitment ensures that every customer can oversee every stage, from production to delivery.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+        {[
+          { icon: "lucide:camera", title: "QC Photo & Video", desc: "We send photos and videos of your products during QC and before loading, so you can visually confirm quality from anywhere in the world." },
+          { icon: "lucide:shield-alert", title: "Quality Guarantee", desc: "If any product arrives damaged or doesn't meet our agreed specifications, we offer replacement or compensation. Your satisfaction is guaranteed." },
+          { icon: "lucide:truck", title: "Logistics Support", desc: "We track every shipment and proactively update you on delivery status. If there are customs or logistics issues, we help resolve them." },
+          { icon: "lucide:refresh-cw", title: "Re-order Ease", desc: "After your first order, re-ordering is simple. We keep your product specifications and packaging preferences on file for quick turnaround." },
+          { icon: "lucide:headphones", title: "Dedicated Support", desc: "Your account manager stays with you. Same person, every time — they know your business and your preferences." },
+          { icon: "lucide:star", title: "Continuous Improvement", desc: "We actively collect customer feedback to improve our products and service. Your suggestions shape our product development." },
+        ].map((item) => (
+          <div class="bg-gray-50 rounded-2xl p-6 text-center">
+            <div class="w-12 h-12 bg-pink-100 rounded-xl flex items-center justify-center mx-auto mb-4">
+              <Icon name={item.icon} class="w-6 h-6 text-pink-600" />
+            </div>
+            <h3 class="font-bold text-gray-900 mb-2">{item.title}</h3>
+            <p class="text-gray-500 text-sm leading-relaxed">{item.desc}</p>
+          </div>
+        ))}
+      </div>
+
+      <!-- Issue Resolution -->
+      <div class="bg-pink-50 rounded-2xl p-8">
+        <h2 class="text-xl font-black text-gray-900 mb-4 flex items-center gap-2">
+          <Icon name="lucide:help-circle" class="w-6 h-6 text-pink-600" /> Issue Resolution Process
+        </h2>
+        <div class="grid grid-cols-1 sm:grid-cols-4 gap-4 text-center">
+          {["Report the issue with photos/video", "We assess within 24 hours", "Solution proposed (replacement/refund/credit)", "Issue resolved within 7 business days"].map((step, i) => (
+            <div class="bg-white rounded-xl p-4">
+              <div class="w-8 h-8 bg-pink-100 rounded-full flex items-center justify-center mx-auto mb-2 text-sm font-black text-pink-600">{i + 1}</div>
+              <div class="text-xs text-gray-600">{step}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-16 bg-gray-900 text-white text-center">
+    <div class="max-w-2xl mx-auto px-4">
+      <h2 class="text-3xl font-black uppercase mb-4">Have an Issue?</h2>
+      <p class="text-gray-300 mb-8">Contact our support team for immediate assistance.</p>
+      <a href={`https://api.whatsapp.com/send?phone=${SITE.whatsapp}&text=Hello%2C%20I%20need%20after-sales%20support`}
+         target="_blank" rel="noopener noreferrer"
+         class="btn bg-green-500 border-green-500 text-white btn-lg rounded-full px-10 hover:bg-green-600">
+        <Icon name="lucide:message-circle" class="w-5 h-5" /> Contact Support
+      </a>
+    </div>
+  </section>
+</Layout>

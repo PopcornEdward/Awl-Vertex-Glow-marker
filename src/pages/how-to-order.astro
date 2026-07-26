@@ -1,0 +1,84 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { Icon } from "astro-icon/components";
+import { SITE } from "../data/site";
+---
+
+<Layout>
+  <section class="relative h-48 sm:h-64 overflow-hidden">
+    <img src="https://images.pexels.com/photos/3738346/pexels-photo-3738346.jpeg?auto=compress&cs=tinysrgb&w=1920"
+      alt="How to Order" class="absolute inset-0 w-full h-full object-cover" />
+    <div class="absolute inset-0 bg-black/50 flex items-center justify-center">
+      <div class="text-center px-4">
+        <h1 class="text-3xl md:text-5xl font-black text-white uppercase">How to Order</h1>
+        <p class="text-white/80 mt-2">Simple steps to start your wholesale purchase</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-16 bg-white">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <!-- Step by Step -->
+      <div class="space-y-12">
+        {[
+          { step: 1, icon: "lucide:message-circle", title: "Send an Inquiry", desc: "Contact us via WhatsApp, email, or our contact form. Tell us which products you're interested in and your target quantity. Our sales team will respond within 24 hours with pricing and availability." },
+          { step: 2, icon: "lucide:file-text", title: "Get Quotation", desc: "We prepare a detailed quotation including product prices, packaging options, estimated shipping costs, and delivery timeline. We can also send product photos and specifications for your review." },
+          { step: 3, icon: "lucide:package-check", title: "Request Samples", desc: "We strongly recommend ordering samples first. This lets you verify product quality firsthand before placing a bulk order. Sample orders ship within 3-5 days via express courier." },
+          { step: 4, icon: "lucide:check-circle", title: "Confirm Order", desc: "Once you're satisfied with the samples, confirm your order. We'll issue a proforma invoice with payment details. Accepted payment methods: T/T bank transfer, Western Union, L/C, Alibaba Trade Assurance." },
+          { step: 5, icon: "lucide:settings", title: "Production & QC", desc: "Production begins after payment confirmation. Every batch goes through our 6-stage quality control. We send QC photos and videos before shipment so you know exactly what's being loaded." },
+          { step: 6, icon: "lucide:ship", title: "Shipping & Delivery", desc: "Choose sea freight (15-35 days), air freight (5-10 days), or express courier (3-7 days). We handle all export documentation and provide tracking information. Your goods arrive at your destination port or door." },
+        ].map((item) => (
+          <div class="flex gap-6">
+            <div class="w-14 h-14 bg-pink-100 rounded-2xl flex items-center justify-center shrink-0">
+              <Icon name={item.icon} class="w-7 h-7 text-pink-600" />
+            </div>
+            <div>
+              <div class="flex items-center gap-3 mb-2">
+                <span class="w-8 h-8 bg-pink-500 text-white rounded-full flex items-center justify-center text-sm font-black">{item.step}</span>
+                <h3 class="text-xl font-bold text-gray-900">{item.title}</h3>
+              </div>
+              <p class="text-gray-600 leading-relaxed">{item.desc}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <!-- Payment & Shipping Info -->
+      <div class="mt-16 grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div class="bg-gray-50 rounded-2xl p-8">
+          <h3 class="font-bold text-gray-900 text-lg mb-4 flex items-center gap-2">
+            <Icon name="lucide:credit-card" class="w-5 h-5 text-pink-600" /> Payment Methods
+          </h3>
+          <ul class="space-y-3 text-gray-600 text-sm">
+            <li class="flex items-center gap-2"><Icon name="lucide:check" class="w-4 h-4 text-green-500" /> T/T Bank Transfer (30% deposit + 70% before shipment)</li>
+            <li class="flex items-center gap-2"><Icon name="lucide:check" class="w-4 h-4 text-green-500" /> Western Union</li>
+            <li class="flex items-center gap-2"><Icon name="lucide:check" class="w-4 h-4 text-green-500" /> L/C (Letter of Credit)</li>
+            <li class="flex items-center gap-2"><Icon name="lucide:check" class="w-4 h-4 text-green-500" /> Alibaba Trade Assurance</li>
+          </ul>
+        </div>
+        <div class="bg-gray-50 rounded-2xl p-8">
+          <h3 class="font-bold text-gray-900 text-lg mb-4 flex items-center gap-2">
+            <Icon name="lucide:truck" class="w-5 h-5 text-pink-600" /> Shipping Options
+          </h3>
+          <ul class="space-y-3 text-gray-600 text-sm">
+            <li class="flex items-center gap-2"><Icon name="lucide:ship" class="w-4 h-4 text-blue-500" /> Sea Freight — 15-35 days, most economical for bulk</li>
+            <li class="flex items-center gap-2"><Icon name="lucide:plane" class="w-4 h-4 text-blue-500" /> Air Freight — 5-10 days, balanced cost/speed</li>
+            <li class="flex items-center gap-2"><Icon name="lucide:package" class="w-4 h-4 text-blue-500" /> Express — 3-7 days (DHL/FedEx/UPS)</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-16 bg-gray-900 text-white text-center">
+    <div class="max-w-2xl mx-auto px-4">
+      <h2 class="text-3xl font-black uppercase mb-4">Ready to Place an Order?</h2>
+      <p class="text-gray-300 mb-8">Contact us now to get started.</p>
+      <a href={`https://api.whatsapp.com/send?phone=${SITE.whatsapp}&text=Hello%2C%20I%20want%20to%20place%20an%20order`}
+         target="_blank" rel="noopener noreferrer"
+         class="btn bg-green-500 border-green-500 text-white btn-lg rounded-full px-10 hover:bg-green-600">
+        <Icon name="lucide:message-circle" class="w-5 h-5" /> Start Order on WhatsApp
+      </a>
+    </div>
+  </section>
+</Layout>

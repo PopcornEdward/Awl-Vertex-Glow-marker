@@ -1,0 +1,128 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { Icon } from "astro-icon/components";
+import { SITE } from "../data/site";
+---
+
+<Layout>
+  <!-- Hero -->
+  <section class="relative h-56 sm:h-80 overflow-hidden">
+    <img src="https://images.pexels.com/photos/3997388/pexels-photo-3997388.jpeg?auto=compress&cs=tinysrgb&w=1920"
+      alt="About Us" class="absolute inset-0 w-full h-full object-cover" />
+    <div class="absolute inset-0 bg-black/50 flex items-center justify-center">
+      <div class="text-center px-4">
+        <h1 class="text-3xl md:text-5xl font-black text-white uppercase">About Us</h1>
+        <p class="text-white/80 mt-2">Your trusted beauty tools source factory since 2015</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Company Profile -->
+  <section class="py-16 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        <div>
+          <h2 class="text-3xl font-black text-gray-900 mb-6">Company Profile</h2>
+          <p class="text-gray-600 leading-relaxed mb-4">
+            Founded in 2015, <strong>{SITE.name}</strong> is a professional beauty tools manufacturer and
+            wholesale supplier based in Zhejiang, China. With 2 production bases spanning 5,000+ square meters,
+            we specialize in the R&D, manufacturing, and export of nail supplies, eyelash extensions, permanent
+            makeup equipment, beauty devices, daily chemical products, and professional makeup tools.
+          </p>
+          <p class="text-gray-600 leading-relaxed mb-4">
+            Over the past {SITE.experience}, we have built a reputation for reliable quality, competitive factory
+            pricing, and exceptional customer service. Our products reach importers, distributors, and salon chains
+            across Africa, Southeast Asia, the Middle East, South America, and Europe.
+          </p>
+          <p class="text-gray-600 leading-relaxed">
+            We don't just sell products — we partner with our clients. From OEM/ODM customization to
+            after-sales support, we are committed to your success in the beauty industry.
+          </p>
+        </div>
+        <div class="grid grid-cols-2 gap-4">
+          <img src="https://images.pexels.com/photos/3997388/pexels-photo-3997388.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Factory" class="rounded-xl w-full h-48 object-cover" />
+          <img src="https://images.pexels.com/photos/5069610/pexels-photo-5069610.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Production" class="rounded-xl w-full h-48 object-cover" />
+          <img src="https://images.pexels.com/photos/3738346/pexels-photo-3738346.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Quality Control" class="rounded-xl w-full h-48 object-cover" />
+          <img src="https://images.pexels.com/photos/4465124/pexels-photo-4465124.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Warehouse" class="rounded-xl w-full h-48 object-cover" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Mission & Values -->
+  <section class="py-16 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div class="bg-white rounded-2xl p-8 text-center shadow-sm">
+          <div class="w-16 h-16 bg-pink-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
+            <Icon name="lucide:target" class="w-8 h-8 text-pink-600" />
+          </div>
+          <h3 class="text-xl font-bold text-gray-900 mb-3">Our Mission</h3>
+          <p class="text-gray-500 text-sm leading-relaxed">
+            To provide beauty professionals worldwide with high-quality, affordable tools and supplies
+            directly from the source factory.
+          </p>
+        </div>
+        <div class="bg-white rounded-2xl p-8 text-center shadow-sm">
+          <div class="w-16 h-16 bg-blue-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
+            <Icon name="lucide:eye" class="w-8 h-8 text-blue-600" />
+          </div>
+          <h3 class="text-xl font-bold text-gray-900 mb-3">Our Vision</h3>
+          <p class="text-gray-500 text-sm leading-relaxed">
+            To become the most trusted beauty tools supply chain partner globally.
+          </p>
+        </div>
+        <div class="bg-white rounded-2xl p-8 text-center shadow-sm">
+          <div class="w-16 h-16 bg-green-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
+            <Icon name="lucide:heart" class="w-8 h-8 text-green-600" />
+          </div>
+          <h3 class="text-xl font-bold text-gray-900 mb-3">Our Values</h3>
+          <p class="text-gray-500 text-sm leading-relaxed">
+            Quality first. Customer success is our success. Long-term partnership over short-term profit.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Global Reach -->
+  <section class="py-16 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="text-3xl font-black text-gray-900 mb-4">Global Reach</h2>
+      <p class="text-gray-500 max-w-2xl mx-auto mb-8">Our products reach 60+ countries across 4 continents.</p>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-3xl mx-auto">
+        <div class="bg-pink-50 rounded-xl p-6">
+          <div class="text-2xl font-black text-pink-600">Africa</div>
+          <div class="text-sm text-gray-500 mt-1">25+ Countries</div>
+        </div>
+        <div class="bg-blue-50 rounded-xl p-6">
+          <div class="text-2xl font-black text-blue-600">SE Asia</div>
+          <div class="text-sm text-gray-500 mt-1">10+ Countries</div>
+        </div>
+        <div class="bg-purple-50 rounded-xl p-6">
+          <div class="text-2xl font-black text-purple-600">Middle East</div>
+          <div class="text-sm text-gray-500 mt-1">12+ Countries</div>
+        </div>
+        <div class="bg-green-50 rounded-xl p-6">
+          <div class="text-2xl font-black text-green-600">Americas & EU</div>
+          <div class="text-sm text-gray-500 mt-1">15+ Countries</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-16 bg-gray-900 text-white text-center">
+    <div class="max-w-2xl mx-auto px-4">
+      <h2 class="text-3xl font-black uppercase mb-4">Let's Work Together</h2>
+      <p class="text-gray-300 mb-8">Become our next long-term partner.</p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="/contact" class="btn btn-primary btn-lg rounded-full px-10">Contact Us</a>
+        <a href={`https://api.whatsapp.com/send?phone=${SITE.whatsapp}&text=Hello`}
+           target="_blank" rel="noopener noreferrer"
+           class="btn bg-green-500 border-green-500 text-white btn-lg rounded-full px-10 hover:bg-green-600">
+          <Icon name="lucide:message-circle" class="w-5 h-5" /> WhatsApp
+        </a>
+      </div>
+    </div>
+  </section>
+</Layout>

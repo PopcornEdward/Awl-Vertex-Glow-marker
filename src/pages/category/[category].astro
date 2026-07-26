@@ -1,0 +1,90 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { Icon } from "astro-icon/components";
+import { products } from "../../data/products";
+import { CATEGORIES } from "../../data/site";
+
+export async function getStaticPaths() {
+  const slugs = CATEGORIES.map((c) => c.slug);
+  return slugs.map((slug) => {
+    const cat = CATEGORIES.find((c) => c.slug === slug);
+    const catProducts = products.filter((p) => p.category === slug);
+    return {
+      params: { category: slug },
+      props: { category: cat, products: catProducts },
+    };
+  });
+}
+
+const { category, products: catProducts } = Astro.props;
+---
+
+<Layout>
+  <!-- Header -->
+  <section class="relative h-56 sm:h-72 overflow-hidden">
+    <img src={category.image} alt={category.name}
+      class="absolute inset-0 w-full h-full object-cover" />
+    <div class="absolute inset-0 bg-black/50 flex items-center justify-center">
+      <div class="text-center px-4">
+        <h1 class="text-3xl md:text-4xl font-black text-white uppercase tracking-tight">{category.name}</h1>
+        <p class="text-white/80 mt-2 text-sm md:text-base">{category.description}</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Products Grid -->
+  <section class="py-12 bg-white min-h-screen">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <!-- Breadcrumb -->
+      <div class="mb-8 text-sm">
+        <a href="/" class="text-gray-400 hover:text-pink-600">Home</a>
+        <span class="mx-2 text-gray-300">/</span>
+        <span class="text-gray-600">{category.name}</span>
+      </div>
+
+      {catProducts.length > 0 ? (
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {catProducts.map((product) => (
+            <a href={`/product/${product.slug}`}
+              class="group bg-white rounded-2xl shadow-sm hover:shadow-lg transition-all overflow-hidden border border-gray-100">
+              <div class="relative aspect-square overflow-hidden">
+                <img src={product.images[0]} alt={product.name}
+                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                {product.badge && (
+                  <span class="absolute top-3 left-3 badge badge-primary badge-sm font-bold">{product.badge}</span>
+                )}
+                {product.discount && product.discount > 0 && (
+                  <span class="absolute top-3 right-3 badge badge-error badge-sm font-bold">-{product.discount}%</span>
+                )}
+              </div>
+              <div class="p-4">
+                <h3 class="font-semibold text-gray-900 group-hover:text-pink-600 transition-colors line-clamp-2 text-sm">{product.name}</h3>
+                <div class="flex items-center justify-between mt-2">
+                  <span class="text-lg font-bold text-pink-600">${product.price.toFixed(2)}</span>
+                  <span class="text-xs text-gray-400">MOQ: {product.moq}</span>
+                </div>
+                <p class="text-xs text-gray-400 mt-1">Wholesale / unit</p>
+              </div>
+            </a>
+          ))}
+        </div>
+      ) : (
+        <div class="text-center py-24 bg-gray-50 rounded-3xl border-2 border-dashed border-gray-200">
+          <Icon name="lucide:package-open" class="w-12 h-12 text-gray-300 mx-auto mb-4" />
+          <p class="text-gray-400 font-bold uppercase tracking-widest">No products in this category yet</p>
+          <p class="text-gray-400 text-sm mt-2">Contact us for custom product inquiries</p>
+          <a href="/contact" class="btn btn-primary rounded-full mt-6 btn-sm">Contact Us</a>
+        </div>
+      )}
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+</style>
