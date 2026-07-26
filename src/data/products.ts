@@ -56,8 +56,8 @@ export const nailProducts: Product[] = [
     subcategory: "equipment",
     stock: 500,
     images: [
-      "https://images.pexels.com/photos/3997375/pexels-photo-3997375.jpeg?auto=compress&cs=tinysrgb&w=800",
-      "https://images.pexels.com/photos/3997386/pexels-photo-3997386.jpeg?auto=compress&cs=tinysrgb&w=800",
+      "/images/placeholders/product.svg",
+      "/images/placeholders/product.svg",
     ],
     slug: "uv-led-nail-lamp-168w",
     badge: "Hot Seller",
@@ -82,7 +82,7 @@ export const nailProducts: Product[] = [
     subcategory: "equipment",
     stock: 350,
     images: [
-      "https://images.pexels.com/photos/3997371/pexels-photo-3997371.jpeg?auto=compress&cs=tinysrgb&w=800",
+      "/images/placeholders/product.svg",
     ],
     slug: "electric-nail-drill-35000rpm",
     badge: "Bestseller",
@@ -106,7 +106,7 @@ export const nailProducts: Product[] = [
     subcategory: "consumables",
     stock: 1000,
     images: [
-      "https://images.pexels.com/photos/3997388/pexels-photo-3997388.jpeg?auto=compress&cs=tinysrgb&w=800",
+      "/images/placeholders/product.svg",
     ],
     slug: "gel-nail-polish-set-60-colors",
     badge: "Value Set",
@@ -131,7 +131,7 @@ export const nailProducts: Product[] = [
     subcategory: "accessories",
     stock: 2000,
     images: [
-      "https://images.pexels.com/photos/4041392/pexels-photo-4041392.jpeg?auto=compress&cs=tinysrgb&w=800",
+      "/images/placeholders/product.svg",
     ],
     slug: "nail-art-rhinestones-kit-1200",
     badge: "New Arrival",
@@ -159,8 +159,8 @@ export const eyelashProducts: Product[] = [
     subcategory: "storage",
     stock: 800,
     images: [
-      "https://images.pexels.com/photos/3993446/pexels-photo-3993446.jpeg?auto=compress&cs=tinysrgb&w=800",
-      "https://images.pexels.com/photos/7754656/pexels-photo-7754656.jpeg?auto=compress&cs=tinysrgb&w=800",
+      "/images/placeholders/product.svg",
+      "/images/placeholders/product.svg",
     ],
     slug: "15-layer-magnetic-eyelash-storage-box",
     badge: "Hot Seller",
@@ -186,7 +186,7 @@ export const eyelashProducts: Product[] = [
     subcategory: "lashes",
     stock: 600,
     images: [
-      "https://images.pexels.com/photos/3993443/pexels-photo-3993443.jpeg?auto=compress&cs=tinysrgb&w=800",
+      "/images/placeholders/product.svg",
     ],
     slug: "individual-eyelash-extensions-20-trays",
     badge: "Bestseller",
@@ -211,7 +211,7 @@ export const eyelashProducts: Product[] = [
     subcategory: "adhesive",
     stock: 1500,
     images: [
-      "https://images.pexels.com/photos/7754663/pexels-photo-7754663.jpeg?auto=compress&cs=tinysrgb&w=800",
+      "/images/placeholders/product.svg",
     ],
     slug: "lash-extension-adhesive-5ml",
     specs: [
@@ -238,7 +238,7 @@ export const pmuProducts: Product[] = [
     subcategory: "machines",
     stock: 250,
     images: [
-      "https://images.pexels.com/photos/3993449/pexels-photo-3993449.jpeg?auto=compress&cs=tinysrgb&w=800",
+      "/images/placeholders/product.svg",
     ],
     slug: "wireless-pmu-machine-kit",
     badge: "Premium",
@@ -263,7 +263,7 @@ export const pmuProducts: Product[] = [
     subcategory: "pigments",
     stock: 400,
     images: [
-      "https://images.pexels.com/photos/3738338/pexels-photo-3738338.jpeg?auto=compress&cs=tinysrgb&w=800",
+      "/images/placeholders/product.svg",
     ],
     slug: "pmu-pigment-set-30-colors",
     badge: "Value Set",
@@ -291,7 +291,7 @@ export const beautyToolProducts: Product[] = [
     subcategory: "facial-devices",
     stock: 300,
     images: [
-      "https://images.pexels.com/photos/5069610/pexels-photo-5069610.jpeg?auto=compress&cs=tinysrgb&w=800",
+      "/images/placeholders/product.svg",
     ],
     slug: "led-face-mask-7-color",
     badge: "Trending",
@@ -316,7 +316,7 @@ export const beautyToolProducts: Product[] = [
     subcategory: "facial-devices",
     stock: 600,
     images: [
-      "https://images.pexels.com/photos/3738344/pexels-photo-3738344.jpeg?auto=compress&cs=tinysrgb&w=800",
+      "/images/placeholders/product.svg",
     ],
     slug: "ultrasonic-skin-scrubber",
     badge: "Bestseller",
@@ -344,7 +344,7 @@ export const dailyChemicalProducts: Product[] = [
     subcategory: "haircare",
     stock: 2000,
     images: [
-      "https://images.pexels.com/photos/4465124/pexels-photo-4465124.jpeg?auto=compress&cs=tinysrgb&w=800",
+      "/images/placeholders/product.svg",
     ],
     slug: "keratin-hair-mask-500ml",
     specs: [
@@ -367,7 +367,7 @@ export const dailyChemicalProducts: Product[] = [
     subcategory: "haircare",
     stock: 3000,
     images: [
-      "https://images.pexels.com/photos/3738343/pexels-photo-3738343.jpeg?auto=compress&cs=tinysrgb&w=800",
+      "/images/placeholders/product.svg",
     ],
     slug: "hair-dye-shampoo-300ml",
     badge: "Trending",
@@ -395,7 +395,7 @@ export const makeupToolProducts: Product[] = [
     subcategory: "brushes",
     stock: 700,
     images: [
-      "https://images.pexels.com/photos/2533266/pexels-photo-2533266.jpeg?auto=compress&cs=tinysrgb&w=800",
+      "/images/placeholders/product.svg",
     ],
     slug: "makeup-brush-set-24pcs",
     badge: "Bestseller",
@@ -420,7 +420,7 @@ export const makeupToolProducts: Product[] = [
     subcategory: "mirrors",
     stock: 350,
     images: [
-      "https://images.pexels.com/photos/3738340/pexels-photo-3738340.jpeg?auto=compress&cs=tinysrgb&w=800",
+      "/images/placeholders/product.svg",
     ],
     slug: "led-vanity-mirror",
     badge: "Hot Seller",
@@ -444,7 +444,7 @@ export const makeupToolProducts: Product[] = [
     subcategory: "sponges",
     stock: 2500,
     images: [
-      "https://images.pexels.com/photos/3373740/pexels-photo-3373740.jpeg?auto=compress&cs=tinysrgb&w=800",
+      "/images/placeholders/product.svg",
     ],
     slug: "silicone-makeup-sponge-set",
     badge: "Value Deal",

@@ -13,7 +13,7 @@ const featuredProducts = getFeaturedProducts();
     <div class="swiper hero-swiper w-full h-[70vh] sm:h-[85vh] min-h-[600px]">
       <div class="swiper-wrapper">
         <div class="swiper-slide relative">
-          <img src="https://images.pexels.com/photos/3997388/pexels-photo-3997388.jpeg?auto=compress&cs=tinysrgb&w=1920"
+          <img src="/images/placeholders/product.svg"
             alt="Beauty Tools Factory" class="absolute inset-0 w-full h-full object-cover" />
           <div class="absolute inset-0 bg-black/50"></div>
           <div class="relative z-10 h-full flex items-center justify-center">
@@ -30,7 +30,7 @@ const featuredProducts = getFeaturedProducts();
           </div>
         </div>
         <div class="swiper-slide relative">
-          <img src="https://images.pexels.com/photos/3738344/pexels-photo-3738344.jpeg?auto=compress&cs=tinysrgb&w=1920"
+          <img src="/images/placeholders/product.svg"
             alt="Nail Supplies" class="absolute inset-0 w-full h-full object-cover" />
           <div class="absolute inset-0 bg-black/50"></div>
           <div class="relative z-10 h-full flex items-center justify-center">
@@ -44,7 +44,7 @@ const featuredProducts = getFeaturedProducts();
           </div>
         </div>
         <div class="swiper-slide relative">
-          <img src="https://images.pexels.com/photos/5069610/pexels-photo-5069610.jpeg?auto=compress&cs=tinysrgb&w=1920"
+          <img src="/images/placeholders/product.svg"
             alt="Eyelash Supplies" class="absolute inset-0 w-full h-full object-cover" />
           <div class="absolute inset-0 bg-black/50"></div>
           <div class="relative z-10 h-full flex items-center justify-center">
@@ -58,7 +58,7 @@ const featuredProducts = getFeaturedProducts();
           </div>
         </div>
         <div class="swiper-slide relative">
-          <img src="https://images.pexels.com/photos/4465124/pexels-photo-4465124.jpeg?auto=compress&cs=tinysrgb&w=1920"
+          <img src="/images/placeholders/product.svg"
             alt="Permanent Makeup" class="absolute inset-0 w-full h-full object-cover" />
           <div class="absolute inset-0 bg-black/50"></div>
           <div class="relative z-10 h-full flex items-center justify-center">
@@ -91,10 +91,10 @@ const featuredProducts = getFeaturedProducts();
         <div class="partners-scroll flex items-center gap-12">
           {[...Array(2)].map(() => (
             <>
-              <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/loreal.svg" alt="" class="partner-logo h-10 opacity-50 hover:opacity-100 transition-opacity" />
-              <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/esteelauder.svg" alt="" class="partner-logo h-10 opacity-50 hover:opacity-100 transition-opacity" />
-              <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/maybelline.svg" alt="" class="partner-logo h-10 opacity-50 hover:opacity-100 transition-opacity" />
-              <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/nyxcosmetics.svg" alt="" class="partner-logo h-10 opacity-50 hover:opacity-100 transition-opacity" />
+              <div class="text-2xl font-black text-gray-400 partner-logo">L'OREAL</div>
+              <div class="text-2xl font-black text-gray-400 partner-logo">ESTEE LAUDER</div>
+              <div class="text-2xl font-black text-gray-400 partner-logo">MAYBELLINE</div>
+              <div class="text-2xl font-black text-gray-400 partner-logo">NYX</div>
               <div class="text-2xl font-black text-gray-400 partner-logo">SEPHORA</div>
               <div class="text-2xl font-black text-gray-400 partner-logo">ULTA</div>
               <div class="text-2xl font-black text-gray-400 partner-logo">SALLY</div>
@@ -239,8 +239,6 @@ const featuredProducts = getFeaturedProducts();
     </div>
   </section>
 
-  <!-- Swiper CSS -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 
   <!-- Page-specific styles -->
   <style>
