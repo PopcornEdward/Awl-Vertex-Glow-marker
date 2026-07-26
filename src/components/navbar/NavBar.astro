@@ -8,105 +8,110 @@ import { SITE } from "../../data/site";
   id="main-navbar"
   class="sticky top-0 z-999 w-full font-sans transition-transform duration-300"
 >
+  <!-- Top bar: Logo + Search + CTAs -->
   <div class="bg-base-100 shadow-md">
-    <nav class="navbar max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <!-- Mobile Menu Toggle -->
-      <div class="navbar-start lg:hidden">
-        <button
-          id="mobile-menu-btn"
-          class="btn btn-ghost btn-circle"
-          aria-label="Menu"
-        >
-          <Icon name="lucide:menu" class="w-6 h-6" />
+    <nav class="navbar max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 gap-2">
+      <!-- Mobile Menu -->
+      <div class="flex-none lg:hidden">
+        <button id="mobile-menu-btn" class="btn btn-ghost btn-circle btn-sm" aria-label="Menu">
+          <Icon name="lucide:menu" class="w-5 h-5" />
         </button>
       </div>
 
-      <!-- Logo -->
-      <div class="navbar-start hidden lg:flex">
+      <!-- Logo — fixed sizing to prevent squeeze -->
+      <div class="flex-none">
         <a href="/" class="flex items-center gap-2 group">
-          <div
-            class="w-8 h-8 bg-pink-500 rounded-lg flex items-center justify-center group-hover:rotate-12 transition-transform shadow-sm"
-          >
+          <div class="w-9 h-9 bg-pink-500 rounded-lg flex items-center justify-center group-hover:rotate-12 transition-transform shadow-sm flex-shrink-0">
             <Icon name="lucide:sparkles" class="w-5 h-5 text-white" />
           </div>
-          <span class="text-lg font-bold tracking-tight sm:text-xl text-pink-600">
-            {SITE.name}
+          <span class="text-lg font-bold tracking-tight whitespace-nowrap hidden sm:inline-block">
+            <span class="text-pink-600">{SITE.name}</span>
           </span>
-        </a>
-      </div>
-
-      <!-- Mobile Logo (smaller) -->
-      <div class="navbar-start flex lg:hidden">
-        <a href="/" class="flex items-center gap-1">
-          <div class="w-7 h-7 bg-pink-500 rounded-lg flex items-center justify-center">
-            <Icon name="lucide:sparkles" class="w-4 h-4 text-white" />
-          </div>
-          <span class="text-base font-bold text-pink-600">AVGM</span>
+          <span class="text-base font-bold text-pink-600 sm:hidden">AVGM</span>
         </a>
       </div>
 
       <!-- Desktop Nav Links -->
-      <div class="navbar-center hidden lg:flex">
+      <div class="flex-none hidden lg:flex">
         <Links />
       </div>
 
-      <!-- Right: CTA -->
-      <div class="navbar-end gap-2">
-        <a
-          href={`https://api.whatsapp.com/send?phone=${SITE.whatsapp}&text=Hello`}
-          target="_blank"
-          rel="noopener noreferrer"
-          class="btn btn-sm bg-green-500 text-white border-none hover:bg-green-600 rounded-full px-4 hidden sm:inline-flex"
-        >
-          <Icon name="lucide:message-circle" class="w-4 h-4" />
+      <!-- Spacer -->
+      <div class="flex-1 hidden lg:block"></div>
+
+      <!-- Search Button -->
+      <button id="search-toggle" class="btn btn-ghost btn-circle btn-sm hidden sm:flex" aria-label="Search">
+        <Icon name="lucide:search" class="w-5 h-5" />
+      </button>
+
+      <!-- CTA Buttons -->
+      <div class="flex-none flex items-center gap-1 sm:gap-2">
+        <a href={`https://api.whatsapp.com/send?phone=${SITE.whatsapp}&text=Hello`}
+           target="_blank" rel="noopener noreferrer"
+           class="btn btn-xs sm:btn-sm bg-green-500 text-white border-none hover:bg-green-600 rounded-full px-2 sm:px-4 text-xs">
+          <Icon name="lucide:message-circle" class="w-3.5 h-3.5 hidden sm:inline-block" />
           WhatsApp
         </a>
-        <a
-          href="/contact"
-          class="btn btn-sm btn-primary rounded-full px-4"
-        >
+        <a href="/contact" class="btn btn-xs sm:btn-sm btn-primary rounded-full px-3 sm:px-5 text-xs">
           Get Quote
         </a>
       </div>
     </nav>
   </div>
 
-  <!-- Mobile Menu (hidden by default) -->
-  <div
-    id="mobile-menu"
-    class="hidden lg:hidden bg-base-100 border-t border-base-200 shadow-lg"
-  >
-    <div class="p-4 space-y-2">
-      <a href="/" class="block py-2 px-3 rounded-lg hover:bg-pink-50 font-medium">Home</a>
+  <!-- Search Overlay -->
+  <div id="search-overlay" class="hidden fixed inset-0 z-1000 bg-black/50 flex items-start justify-center pt-24 px-4">
+    <div class="bg-white rounded-2xl shadow-2xl w-full max-w-2xl overflow-hidden">
+      <div class="flex items-center border-b border-gray-200 px-5 py-3">
+        <Icon name="lucide:search" class="w-5 h-5 text-gray-400 flex-shrink-0" />
+        <input id="search-input" type="text" placeholder="Search products..."
+          class="w-full px-3 py-2 text-lg outline-none border-none bg-transparent" autofocus />
+        <button id="search-close" class="btn btn-ghost btn-circle btn-sm flex-shrink-0">
+          <Icon name="lucide:x" class="w-5 h-5" />
+        </button>
+      </div>
+      <div id="search-results" class="max-h-96 overflow-y-auto p-4 space-y-2">
+        <p class="text-gray-400 text-sm text-center py-8">Type to search products...</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile Menu -->
+  <div id="mobile-menu" class="hidden lg:hidden bg-base-100 border-t border-base-200 shadow-lg">
+    <div class="p-4 space-y-1">
+      <a href="/" class="block py-2.5 px-3 rounded-lg hover:bg-pink-50 font-medium text-sm">Home</a>
       <details class="group">
-        <summary class="py-2 px-3 rounded-lg hover:bg-pink-50 font-medium cursor-pointer list-none flex items-center justify-between">
+        <summary class="py-2.5 px-3 rounded-lg hover:bg-pink-50 font-medium text-sm cursor-pointer list-none flex items-center justify-between">
           Products
           <Icon name="lucide:chevron-down" class="w-4 h-4 transition group-open:rotate-180" />
         </summary>
-        <div class="ml-4 mt-1 space-y-1">
-          <a href="/category/nails" class="block py-1.5 px-3 text-sm rounded hover:bg-pink-50">Nail Supplies</a>
-          <a href="/category/eyelashes" class="block py-1.5 px-3 text-sm rounded hover:bg-pink-50">Eyelash Supplies</a>
-          <a href="/category/permanent-makeup" class="block py-1.5 px-3 text-sm rounded hover:bg-pink-50">Permanent Makeup</a>
-          <a href="/category/beauty-tools" class="block py-1.5 px-3 text-sm rounded hover:bg-pink-50">Beauty Tools</a>
-          <a href="/category/daily-chemical" class="block py-1.5 px-3 text-sm rounded hover:bg-pink-50">Daily Chemical</a>
-          <a href="/category/makeup-tools" class="block py-1.5 px-3 text-sm rounded hover:bg-pink-50">Makeup Tools</a>
+        <div class="ml-3 mt-1 space-y-0.5">
+          <a href="/category/nails" class="block py-2 px-3 text-sm rounded hover:bg-pink-50">Nail Supplies</a>
+          <a href="/category/eyelashes" class="block py-2 px-3 text-sm rounded hover:bg-pink-50">Eyelash Supplies</a>
+          <a href="/category/permanent-makeup" class="block py-2 px-3 text-sm rounded hover:bg-pink-50">Permanent Makeup</a>
+          <a href="/category/beauty-tools" class="block py-2 px-3 text-sm rounded hover:bg-pink-50">Beauty Tools</a>
+          <a href="/category/daily-chemical" class="block py-2 px-3 text-sm rounded hover:bg-pink-50">Daily Chemical</a>
+          <a href="/category/makeup-tools" class="block py-2 px-3 text-sm rounded hover:bg-pink-50">Makeup Tools</a>
         </div>
       </details>
-      <a href="/about" class="block py-2 px-3 rounded-lg hover:bg-pink-50 font-medium">About Us</a>
-      <a href="/factory" class="block py-2 px-3 rounded-lg hover:bg-pink-50 font-medium">Factory Tour</a>
-      <a href="/how-to-order" class="block py-2 px-3 rounded-lg hover:bg-pink-50 font-medium">How to Order</a>
-      <a href="/contact" class="block py-2 px-3 rounded-lg hover:bg-pink-50 font-medium">Contact</a>
+      <a href="/products" class="block py-2.5 px-3 rounded-lg hover:bg-pink-50 font-medium text-sm">All Products</a>
+      <a href="/about" class="block py-2.5 px-3 rounded-lg hover:bg-pink-50 font-medium text-sm">About Us</a>
+      <a href="/factory" class="block py-2.5 px-3 rounded-lg hover:bg-pink-50 font-medium text-sm">Factory Tour</a>
+      <a href="/how-to-order" class="block py-2.5 px-3 rounded-lg hover:bg-pink-50 font-medium text-sm">How to Order</a>
+      <a href="/contact" class="block py-2.5 px-3 rounded-lg hover:bg-pink-50 font-medium text-sm">Contact</a>
     </div>
   </div>
 </div>
 
 <script>
+  import { products } from "../../data/products";
+
+  // Mobile menu
   const btn = document.getElementById("mobile-menu-btn");
   const menu = document.getElementById("mobile-menu");
-  btn?.addEventListener("click", () => {
-    menu?.classList.toggle("hidden");
-  });
+  btn?.addEventListener("click", () => menu?.classList.toggle("hidden"));
 
+  // Scroll hide/show
   let lastScrollY = window.scrollY;
   const navbar = document.getElementById("main-navbar");
   window.addEventListener("scroll", () => {
@@ -124,10 +129,70 @@ import { SITE } from "../../data/site";
     }
     lastScrollY = currentScrollY;
   });
+
+  // Search overlay
+  const searchToggle = document.getElementById("search-toggle");
+  const searchOverlay = document.getElementById("search-overlay");
+  const searchClose = document.getElementById("search-close");
+  const searchInput = document.getElementById("search-input") as HTMLInputElement;
+  const searchResults = document.getElementById("search-results");
+
+  const allProducts = products;
+
+  searchToggle?.addEventListener("click", () => {
+    searchOverlay?.classList.remove("hidden");
+    setTimeout(() => searchInput?.focus(), 100);
+  });
+
+  searchClose?.addEventListener("click", () => {
+    searchOverlay?.classList.add("hidden");
+    if (searchInput) searchInput.value = "";
+    if (searchResults) searchResults.innerHTML = '<p class="text-gray-400 text-sm text-center py-8">Type to search products...</p>';
+  });
+
+  searchOverlay?.addEventListener("click", (e) => {
+    if (e.target === searchOverlay) {
+      searchOverlay.classList.add("hidden");
+      if (searchInput) searchInput.value = "";
+      if (searchResults) searchResults.innerHTML = '<p class="text-gray-400 text-sm text-center py-8">Type to search products...</p>';
+    }
+  });
+
+  searchInput?.addEventListener("input", () => {
+    if (!searchResults) return;
+    const q = searchInput.value.toLowerCase().trim();
+    if (!q) {
+      searchResults.innerHTML = '<p class="text-gray-400 text-sm text-center py-8">Type to search products...</p>';
+      return;
+    }
+    const matches = allProducts.filter(p =>
+      p.name.toLowerCase().includes(q) || p.category.toLowerCase().includes(q) || p.description.toLowerCase().includes(q)
+    );
+    if (matches.length === 0) {
+      searchResults.innerHTML = '<p class="text-gray-400 text-sm text-center py-8">No products found.</p>';
+      return;
+    }
+    searchResults.innerHTML = matches.map(p => `
+      <a href="/product/${p.slug}" class="flex items-center gap-4 p-3 rounded-xl hover:bg-gray-50 transition-colors">
+        <img src="${p.images[0]}" alt="${p.name}" class="w-14 h-14 rounded-lg object-cover flex-shrink-0" />
+        <div class="min-w-0">
+          <div class="font-semibold text-gray-900 text-sm truncate">${p.name}</div>
+          <div class="text-xs text-gray-500">${p.category} · $${p.price.toFixed(2)}/unit</div>
+        </div>
+      </a>
+    `).join("");
+  });
+
+  // ESC to close
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") {
+      searchOverlay?.classList.add("hidden");
+      if (searchInput) searchInput.value = "";
+      if (searchResults) searchResults.innerHTML = '<p class="text-gray-400 text-sm text-center py-8">Type to search products...</p>';
+    }
+  });
 </script>
 
 <style>
-  .navbar-hidden {
-    transform: translateY(-100%);
-  }
+  .navbar-hidden { transform: translateY(-100%); }
 </style>

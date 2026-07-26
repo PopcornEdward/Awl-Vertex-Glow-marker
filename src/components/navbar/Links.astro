@@ -16,28 +16,29 @@ const categories = [
     <!-- Mobile Toggle -->
     <div class="flex sm:hidden w-full items-center justify-between h-full px-4">
       <button id="mobile-links-toggle"
-        class="flex items-center gap-2 h-full px-2 hover:bg-white/10 transition-colors cursor-pointer">
+        class="flex items-center gap-1 h-full px-2 hover:bg-white/10 transition-colors cursor-pointer">
         <span>Categories</span>
-        <Icon name="lucide:chevron-down" id="chevron-icon" class="w-4 h-4 transition-transform duration-300" />
+        <Icon name="lucide:chevron-down" id="chevron-icon" class="w-3.5 h-3.5 transition-transform duration-300" />
       </button>
-      <a href="/contact" class="flex items-center h-full px-2 hover:bg-white/10 transition-colors">Contact</a>
+      <a href="/products" class="flex items-center h-full px-2 hover:bg-white/10 transition-colors text-xs">All Products</a>
     </div>
 
-    <!-- Desktop Categories -->
-    <div class="hidden sm:flex h-full items-center">
-      {categories.map((cat) => (
-        <a href={cat.href}
-          class="flex items-center h-full px-3 lg:px-4 hover:bg-white/10 text-white/95 hover:text-white transition-all cursor-pointer whitespace-nowrap">
-          {cat.name}
-        </a>
-      ))}
-    </div>
-
-    <!-- Desktop Right Links -->
-    <div class="hidden sm:flex h-full items-center">
-      <a href="/about" class="flex items-center h-full px-3 hover:bg-white/10 transition-colors">About</a>
-      <a href="/factory" class="flex items-center h-full px-3 hover:bg-white/10 transition-colors">Factory</a>
-      <a href="/contact" class="flex items-center h-full px-3 hover:bg-white/10 transition-colors">Contact</a>
+    <!-- Desktop -->
+    <div class="hidden sm:flex h-full items-center w-full justify-between">
+      <div class="flex h-full items-center">
+        {categories.map((cat) => (
+          <a href={cat.href}
+            class="flex items-center h-full px-2 lg:px-3 hover:bg-white/10 text-white/95 hover:text-white transition-all cursor-pointer whitespace-nowrap text-xs lg:text-sm">
+            {cat.name}
+          </a>
+        ))}
+      </div>
+      <div class="flex h-full items-center">
+        <a href="/products" class="flex items-center h-full px-3 hover:bg-white/10 transition-colors whitespace-nowrap text-xs lg:text-sm">All Products</a>
+        <a href="/about" class="flex items-center h-full px-3 hover:bg-white/10 transition-colors whitespace-nowrap text-xs lg:text-sm">About</a>
+        <a href="/factory" class="flex items-center h-full px-3 hover:bg-white/10 transition-colors whitespace-nowrap text-xs lg:text-sm">Factory</a>
+        <a href="/contact" class="flex items-center h-full px-3 hover:bg-white/10 transition-colors whitespace-nowrap text-xs lg:text-sm">Contact</a>
+      </div>
     </div>
   </div>
 
@@ -46,10 +47,7 @@ const categories = [
     class="sm:hidden grid grid-rows-[0fr] transition-[grid-template-rows] duration-300 ease-in-out bg-pink-600 overflow-hidden">
     <div class="min-h-0 flex flex-col border-t border-white/10">
       {categories.map((cat) => (
-        <a href={cat.href}
-          class="py-3 px-6 hover:bg-white/10 border-b border-white/5 transition-colors">
-          {cat.name}
-        </a>
+        <a href={cat.href} class="py-3 px-6 hover:bg-white/10 border-b border-white/5 transition-colors text-sm">{cat.name}</a>
       ))}
       <div class="bg-pink-700 py-2 px-6 text-white/60 uppercase text-[10px] tracking-widest font-bold">More</div>
       <a href="/about" class="py-3 px-6 hover:bg-white/10 border-b border-white/5 transition-colors">About Us</a>
