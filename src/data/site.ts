@@ -45,7 +45,7 @@ export const CATEGORIES = [
     icon: "lucide:palette",
     description: "Professional nail art tools, UV gel, nail polish, manicure sets",
     image:
-      "/images/placeholders/product.svg",
+      "https://images.pexels.com/photos/3997388/pexels-photo-3997388.jpeg?auto=compress&cs=tinysrgb&w=600",
   },
   {
     name: "Eyelash Supplies",
@@ -53,7 +53,7 @@ export const CATEGORIES = [
     icon: "lucide:eye",
     description: "Eyelash extensions, storage boxes, lash tools, adhesive",
     image:
-      "/images/placeholders/product.svg",
+      "https://images.pexels.com/photos/3993446/pexels-photo-3993446.jpeg?auto=compress&cs=tinysrgb&w=600",
   },
   {
     name: "Permanent Makeup",
@@ -61,7 +61,7 @@ export const CATEGORIES = [
     icon: "lucide:pen-tool",
     description: "Microblading pens, tattoo machines, pigments, needles",
     image:
-      "/images/placeholders/product.svg",
+      "https://images.pexels.com/photos/3993449/pexels-photo-3993449.jpeg?auto=compress&cs=tinysrgb&w=600",
   },
   {
     name: "Beauty Tools",
@@ -69,7 +69,7 @@ export const CATEGORIES = [
     icon: "lucide:sparkles",
     description: "Facial machines, skin analyzers, salon equipment",
     image:
-      "/images/placeholders/product.svg",
+      "https://images.pexels.com/photos/5069610/pexels-photo-5069610.jpeg?auto=compress&cs=tinysrgb&w=600",
   },
   {
     name: "Daily Chemical",
@@ -77,7 +77,7 @@ export const CATEGORIES = [
     icon: "lucide:flask-conical",
     description: "Shampoo, conditioner, hair dye, skincare products",
     image:
-      "/images/placeholders/product.svg",
+      "https://images.pexels.com/photos/4465124/pexels-photo-4465124.jpeg?auto=compress&cs=tinysrgb&w=600",
   },
   {
     name: "Makeup Tools",
@@ -85,7 +85,7 @@ export const CATEGORIES = [
     icon: "lucide:brush",
     description: "Brushes, sponges, mirrors, makeup organizers, applicators",
     image:
-      "/images/placeholders/product.svg",
+      "https://images.pexels.com/photos/2533266/pexels-photo-2533266.jpeg?auto=compress&cs=tinysrgb&w=600",
   },
 ];
 

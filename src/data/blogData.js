@@ -4,7 +4,7 @@ export const blogPosts = [
     title: "Beauty Tools Wholesale Guide 2026: How to Source from Chinese Factories",
     date: "July 15, 2026",
     author: "AVGM Team",
-    image: "/images/placeholders/product.svg",
+    image: "https://images.pexels.com/photos/3997388/pexels-photo-3997388.jpeg?auto=compress&fit=crop&w=800&q=80",
     description: "A complete guide for importers and distributors on sourcing beauty tools directly from Chinese manufacturers.",
     content: `
       <p>Sourcing beauty tools directly from Chinese factories can significantly reduce your costs and give you a competitive edge. Here's what you need to know.</p>
@@ -19,7 +19,7 @@ export const blogPosts = [
     title: "Top Nail Art Trends 2026 — What Products Importers Should Stock",
     date: "June 28, 2026",
     author: "AVGM Team",
-    image: "/images/placeholders/product.svg",
+    image: "https://images.pexels.com/photos/4041392/pexels-photo-4041392.jpeg?auto=format&fit=crop&w=800&q=80",
     description: "Stay ahead of the market with the hottest nail art products and tools that consumers are demanding in 2026.",
     content: `
       <p>The nail art industry continues to grow rapidly. As an importer or distributor, stocking the right trending products is crucial for success.</p>
@@ -36,7 +36,7 @@ export const blogPosts = [
     title: "Eyelash Extension Market: A Growing Opportunity for Wholesale Importers",
     date: "June 10, 2026",
     author: "AVGM Team",
-    image: "/images/placeholders/product.svg",
+    image: "https://images.pexels.com/photos/3993446/pexels-photo-3993446.jpeg?auto=format&fit=crop&w=800&q=80",
     description: "The global eyelash extension market is projected to reach $2.5 billion by 2030. Here's how importers can capitalize.",
     content: `
       <p>The eyelash extension industry shows consistent year-over-year growth driven by social media influence and increasing consumer spending on beauty services.</p>
@@ -51,7 +51,7 @@ export const blogPosts = [
     title: "Permanent Makeup Equipment: Buyer's Guide for Salon Suppliers",
     date: "May 22, 2026",
     author: "AVGM Team",
-    image: "/images/placeholders/product.svg",
+    image: "https://images.pexels.com/photos/3993449/pexels-photo-3993449.jpeg?auto=format&fit=crop&w=800&q=80",
     description: "Essential PMU machines, pigments, and accessories that every beauty salon supply distributor should know about.",
     content: `
       <p>Permanent makeup (PMU) is one of the fastest-growing segments in the beauty industry. From microblading to lip blushing, demand is surging globally.</p>
@@ -66,7 +66,7 @@ export const blogPosts = [
     title: "LED Beauty Devices: The Skincare Technology Revolution",
     date: "May 5, 2026",
     author: "AVGM Team",
-    image: "/images/placeholders/product.svg",
+    image: "https://images.pexels.com/photos/5069610/pexels-photo-5069610.jpeg?auto=format&fit=crop&w=800&q=80",
     description: "LED therapy masks and devices are the fastest-growing beauty tech category. Learn what to stock for maximum ROI.",
     content: `
       <p>LED light therapy has moved from exclusive spa treatments to at-home consumer devices, creating massive wholesale opportunities.</p>
@@ -81,7 +81,7 @@ export const blogPosts = [
     title: "Daily Chemical Products Export Guide: Hair Care & Skincare Wholesale",
     date: "April 18, 2026",
     author: "AVGM Team",
-    image: "/images/placeholders/product.svg",
+    image: "https://images.pexels.com/photos/4465124/pexels-photo-4465124.jpeg?auto=format&fit=crop&w=800&q=80",
     description: "Navigate the regulations and opportunities in the global daily chemical products wholesale market.",
     content: `
       <p>Daily chemical products (shampoo, hair dye, skincare) represent the highest-volume category in beauty wholesale. Here's how to source and export successfully.</p>
