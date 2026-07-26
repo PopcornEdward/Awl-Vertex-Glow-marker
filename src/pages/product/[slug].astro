@@ -29,20 +29,32 @@ const relatedProducts = getRelatedProducts(product.category, product.slug);
 
       <!-- Product Detail -->
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 xl:gap-16">
-        <!-- Image Gallery -->
-        <div class="space-y-4">
-          <div class="aspect-square rounded-2xl overflow-hidden bg-gray-100">
-            <img src={product.images[0]} alt={product.name}
-              class="w-full h-full object-cover" id="main-image" />
+        <!-- Image Gallery Swiper -->
+        <div class="space-y-3">
+          <div class="swiper product-main-swiper aspect-square rounded-2xl overflow-hidden bg-gray-100">
+            <div class="swiper-wrapper">
+              {product.images.map((img, i) => (
+                <div class="swiper-slide">
+                  <img src={img} alt={`${product.name} ${i + 1}`} class="w-full h-full object-cover" />
+                </div>
+              ))}
+            </div>
+            <div class="product-swiper-prev absolute left-3 top-1/2 -translate-y-1/2 z-10 w-10 h-10 bg-white/80 backdrop-blur rounded-full flex items-center justify-center cursor-pointer shadow-md hover:bg-white transition-colors">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18l-6-6l6-6"/></svg>
+            </div>
+            <div class="product-swiper-next absolute right-3 top-1/2 -translate-y-1/2 z-10 w-10 h-10 bg-white/80 backdrop-blur rounded-full flex items-center justify-center cursor-pointer shadow-md hover:bg-white transition-colors">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18l6-6l-6-6"/></svg>
+            </div>
           </div>
           {product.images.length > 1 && (
-            <div class="grid grid-cols-4 gap-3">
-              {product.images.map((img, i) => (
-                <button class="aspect-square rounded-xl overflow-hidden border-2 border-gray-200 hover:border-pink-400 transition-colors"
-                  data-image={img}>
-                  <img src={img} alt={`${product.name} ${i + 1}`} class="w-full h-full object-cover" />
-                </button>
-              ))}
+            <div class="swiper product-thumb-swiper !h-20">
+              <div class="swiper-wrapper">
+                {product.images.map((img, i) => (
+                  <div class="swiper-slide !w-20 rounded-xl overflow-hidden cursor-pointer opacity-50 transition-opacity">
+                    <img src={img} alt={`${product.name} ${i + 1}`} class="w-full h-full object-cover" />
+                  </div>
+                ))}
+              </div>
             </div>
           )}
         </div>
@@ -130,13 +142,70 @@ const relatedProducts = getRelatedProducts(product.category, product.slug);
       )}
     </div>
   </div>
-</Layout>
 
-<style>
-  .line-clamp-2 {
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
-</style>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+
+  <style>
+    .line-clamp-2 {
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .product-main-swiper { position: relative; }
+    .product-thumb-swiper .swiper-slide-thumb-active { opacity: 1 !important; }
+    .swiper-pagination-color { --swiper-pagination-color: #ec4899; }
+  </style>
+
+  <script>
+    import Swiper from "swiper";
+    import { Navigation, Thumbs, Autoplay } from "swiper/modules";
+
+    let thumbSwiper: Swiper | null = null;
+
+    function initProductSwiper() {
+      const mainEl = document.querySelector<HTMLElement>(".product-main-swiper");
+      const thumbEl = document.querySelector<HTMLElement>(".product-thumb-swiper");
+      if (!mainEl) return;
+
+      // Destroy previous instances
+      if (mainEl.swiper) mainEl.swiper.destroy(true, true);
+      if (thumbEl && (thumbEl as any).swiper) (thumbEl as any).swiper.destroy(true, true);
+
+      const nav = {
+        prevEl: ".product-swiper-prev",
+        nextEl: ".product-swiper-next",
+      };
+
+      const autoplay = { delay: 4000, disableOnInteraction: false };
+
+      if (thumbEl) {
+        thumbSwiper = new Swiper(thumbEl, {
+          modules: [Navigation],
+          spaceBetween: 8,
+          slidesPerView: "auto",
+          watchSlidesProgress: true,
+        });
+        new Swiper(mainEl, {
+          modules: [Navigation, Thumbs, Autoplay],
+          navigation: nav,
+          thumbs: { swiper: thumbSwiper },
+          loop: false,
+          autoplay,
+        });
+      } else {
+        new Swiper(mainEl, {
+          modules: [Navigation, Autoplay],
+          navigation: nav,
+          loop: false,
+          autoplay,
+        });
+      }
+    }
+
+    initProductSwiper();
+    document.addEventListener("astro:after-swap", () => {
+      setTimeout(initProductSwiper, 50);
+    });
+  </script>
+</Layout>

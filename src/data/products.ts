@@ -15,8 +15,36 @@ export interface Product {
   moq?: string;
 }
 
-export const products: Product[] = [
-  // ===== NAIL SUPPLIES =====
+// ===== NAIL SUPPLIES =====
+export const nailProducts: Product[] = [
+   {
+    id: "n0001",
+    name: "Professional UV/chh Nail Lamp 168W",
+    title: "Professional UV/chh Nail Lamp 168W — Fast Curing Salon Grade",
+    price: 12.5,
+    description:
+      "High-power 168W UV/chh dual-source nail curing lamp with 33 LED beads. Cures all gel types in 10-30 seconds. Smart sensor auto on/off, digital timer with 10s/30s/60s/99s presets. Removable magnetic base for pedicure convenience. Suitable for professional nail salons and home use. CE, FCC, ROHS certified.",
+    category: "nails",
+    subcategory: "equipment",
+    stock: 500,
+    images: [
+      "https://ownshop.usbartimgotolink.qzz.io/2026/07/26/3b8bd0756a919de7e7758b46edd9b955.png",
+      "https://ownshop.usbartimgotolink.qzz.io/2026/07/26/ec085ee0d6326ac3b885a4b8c42d2a45.jpeg",
+      "https://ownshop.usbartimgotolink.qzz.io/2026/07/26/ec085ee0d6326ac3b885a4b8c42d2a45.jpeg",
+      "https://ownshop.usbartimgotolink.qzz.io/2026/07/26/9e9bed51eeba9776e78f978e34e40089.jpeg",
+    ],
+    slug: "chh-nail-lamp-168w",
+    badge: "Hot Seller",
+    discount: 15,
+    specs: [
+      { label: "Power", value: "168W" },
+      { label: "chh Beads", value: "33 pcs" },
+      { label: "Timer", value: "10s/30s/60s/99s" },
+      { label: "Certification", value: "CE, FCC, ROHS" },
+      { label: "MOQ", value: "50 pcs" },
+    ],
+    moq: "50 pcs",
+  },
   {
     id: "n001",
     name: "Professional UV/LED Nail Lamp 168W",
@@ -116,7 +144,10 @@ export const products: Product[] = [
     ],
     moq: "100 pcs",
   },
-  // ===== EYELASH SUPPLIES =====
+];
+
+// ===== EYELASH SUPPLIES =====
+export const eyelashProducts: Product[] = [
   {
     id: "e001",
     name: "15-Layer Magnetic Eyelash Storage Box",
@@ -192,7 +223,10 @@ export const products: Product[] = [
     ],
     moq: "100 pcs",
   },
-  // ===== PERMANENT MAKEUP =====
+];
+
+// ===== PERMANENT MAKEUP =====
+export const pmuProducts: Product[] = [
   {
     id: "p001",
     name: "Wireless PMU Machine Kit",
@@ -242,7 +276,10 @@ export const products: Product[] = [
     ],
     moq: "20 sets",
   },
-  // ===== BEAUTY TOOLS =====
+];
+
+// ===== BEAUTY TOOLS =====
+export const beautyToolProducts: Product[] = [
   {
     id: "b001",
     name: "LED Face Mask 7-Color Photon Therapy",
@@ -292,7 +329,10 @@ export const products: Product[] = [
     ],
     moq: "100 pcs",
   },
-  // ===== DAILY CHEMICAL =====
+];
+
+// ===== DAILY CHEMICAL =====
+export const dailyChemicalProducts: Product[] = [
   {
     id: "d001",
     name: "Keratin Hair Mask 500ml",
@@ -340,7 +380,10 @@ export const products: Product[] = [
     ],
     moq: "200 pcs",
   },
-  // ===== MAKEUP TOOLS =====
+];
+
+// ===== MAKEUP TOOLS =====
+export const makeupToolProducts: Product[] = [
   {
     id: "m001",
     name: "Makeup Brush Set 24pcs Pro",
@@ -414,6 +457,16 @@ export const products: Product[] = [
     ],
     moq: "200 sets",
   },
+];
+
+// ===== ALL PRODUCTS =====
+export const products: Product[] = [
+  ...nailProducts,
+  ...eyelashProducts,
+  ...pmuProducts,
+  ...beautyToolProducts,
+  ...dailyChemicalProducts,
+  ...makeupToolProducts,
 ];
 
 export const getProductBySlug = (slug: string) =>

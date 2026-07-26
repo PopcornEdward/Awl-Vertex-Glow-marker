@@ -233,7 +233,10 @@ const priceRange = { min: 0, max: 50 };
 
     const desktopChecks = document.querySelectorAll<HTMLInputElement>(".filter-category:checked");
     const mobileChecks = document.querySelectorAll<HTMLInputElement>(".filter-category-mobile:checked");
-    const selectedCats = [...Array.from(desktopChecks), ...Array.from(mobileChecks)].map(c => c.value);
+    const rawCats = [...Array.from(desktopChecks), ...Array.from(mobileChecks)].map(c => c.value);
+    // If any specific category is selected, strip "all" from the set
+    const specificCats = rawCats.filter(c => c !== "all");
+    const selectedCats = specificCats.length > 0 ? specificCats : ["all"];
 
     const priceLimit = parseInt((document.getElementById("price-range") as HTMLInputElement)?.value || "50");
     const priceLimitMobile = parseInt((document.getElementById("price-range-mobile") as HTMLInputElement)?.value || "50");
@@ -321,10 +324,36 @@ const priceRange = { min: 0, max: 50 };
     document.getElementById("search-products")?.addEventListener("input", filterProducts);
     document.getElementById("search-products-mobile")?.addEventListener("input", filterProducts);
 
-    // Category & badge checkboxes
-    document.querySelectorAll(".filter-category").forEach(c => c.addEventListener("change", filterProducts));
-    document.querySelectorAll(".filter-category-mobile").forEach(c => c.addEventListener("change", filterProducts));
+    // Badge checkboxes
     document.querySelectorAll(".filter-badge").forEach(c => c.addEventListener("change", filterProducts));
+
+    // Category mutual exclusion: selecting a category unchecks "All", unchecking everything rechecks "All"
+    function setupCategoryGroup(selector: string) {
+      const all = document.querySelector(selector + '[value="all"]') as HTMLInputElement;
+      const items = document.querySelectorAll(selector + ':not([value="all"])') as NodeListOf<HTMLInputElement>;
+      if (!all || items.length === 0) return;
+
+      items.forEach(item => {
+        item.addEventListener("change", () => {
+          if (item.checked) {
+            all.checked = false;
+          } else {
+            const anyChecked = Array.from(items).some(c => c.checked);
+            if (!anyChecked) all.checked = true;
+          }
+          filterProducts();
+        });
+      });
+
+      all.addEventListener("change", () => {
+        if (all.checked) {
+          items.forEach(c => { c.checked = false; });
+        }
+        filterProducts();
+      });
+    }
+    setupCategoryGroup(".filter-category");
+    setupCategoryGroup(".filter-category-mobile");
 
     // Price range
     document.getElementById("price-range")?.addEventListener("input", function() {
