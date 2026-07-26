@@ -42,6 +42,7 @@ export const CATEGORIES = [
   {
     name: "Nail Supplies",
     slug: "nails",
+    icon: "lucide:palette",
     description: "Professional nail art tools, UV gel, nail polish, manicure sets",
     image:
       "https://images.pexels.com/photos/3997388/pexels-photo-3997388.jpeg?auto=compress&cs=tinysrgb&w=600",
@@ -49,13 +50,15 @@ export const CATEGORIES = [
   {
     name: "Eyelash Supplies",
     slug: "eyelashes",
+    icon: "lucide:eye",
     description: "Eyelash extensions, storage boxes, lash tools, adhesive",
     image:
-      "https://images.pexels.com/photos/7754652/pexels-photo-7754652.jpeg?auto=compress&cs=tinysrgb&w=600",
+      "https://images.pexels.com/photos/3993446/pexels-photo-3993446.jpeg?auto=compress&cs=tinysrgb&w=600",
   },
   {
     name: "Permanent Makeup",
     slug: "permanent-makeup",
+    icon: "lucide:pen-tool",
     description: "Microblading pens, tattoo machines, pigments, needles",
     image:
       "https://images.pexels.com/photos/3993449/pexels-photo-3993449.jpeg?auto=compress&cs=tinysrgb&w=600",
@@ -63,6 +66,7 @@ export const CATEGORIES = [
   {
     name: "Beauty Tools",
     slug: "beauty-tools",
+    icon: "lucide:sparkles",
     description: "Facial machines, skin analyzers, salon equipment",
     image:
       "https://images.pexels.com/photos/5069610/pexels-photo-5069610.jpeg?auto=compress&cs=tinysrgb&w=600",
@@ -70,6 +74,7 @@ export const CATEGORIES = [
   {
     name: "Daily Chemical",
     slug: "daily-chemical",
+    icon: "lucide:flask-conical",
     description: "Shampoo, conditioner, hair dye, skincare products",
     image:
       "https://images.pexels.com/photos/4465124/pexels-photo-4465124.jpeg?auto=compress&cs=tinysrgb&w=600",
@@ -77,6 +82,7 @@ export const CATEGORIES = [
   {
     name: "Makeup Tools",
     slug: "makeup-tools",
+    icon: "lucide:brush",
     description: "Brushes, sponges, mirrors, makeup organizers, applicators",
     image:
       "https://images.pexels.com/photos/2533266/pexels-photo-2533266.jpeg?auto=compress&cs=tinysrgb&w=600",

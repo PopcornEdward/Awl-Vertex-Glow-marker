@@ -8,329 +8,226 @@ const featuredProducts = getFeaturedProducts();
 ---
 
 <Layout>
-  <!-- ===== HERO — Full-width elegant ===== -->
-  <section class="relative w-full overflow-hidden bg-gray-900">
-    <div class="swiper hero-swiper h-[500px] sm:h-[600px] md:h-[680px]">
+  <!-- Hero Swiper -->
+  <section id="hero-scroll-target" class="hero-scroll-target relative bg-gray-900 overflow-hidden">
+    <div class="swiper hero-swiper w-full h-[70vh] sm:h-[85vh] min-h-[600px]">
       <div class="swiper-wrapper">
         <div class="swiper-slide relative">
-          <img
-            src="https://images.pexels.com/photos/3997388/pexels-photo-3997388.jpeg?auto=compress&cs=tinysrgb&w=1920"
-            alt="Beauty Tools Factory"
-            class="absolute inset-0 w-full h-full object-cover"
-          />
-          <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-black/20 flex items-end pb-16 sm:pb-24">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
-              <div class="max-w-2xl animate-fade-in">
-                <span class="inline-block text-pink-300 text-sm font-semibold tracking-widest uppercase mb-3">Est. 2015 · Source Factory</span>
-                <h1 class="text-3xl sm:text-5xl md:text-6xl font-bold text-white mb-4 leading-tight tracking-tight">
-                  Premium Beauty Tools<br class="hidden sm:block" /> Direct from Factory
-                </h1>
-                <p class="text-white/70 text-base sm:text-lg max-w-xl mb-8 leading-relaxed">
-                  Nail · Eyelash · PMU · Beauty Devices · Hair Care · Makeup Tools — one trusted factory, 1000+ products, shipping to 60+ countries.
-                </p>
-                <div class="flex flex-wrap gap-4">
-                  <a href="/products" class="btn bg-white text-gray-900 hover:bg-gray-100 border-none rounded-full px-8 py-3 font-semibold shadow-xl hover:scale-105 transition-transform">
-                    View All Products
-                    <Icon name="lucide:arrow-right" class="w-4 h-4 ml-1" />
-                  </a>
-                  <a href={`https://api.whatsapp.com/send?phone=${SITE.whatsapp}&text=Hello`}
-                     target="_blank" rel="noopener noreferrer"
-                     class="btn bg-green-500 text-white border-none rounded-full px-8 py-3 font-semibold hover:bg-green-600 hover:scale-105 transition-transform">
-                    <Icon name="lucide:message-circle" class="w-5 h-5" />
-                    WhatsApp Inquiry
-                  </a>
-                </div>
+          <img src="https://images.pexels.com/photos/3997388/pexels-photo-3997388.jpeg?auto=compress&cs=tinysrgb&w=1920"
+            alt="Beauty Tools Factory" class="absolute inset-0 w-full h-full object-cover" />
+          <div class="absolute inset-0 bg-black/50"></div>
+          <div class="relative z-10 h-full flex items-center justify-center">
+            <div class="text-center px-4 max-w-3xl" data-parallax="0.3">
+              <h1 class="text-4xl md:text-6xl lg:text-7xl font-black text-white uppercase leading-tight mb-4">
+                Professional <span class="text-pink-400">Beauty Tools</span> Source Factory
+              </h1>
+              <p class="text-white/80 text-lg md:text-xl mb-8">6 product lines · 1000+ SKUs · OEM/ODM · Wholesale B2B</p>
+              <div class="flex flex-wrap justify-center gap-4">
+                <a href="/products" class="btn btn-primary btn-lg rounded-full px-10 text-lg shadow-lg hover:shadow-xl hover:scale-105 transition-transform">Explore Products</a>
+                <a href="/contact" class="btn bg-white/10 border-2 border-white text-white btn-lg rounded-full px-10 text-lg hover:bg-white/20 transition-colors backdrop-blur-sm">Get a Quote</a>
               </div>
             </div>
           </div>
         </div>
-
         <div class="swiper-slide relative">
-          <img
-            src="https://images.pexels.com/photos/7754652/pexels-photo-7754652.jpeg?auto=compress&cs=tinysrgb&w=1920"
-            alt="Eyelash Products"
-            class="absolute inset-0 w-full h-full object-cover"
-          />
-          <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-black/20 flex items-end pb-16 sm:pb-24">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
-              <div class="max-w-2xl">
-                <span class="inline-block text-pink-300 text-sm font-semibold tracking-widest uppercase mb-3">New Collection</span>
-                <h2 class="text-3xl sm:text-5xl md:text-6xl font-bold text-white mb-4 leading-tight tracking-tight">
-                  Trending Beauty<br class="hidden sm:block" /> Products 2026
-                </h2>
-                <p class="text-white/70 text-base sm:text-lg max-w-xl mb-8 leading-relaxed">
-                  Stay ahead with our latest hot-selling items. From LED face masks to keratin hair treatments — we manufacture what the market demands.
-                </p>
-                <a href="/products" class="btn bg-white text-gray-900 hover:bg-gray-100 border-none rounded-full px-8 py-3 font-semibold shadow-xl hover:scale-105 transition-transform">
-                  Explore New Arrivals
-                  <Icon name="lucide:arrow-right" class="w-4 h-4 ml-1" />
-                </a>
-              </div>
+          <img src="https://images.pexels.com/photos/3738344/pexels-photo-3738344.jpeg?auto=compress&cs=tinysrgb&w=1920"
+            alt="Nail Supplies" class="absolute inset-0 w-full h-full object-cover" />
+          <div class="absolute inset-0 bg-black/50"></div>
+          <div class="relative z-10 h-full flex items-center justify-center">
+            <div class="text-center px-4 max-w-3xl" data-parallax="0.3">
+              <h2 class="text-4xl md:text-6xl lg:text-7xl font-black text-white uppercase leading-tight mb-4">
+                Nail <span class="text-pink-400">Supplies</span>
+              </h2>
+              <p class="text-white/80 text-lg md:text-xl mb-8">Gel Polish · Nail Tips · Files · UV Lamps · Nail Art</p>
+              <a href="/category/nails" class="btn btn-primary btn-lg rounded-full px-10 text-lg shadow-lg hover:shadow-xl hover:scale-105 transition-transform">Explore Nail Supplies</a>
             </div>
           </div>
         </div>
-
         <div class="swiper-slide relative">
-          <img
-            src="https://images.pexels.com/photos/5069610/pexels-photo-5069610.jpeg?auto=compress&cs=tinysrgb&w=1920"
-            alt="OEM Manufacturing"
-            class="absolute inset-0 w-full h-full object-cover"
-          />
-          <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-black/20 flex items-end pb-16 sm:pb-24">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
-              <div class="max-w-2xl">
-                <span class="inline-block text-pink-300 text-sm font-semibold tracking-widest uppercase mb-3">OEM / ODM Service</span>
-                <h2 class="text-3xl sm:text-5xl md:text-6xl font-bold text-white mb-4 leading-tight tracking-tight">
-                  Your Brand,<br class="hidden sm:block" /> Our Quality
-                </h2>
-                <p class="text-white/70 text-base sm:text-lg max-w-xl mb-8 leading-relaxed">
-                  Custom packaging, private labeling, and product customization. Launch your beauty brand with our manufacturing expertise.
-                </p>
-                <a href="/contact" class="btn bg-white text-gray-900 hover:bg-gray-100 border-none rounded-full px-8 py-3 font-semibold shadow-xl hover:scale-105 transition-transform">
-                  Request Custom Quote
-                  <Icon name="lucide:arrow-right" class="w-4 h-4 ml-1" />
-                </a>
-              </div>
+          <img src="https://images.pexels.com/photos/5069610/pexels-photo-5069610.jpeg?auto=compress&cs=tinysrgb&w=1920"
+            alt="Eyelash Supplies" class="absolute inset-0 w-full h-full object-cover" />
+          <div class="absolute inset-0 bg-black/50"></div>
+          <div class="relative z-10 h-full flex items-center justify-center">
+            <div class="text-center px-4 max-w-3xl" data-parallax="0.3">
+              <h2 class="text-4xl md:text-6xl lg:text-7xl font-black text-white uppercase leading-tight mb-4">
+                Eyelash <span class="text-pink-400">Supplies</span>
+              </h2>
+              <p class="text-white/80 text-lg md:text-xl mb-8">Extensions · Adhesives · Tweezers · Trays · Training Heads</p>
+              <a href="/category/eyelashes" class="btn btn-primary btn-lg rounded-full px-10 text-lg shadow-lg hover:shadow-xl hover:scale-105 transition-transform">Explore Eyelash Supplies</a>
+            </div>
+          </div>
+        </div>
+        <div class="swiper-slide relative">
+          <img src="https://images.pexels.com/photos/4465124/pexels-photo-4465124.jpeg?auto=compress&cs=tinysrgb&w=1920"
+            alt="Permanent Makeup" class="absolute inset-0 w-full h-full object-cover" />
+          <div class="absolute inset-0 bg-black/50"></div>
+          <div class="relative z-10 h-full flex items-center justify-center">
+            <div class="text-center px-4 max-w-3xl" data-parallax="0.3">
+              <h2 class="text-4xl md:text-6xl lg:text-7xl font-black text-white uppercase leading-tight mb-4">
+                Permanent <span class="text-pink-400">Makeup</span>
+              </h2>
+              <p class="text-white/80 text-lg md:text-xl mb-8">PMU Machines · Pigments · Needles · Microblading</p>
+              <a href="/category/permanent-makeup" class="btn btn-primary btn-lg rounded-full px-10 text-lg shadow-lg hover:shadow-xl hover:scale-105 transition-transform">Explore PMU Supplies</a>
             </div>
           </div>
         </div>
       </div>
-
-      <!-- Nav -->
-      <div class="hero-next text-white! w-12 h-12 hover:scale-110 transition-transform hidden sm:flex items-center justify-center bg-white/10 hover:bg-white/20 backdrop-blur rounded-full cursor-pointer absolute right-6 top-1/2 -translate-y-1/2 z-50">
-        <Icon name="lucide:chevron-right" class="w-6 h-6" />
+      <div class="hero-prev absolute left-4 top-1/2 -translate-y-1/2 z-20 w-12 h-12 bg-white/15 backdrop-blur rounded-full flex items-center justify-center cursor-pointer hover:bg-white/30 transition-colors border border-white/20">
+        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18l-6-6l6-6"/></svg>
       </div>
-      <div class="hero-prev text-white! w-12 h-12 hover:scale-110 transition-transform hidden sm:flex items-center justify-center bg-white/10 hover:bg-white/20 backdrop-blur rounded-full cursor-pointer absolute left-6 top-1/2 -translate-y-1/2 z-50">
-        <Icon name="lucide:chevron-left" class="w-6 h-6" />
+      <div class="hero-next absolute right-4 top-1/2 -translate-y-1/2 z-20 w-12 h-12 bg-white/15 backdrop-blur rounded-full flex items-center justify-center cursor-pointer hover:bg-white/30 transition-colors border border-white/20">
+        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18l6-6l-6-6"/></svg>
       </div>
-      <div class="swiper-pagination !bottom-8"></div>
+      <div class="swiper-pagination !bottom-6"></div>
     </div>
   </section>
 
-  <!-- ===== CATEGORIES — Elegant Grid ===== -->
-  <section class="py-20 sm:py-28 bg-white">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="text-center mb-14">
-        <span class="text-pink-500 text-sm font-semibold tracking-widest uppercase">Shop by Category</span>
-        <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 mt-3 mb-4 tracking-tight">6 Product Lines, 1000+ SKUs</h2>
-        <p class="text-gray-500 max-w-xl mx-auto text-sm sm:text-base">Everything your beauty business needs — from one trusted factory supplier.</p>
+  <!-- Our Partners (placed right below hero, dopamine ripple section) -->
+  <section id="partners-section" class="py-16 sm:py-20 glass-muted overflow-hidden dopamine-ripple">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-[1]">
+      <h2 class="text-3xl md:text-5xl font-black text-gray-900 mb-4 partners-title" data-parallax="0.3">Our Partners</h2>
+      <p class="text-gray-500 mb-12 partners-subtitle max-w-2xl mx-auto" data-parallax="0.2">Trusted by beauty brands and distributors worldwide</p>
+      <div class="partners-track overflow-hidden py-4">
+        <div class="partners-scroll flex items-center gap-12">
+          {[...Array(2)].map(() => (
+            <>
+              <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/loreal.svg" alt="" class="partner-logo h-10 opacity-50 hover:opacity-100 transition-opacity" />
+              <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/esteelauder.svg" alt="" class="partner-logo h-10 opacity-50 hover:opacity-100 transition-opacity" />
+              <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/maybelline.svg" alt="" class="partner-logo h-10 opacity-50 hover:opacity-100 transition-opacity" />
+              <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/nyxcosmetics.svg" alt="" class="partner-logo h-10 opacity-50 hover:opacity-100 transition-opacity" />
+              <div class="text-2xl font-black text-gray-400 partner-logo">SEPHORA</div>
+              <div class="text-2xl font-black text-gray-400 partner-logo">ULTA</div>
+              <div class="text-2xl font-black text-gray-400 partner-logo">SALLY</div>
+              <div class="text-2xl font-black text-gray-400 partner-logo">WATSONS</div>
+            </>
+          ))}
+        </div>
       </div>
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+    </div>
+  </section>
+
+  <!-- Products & Categories — combined section -->
+  <section class="py-16 sm:py-20 glass-dark">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <!-- Section Header -->
+      <div class="text-center mb-14" data-parallax="0.4">
+        <span class="text-pink-400 text-sm font-bold uppercase tracking-widest">Our Products</span>
+        <h2 class="text-3xl md:text-5xl font-black text-white mt-2 mb-4">6 Product Lines, 1000+ SKUs</h2>
+        <p class="text-gray-300 max-w-xl mx-auto">From nail art to hair care — one factory, one order, one shipment</p>
+      </div>
+
+      <!-- Category Pills -->
+      <div class="flex flex-wrap justify-center gap-2 mb-12">
         {CATEGORIES.map((cat) => (
           <a href={`/category/${cat.slug}`}
-            class="group relative overflow-hidden rounded-2xl shadow-sm hover:shadow-xl transition-all duration-500 h-80 sm:h-96">
-            <img src={cat.image} alt={cat.name}
-              class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
-            <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/15 to-transparent flex flex-col justify-end p-6 sm:p-8">
-              <h3 class="text-xl sm:text-2xl font-bold text-white mb-1">{cat.name}</h3>
-              <p class="text-white/70 text-sm mb-4">{cat.description}</p>
-              <span class="inline-flex items-center gap-1 text-pink-300 text-sm font-semibold group-hover:gap-2 transition-all">
-                Browse Collection <Icon name="lucide:arrow-right" class="w-4 h-4" />
-              </span>
+            class="inline-flex items-center gap-2 px-4 py-2.5 rounded-full text-sm font-medium text-white/80 hover:text-pink-300 bg-white/10 hover:bg-white/20 shadow-sm hover:shadow-md transition-all duration-200 border border-white/10 hover:border-pink-400/40">
+            <Icon name={cat.icon} class="w-4 h-4 text-pink-400" />
+            {cat.name}
+          </a>
+        ))}
+      </div>
+
+      <!-- Featured Products Carousel Grid -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
+        {featuredProducts.map((product) => (
+          <a href={`/product/${product.slug}`} class="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-300 hover:-translate-y-1">
+            <div class="relative h-52 overflow-hidden">
+              <img src={product.images[0]} alt={product.name} class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" loading="lazy" />
+              {product.badge && (
+                <span class="absolute top-3 left-3 bg-gradient-to-r from-pink-500 to-pink-600 text-white text-[10px] font-bold uppercase px-3 py-1 rounded-full shadow-lg">{product.badge}</span>
+              )}
+              <div class="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+            </div>
+            <div class="p-5">
+              <div class="text-xs text-pink-500 font-medium mb-1">{product.category}</div>
+              <h3 class="font-bold text-gray-900 mb-3 line-clamp-2 group-hover:text-pink-600 transition-colors">{product.name}</h3>
+              <div class="flex items-center justify-between">
+                <span class="text-pink-600 font-black text-lg">${product.price.toFixed(2)}<span class="text-gray-400 text-xs font-normal">/unit</span></span>
+                <span class="text-xs text-gray-400 bg-gray-100 px-2 py-0.5 rounded-full">MOQ {product.moq}</span>
+              </div>
             </div>
           </a>
         ))}
       </div>
-    </div>
-  </section>
 
-  <!-- ===== HOT PRODUCTS — Clean Grid ===== -->
-  <section class="py-20 sm:py-28 bg-gray-50">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex flex-col sm:flex-row justify-between items-start sm:items-end mb-12 gap-4">
-        <div>
-          <span class="text-pink-500 text-sm font-semibold tracking-widest uppercase">Hot Right Now</span>
-          <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 mt-3 tracking-tight">Trending Products</h2>
-        </div>
-        <a href="/products" class="btn btn-outline border-gray-300 text-gray-700 hover:bg-gray-900 hover:text-white hover:border-gray-900 rounded-full btn-sm transition-all duration-300">
+      <div class="text-center">
+        <a href="/products" class="btn bg-pink-500 hover:bg-pink-600 text-white border-none rounded-full px-10 py-3 font-semibold shadow-lg hover:shadow-xl transition-all duration-200">
           View All Products <Icon name="lucide:arrow-right" class="w-4 h-4 ml-1" />
         </a>
       </div>
-      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
-        {featuredProducts.slice(0, 8).map((product) => (
-          <a href={`/product/${product.slug}`}
-            class="group bg-white rounded-2xl shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden border border-gray-100">
-            <div class="relative aspect-[3/4] overflow-hidden bg-gray-100">
-              <img src={product.images[0]} alt={product.name}
-                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                loading="lazy" />
-              {product.badge && (
-                <span class="absolute top-3 left-3 bg-pink-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wide">{product.badge}</span>
-              )}
-              {product.discount && product.discount > 0 && (
-                <span class="absolute top-3 right-3 bg-red-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">-{product.discount}%</span>
-              )}
-              <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/40 to-transparent h-20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center pb-3">
-                <span class="text-white text-xs font-semibold">Quick View</span>
-              </div>
-            </div>
-            <div class="p-3 sm:p-4">
-              <h3 class="font-semibold text-gray-900 group-hover:text-pink-600 transition-colors text-xs sm:text-sm leading-snug line-clamp-2 mb-2">{product.name}</h3>
-              <div class="flex items-baseline justify-between">
-                <span class="text-base sm:text-lg font-bold text-pink-600">${product.price.toFixed(2)}</span>
-                <span class="text-[10px] sm:text-xs text-gray-400">/ unit wholesale</span>
-              </div>
-            </div>
-          </a>
-        ))}
-      </div>
     </div>
   </section>
 
-  <!-- ===== TRUST PILLARS — Icon Grid ===== -->
-  <section class="py-20 sm:py-28 bg-white">
+  <!-- Why Work With Us — redesigned -->
+  <section class="py-16 sm:py-20 glass-light">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="text-center mb-14">
-        <span class="text-pink-500 text-sm font-semibold tracking-widest uppercase">Why Buyers Choose Us</span>
-        <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 mt-3 mb-4 tracking-tight">The Factory Advantage</h2>
-        <p class="text-gray-500 max-w-xl mx-auto text-sm sm:text-base">10+ years of manufacturing excellence. Trusted by beauty importers in 60+ countries.</p>
+      <div class="text-center mb-14" data-parallax="0.4">
+        <span class="text-pink-500 text-sm font-bold uppercase tracking-widest">Why Choose Us</span>
+        <h2 class="text-3xl md:text-5xl font-black text-gray-900 mt-2 mb-4">Why Work With Us</h2>
+        <p class="text-gray-500 max-w-xl mx-auto">What sets us apart from other beauty tools suppliers</p>
       </div>
-      <div class="grid grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {TRUST_PILLARS.map((pillar) => (
-          <div class="group text-center p-6 sm:p-8 rounded-2xl hover:bg-gray-50 transition-colors duration-300">
-            <div class="w-14 h-14 bg-pink-50 rounded-2xl flex items-center justify-center mx-auto mb-5 group-hover:bg-pink-100 transition-colors">
-              <Icon name={pillar.icon} class="w-7 h-7 text-pink-600" />
+          <div class="group relative bg-white rounded-2xl pt-10 pb-8 px-6 text-center border border-gray-100 hover:border-pink-200 hover:shadow-xl transition-all duration-300" data-parallax="0.1">
+            <!-- Floating icon above card -->
+            <div class="absolute -top-6 left-1/2 -translate-x-1/2 w-12 h-12 bg-gradient-to-br from-pink-400 to-pink-600 rounded-2xl flex items-center justify-center shadow-lg shadow-pink-200 group-hover:shadow-pink-300 group-hover:scale-110 transition-all duration-300">
+              <Icon name={pillar.icon} class="w-6 h-6 text-white" />
             </div>
-            <h3 class="text-base sm:text-lg font-bold text-gray-900 mb-2">{pillar.title}</h3>
-            <p class="text-gray-500 text-xs sm:text-sm leading-relaxed">{pillar.description}</p>
+            <h3 class="text-lg font-bold text-gray-900 mb-3">{pillar.title}</h3>
+            <p class="text-gray-500 text-sm leading-relaxed">{pillar.description}</p>
           </div>
         ))}
       </div>
     </div>
   </section>
 
-  <!-- ===== FACTORY PREVIEW — Split Layout ===== -->
-  <section class="py-20 sm:py-28 bg-gray-900 text-white">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-        <div>
-          <span class="text-pink-400 text-sm font-semibold tracking-widest uppercase">Our Facility</span>
-          <h2 class="text-3xl sm:text-4xl font-bold mt-3 mb-6 tracking-tight">5000+ sqm Manufacturing Base in Zhejiang, China</h2>
-          <p class="text-gray-400 leading-relaxed mb-8">
-            Two production bases equipped with modern manufacturing lines, dedicated QC stations,
-            and an in-house R&D team that tracks global beauty trends to develop new products monthly.
-          </p>
-          <div class="grid grid-cols-2 gap-4 mb-8">
-            <div class="border border-gray-700 rounded-xl p-4 text-center">
-              <div class="text-2xl sm:text-3xl font-bold text-pink-400">10+</div>
-              <div class="text-gray-400 text-xs mt-1">Years Experience</div>
+  <!-- How to Order — redesigned with timeline -->
+  <section class="py-16 sm:py-20 glass-muted">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-14" data-parallax="0.4">
+        <span class="text-pink-500 text-sm font-bold uppercase tracking-widest">Process</span>
+        <h2 class="text-3xl md:text-5xl font-black text-gray-900 mt-2 mb-4">How to Order</h2>
+        <p class="text-gray-500 max-w-xl mx-auto">Four simple steps from factory to your door</p>
+      </div>
+
+      <div class="relative">
+        <!-- Vertical connector line -->
+        <div class="hidden md:block absolute left-[39px] top-8 bottom-8 w-0.5 bg-gradient-to-b from-pink-300 via-pink-400 to-pink-300"></div>
+
+        <div class="space-y-6">
+          {PROCESS_STEPS.map((step, i) => (
+            <div class="flex gap-6 items-start">
+              <!-- Step number circle -->
+              <div class="relative z-10 flex-shrink-0 w-20 h-20 bg-gradient-to-br from-pink-400 to-pink-600 rounded-2xl flex items-center justify-center shadow-lg shadow-pink-200 text-white">
+                <div class="text-center">
+                  <div class="text-xs font-medium opacity-80">STEP</div>
+                  <div class="text-2xl font-black leading-none">{i + 1}</div>
+                </div>
+              </div>
+              <!-- Content card -->
+              <div class="flex-1 bg-white rounded-2xl p-6 border border-gray-100 shadow-sm hover:shadow-md transition-shadow">
+                <div class="flex items-center gap-3 mb-2">
+                  <Icon name={step.icon} class="w-5 h-5 text-pink-500" />
+                  <h3 class="font-bold text-gray-900 text-lg">{step.title}</h3>
+                </div>
+                <p class="text-gray-500 text-sm leading-relaxed">{step.description}</p>
+              </div>
             </div>
-            <div class="border border-gray-700 rounded-xl p-4 text-center">
-              <div class="text-2xl sm:text-3xl font-bold text-pink-400">60+</div>
-              <div class="text-gray-400 text-xs mt-1">Export Countries</div>
-            </div>
-            <div class="border border-gray-700 rounded-xl p-4 text-center">
-              <div class="text-2xl sm:text-3xl font-bold text-pink-400">1000+</div>
-              <div class="text-gray-400 text-xs mt-1">Product SKUs</div>
-            </div>
-            <div class="border border-gray-700 rounded-xl p-4 text-center">
-              <div class="text-2xl sm:text-3xl font-bold text-pink-400">2</div>
-              <div class="text-gray-400 text-xs mt-1">Factories</div>
-            </div>
-          </div>
-          <a href="/factory" class="btn bg-pink-500 text-white border-none rounded-full px-8 py-3 font-semibold hover:bg-pink-600 transition-colors">
-            Tour Our Factory <Icon name="lucide:arrow-right" class="w-4 h-4 ml-1" />
-          </a>
-        </div>
-        <div class="grid grid-cols-2 gap-4">
-          <img src="https://images.pexels.com/photos/3997388/pexels-photo-3997388.jpeg?auto=compress&cs=tinysrgb&w=600"
-            alt="Factory Floor" class="rounded-2xl w-full h-40 sm:h-52 object-cover" loading="lazy" />
-          <img src="https://images.pexels.com/photos/5069610/pexels-photo-5069610.jpeg?auto=compress&cs=tinysrgb&w=600"
-            alt="Production Line" class="rounded-2xl w-full h-40 sm:h-52 object-cover mt-6" loading="lazy" />
-          <img src="https://images.pexels.com/photos/3738346/pexels-photo-3738346.jpeg?auto=compress&cs=tinysrgb&w=600"
-            alt="QC Process" class="rounded-2xl w-full h-40 sm:h-52 object-cover" loading="lazy" />
-          <img src="https://images.pexels.com/photos/4465124/pexels-photo-4465124.jpeg?auto=compress&cs=tinysrgb&w=600"
-            alt="Warehouse" class="rounded-2xl w-full h-40 sm:h-52 object-cover mt-6" loading="lazy" />
+          ))}
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ===== HOW WE WORK — 6 Steps ===== -->
-  <section class="py-20 sm:py-28 bg-white">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="text-center mb-14">
-        <span class="text-pink-500 text-sm font-semibold tracking-widest uppercase">From Inquiry to Delivery</span>
-        <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 mt-3 mb-4 tracking-tight">How We Work</h2>
-        <p class="text-gray-500 max-w-xl mx-auto text-sm sm:text-base">A transparent 6-step process for worry-free wholesale purchasing.</p>
-      </div>
-      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6 lg:gap-4">
-        {PROCESS_STEPS.map((step) => (
-          <div class="text-center relative group">
-            <div class="w-14 h-14 bg-pink-50 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:bg-pink-100 transition-colors relative z-10">
-              <Icon name={step.icon} class="w-6 h-6 text-pink-600" />
-            </div>
-            <div class="absolute top-7 left-[calc(50%+2rem)] w-[calc(100%-3rem)] h-0.5 bg-pink-100 hidden lg:block z-0"></div>
-            <div class="font-bold text-gray-900 text-sm mb-1">{step.title}</div>
-            <p class="text-gray-500 text-xs leading-relaxed">{step.description}</p>
-          </div>
-        ))}
-      </div>
-    </div>
-  </section>
-
-  <!-- ===== BUYER GUIDES — Split Cards ===== -->
-  <section class="py-20 sm:py-28 bg-gray-50">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-        <div class="bg-white rounded-3xl p-8 sm:p-10 shadow-sm border border-gray-100 relative overflow-hidden group hover:shadow-md transition-shadow">
-          <div class="absolute top-0 right-0 w-32 h-32 bg-blue-50 rounded-bl-[80px] -mr-4 -mt-4"></div>
-          <div class="relative">
-            <div class="w-14 h-14 bg-blue-100 rounded-2xl flex items-center justify-center mb-5">
-              <Icon name="lucide:user-plus" class="w-7 h-7 text-blue-600" />
-            </div>
-            <h3 class="text-xl sm:text-2xl font-bold text-gray-900 mb-3">For New Buyers</h3>
-            <p class="text-gray-500 text-sm mb-6 leading-relaxed max-w-md">
-              First time importing beauty products? We'll guide you through every step — from sample selection to customs clearance. Low MOQ for trial orders available.
-            </p>
-            <ul class="space-y-2.5 text-sm text-gray-600 mb-8">
-              <li class="flex items-center gap-2"><Icon name="lucide:check" class="w-4 h-4 text-green-500 flex-shrink-0" /> Free sample consultation</li>
-              <li class="flex items-center gap-2"><Icon name="lucide:check" class="w-4 h-4 text-green-500 flex-shrink-0" /> Low MOQ trial orders</li>
-              <li class="flex items-center gap-2"><Icon name="lucide:check" class="w-4 h-4 text-green-500 flex-shrink-0" /> Step-by-step ordering guide</li>
-            </ul>
-            <a href="/how-to-order" class="inline-flex items-center gap-1 text-blue-600 font-semibold text-sm hover:gap-2 transition-all">
-              How to Order <Icon name="lucide:arrow-right" class="w-4 h-4" />
-            </a>
-          </div>
-        </div>
-
-        <div class="bg-white rounded-3xl p-8 sm:p-10 shadow-sm border border-gray-100 relative overflow-hidden group hover:shadow-md transition-shadow">
-          <div class="absolute top-0 right-0 w-32 h-32 bg-purple-50 rounded-bl-[80px] -mr-4 -mt-4"></div>
-          <div class="relative">
-            <div class="w-14 h-14 bg-purple-100 rounded-2xl flex items-center justify-center mb-5">
-              <Icon name="lucide:briefcase" class="w-7 h-7 text-purple-600" />
-            </div>
-            <h3 class="text-xl sm:text-2xl font-bold text-gray-900 mb-3">For Professional Importers</h3>
-            <p class="text-gray-500 text-sm mb-6 leading-relaxed max-w-md">
-              Already in the beauty business? Access VIP wholesale pricing, priority production, dedicated account management, and complete OEM/ODM services.
-            </p>
-            <ul class="space-y-2.5 text-sm text-gray-600 mb-8">
-              <li class="flex items-center gap-2"><Icon name="lucide:check" class="w-4 h-4 text-green-500 flex-shrink-0" /> Dedicated account manager</li>
-              <li class="flex items-center gap-2"><Icon name="lucide:check" class="w-4 h-4 text-green-500 flex-shrink-0" /> OEM/ODM customization</li>
-              <li class="flex items-center gap-2"><Icon name="lucide:check" class="w-4 h-4 text-green-500 flex-shrink-0" /> Priority production scheduling</li>
-            </ul>
-            <a href="/contact" class="inline-flex items-center gap-1 text-purple-600 font-semibold text-sm hover:gap-2 transition-all">
-              Get VIP Quote <Icon name="lucide:arrow-right" class="w-4 h-4" />
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ===== CTA BANNER ===== -->
-  <section class="py-24 sm:py-32 bg-gray-900 text-white text-center relative overflow-hidden">
-    <div class="absolute inset-0 opacity-10">
-      <div class="absolute -top-24 -right-24 w-96 h-96 bg-pink-500 rounded-full blur-3xl"></div>
-      <div class="absolute -bottom-24 -left-24 w-96 h-96 bg-pink-400 rounded-full blur-3xl"></div>
-    </div>
-    <div class="relative max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
-      <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight mb-4">Ready to Start Your Order?</h2>
-      <p class="text-gray-400 text-lg mb-10 max-w-lg mx-auto">
-        Contact us today for wholesale pricing, samples, or a customized quotation. Response within 24 hours.
-      </p>
+  <!-- CTA / Ready to Start -->
+  <section class="relative py-20 sm:py-28 glass-dark-heavy text-center overflow-hidden">
+    <div class="neon-glow-tr"></div>
+    <div class="neon-glow-bl"></div>
+    <div class="max-w-3xl mx-auto px-4 relative z-[1]">
+      <h2 class="text-3xl md:text-5xl font-black text-white mb-4" data-parallax="0.4">Ready to Start Your Order?</h2>
+      <p class="text-gray-300 mb-8 text-lg" data-parallax="0.3">Contact our sales team today. We respond within 24 hours with pricing and product details.</p>
       <div class="flex flex-wrap justify-center gap-4">
-        <a href="/contact" class="btn bg-white text-gray-900 hover:bg-gray-100 border-none rounded-full px-10 py-3.5 font-semibold shadow-xl hover:scale-105 transition-transform">
+        <a href="/contact" class="btn btn-primary btn-lg rounded-full px-12 py-4 text-lg font-bold shadow-xl hover:shadow-2xl hover:scale-105 transition-transform">
           <Icon name="lucide:send" class="w-5 h-5" /> Send Inquiry
         </a>
         <a href={`https://api.whatsapp.com/send?phone=${SITE.whatsapp}&text=Hello`}
@@ -341,15 +238,16 @@ const featuredProducts = getFeaturedProducts();
       </div>
     </div>
   </section>
-</Layout>
 
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+  <!-- Swiper CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 
-<style>
+  <!-- Page-specific styles -->
+  <style>
   :root {
     --swiper-pagination-color: #ec4899;
     --swiper-pagination-bullet-inactive-color: #fff;
-    --swiper-pagination-bullet-inactive-opacity: 0.4;
+    --swiper-pagination-bullet-inactive-opacity: 0.3;
   }
   .swiper-pagination-bullet-active {
     width: 28px;
@@ -369,9 +267,21 @@ const featuredProducts = getFeaturedProducts();
     -webkit-box-orient: vertical;
     overflow: hidden;
   }
+  @keyframes partners-scroll {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+  .partners-scroll {
+    animation: partners-scroll 30s linear infinite;
+    width: max-content;
+  }
+  .partners-track:hover .partners-scroll {
+    animation-play-state: paused;
+  }
 </style>
 
-<script>
+  <!-- Swiper JS -->
+  <script>
   import Swiper from "swiper";
   import { Navigation, Pagination, Autoplay, EffectFade } from "swiper/modules";
 
@@ -380,6 +290,7 @@ const featuredProducts = getFeaturedProducts();
       modules: [Navigation, Pagination, Autoplay, EffectFade],
       loop: true,
       effect: "fade",
+      fadeEffect: { crossFade: true },
       autoplay: { delay: 6000, disableOnInteraction: false },
       pagination: { el: ".swiper-pagination", clickable: true },
       navigation: { nextEl: ".hero-next", prevEl: ".hero-prev" },
@@ -388,3 +299,87 @@ const featuredProducts = getFeaturedProducts();
   initHeroSwiper();
   document.addEventListener("astro:after-swap", initHeroSwiper);
 </script>
+
+  <!-- Parallax Scrolling -->
+  <script is:inline>
+  (function() {
+    var ticking = false;
+    function update() {
+      var els = document.querySelectorAll("[data-parallax]");
+      var wh = window.innerHeight;
+      for (var i = 0; i < els.length; i++) {
+        var el = els[i];
+        var speed = parseFloat(el.dataset.parallax || "0.3");
+        var rect = el.getBoundingClientRect();
+        if (rect.bottom > 0 && rect.top < wh) {
+          var center = rect.top + rect.height / 2;
+          var offset = (center - wh / 2) * speed * -0.2;
+          el.style.transform = "translateY(" + offset + "px)";
+        }
+      }
+    }
+    if (!window.__parallaxBound) {
+      window.__parallaxBound = true;
+      window.addEventListener("scroll", function() {
+        if (!ticking) {
+          requestAnimationFrame(function() { update(); ticking = false; });
+          ticking = true;
+        }
+      }, { passive: true });
+    }
+    document.addEventListener("astro:after-swap", function() { update(); });
+    update();
+  })();
+</script>
+
+  <!-- Dopamine Ripple — properly destroys/re-inits on SPA navigation -->
+  <script is:inline>
+  (function() {
+    var section, targetX, targetY, currentX, currentY, rafId;
+
+    function onMove(e) {
+      var rect = section.getBoundingClientRect();
+      targetX = ((e.clientX - rect.left) / rect.width) * 100;
+      targetY = ((e.clientY - rect.top) / rect.height) * 100;
+    }
+
+    function onLeave() {
+      targetX = 50;
+      targetY = 50;
+    }
+
+    function animate() {
+      currentX += (targetX - currentX) * 0.07;
+      currentY += (targetY - currentY) * 0.07;
+      section.style.setProperty("--mx", currentX + "%");
+      section.style.setProperty("--my", currentY + "%");
+      rafId = requestAnimationFrame(animate);
+    }
+
+    function init() {
+      section = document.getElementById("partners-section");
+      if (!section) return;
+      targetX = 50; targetY = 50;
+      currentX = 50; currentY = 50;
+      section.addEventListener("mousemove", onMove);
+      section.addEventListener("mouseleave", onLeave);
+      animate();
+    }
+
+    function destroy() {
+      if (rafId) cancelAnimationFrame(rafId);
+      if (section) {
+        section.removeEventListener("mousemove", onMove);
+        section.removeEventListener("mouseleave", onLeave);
+        section = null;
+      }
+    }
+
+    init();
+    document.addEventListener("astro:after-swap", function() {
+      destroy();
+      setTimeout(init, 100);
+    });
+  })();
+</script>
+</Layout>

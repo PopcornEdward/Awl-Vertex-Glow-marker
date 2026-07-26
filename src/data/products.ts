@@ -128,8 +128,8 @@ export const products: Product[] = [
     subcategory: "storage",
     stock: 800,
     images: [
-      "https://images.pexels.com/photos/7754652/pexels-photo-7754652.jpeg?auto=compress&cs=tinysrgb&w=800",
-      "https://images.pexels.com/photos/7754660/pexels-photo-7754660.jpeg?auto=compress&cs=tinysrgb&w=800",
+      "https://images.pexels.com/photos/3993446/pexels-photo-3993446.jpeg?auto=compress&cs=tinysrgb&w=800",
+      "https://images.pexels.com/photos/7754656/pexels-photo-7754656.jpeg?auto=compress&cs=tinysrgb&w=800",
     ],
     slug: "15-layer-magnetic-eyelash-storage-box",
     badge: "Hot Seller",
@@ -279,7 +279,7 @@ export const products: Product[] = [
     subcategory: "facial-devices",
     stock: 600,
     images: [
-      "https://images.pexels.com/photos/3738346/pexels-photo-3738346.jpeg?auto=compress&cs=tinysrgb&w=800",
+      "https://images.pexels.com/photos/3738344/pexels-photo-3738344.jpeg?auto=compress&cs=tinysrgb&w=800",
     ],
     slug: "ultrasonic-skin-scrubber",
     badge: "Bestseller",

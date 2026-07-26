@@ -36,7 +36,7 @@ export const blogPosts = [
     title: "Eyelash Extension Market: A Growing Opportunity for Wholesale Importers",
     date: "June 10, 2026",
     author: "AVGM Team",
-    image: "https://images.pexels.com/photos/7754652/pexels-photo-7754652.jpeg?auto=format&fit=crop&w=800&q=80",
+    image: "https://images.pexels.com/photos/3993446/pexels-photo-3993446.jpeg?auto=format&fit=crop&w=800&q=80",
     description: "The global eyelash extension market is projected to reach $2.5 billion by 2030. Here's how importers can capitalize.",
     content: `
       <p>The eyelash extension industry shows consistent year-over-year growth driven by social media influence and increasing consumer spending on beauty services.</p>

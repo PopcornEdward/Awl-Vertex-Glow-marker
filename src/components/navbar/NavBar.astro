@@ -1,198 +1,342 @@
 ---
 import { Icon } from "astro-icon/components";
-import Links from "./Links.astro";
 import { SITE } from "../../data/site";
+import { CATEGORIES } from "../../data/site";
+
+const topCategories = CATEGORIES.filter(c => ["Nail Supplies", "Eyelash Supplies", "Permanent Makeup"].includes(c.name));
+const moreCategories = CATEGORIES.filter(c => !["Nail Supplies", "Eyelash Supplies", "Permanent Makeup"].includes(c.name));
 ---
 
-<div
-  id="main-navbar"
-  class="sticky top-0 z-999 w-full font-sans transition-transform duration-300"
->
-  <!-- Top bar: Logo + Search + CTAs -->
-  <div class="bg-base-100 shadow-md">
-    <nav class="navbar max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 gap-2">
-      <!-- Mobile Menu -->
-      <div class="flex-none lg:hidden">
-        <button id="mobile-menu-btn" class="btn btn-ghost btn-circle btn-sm" aria-label="Menu">
-          <Icon name="lucide:menu" class="w-5 h-5" />
-        </button>
-      </div>
+<div id="main-navbar" class="sticky top-0 z-999 w-full font-sans transition-transform duration-300">
+  <nav class="bg-white border-b border-gray-100">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16">
 
-      <!-- Logo — fixed sizing to prevent squeeze -->
-      <div class="flex-none">
-        <a href="/" class="flex items-center gap-2 group">
-          <div class="w-9 h-9 bg-pink-500 rounded-lg flex items-center justify-center group-hover:rotate-12 transition-transform shadow-sm flex-shrink-0">
-            <Icon name="lucide:sparkles" class="w-5 h-5 text-white" />
+        <!-- Left: Logo -->
+        <div class="flex items-center gap-8 flex-shrink-0">
+          <a href="/" class="flex items-center gap-2.5 group flex-shrink-0">
+            <div class="w-8 h-8 bg-pink-500 rounded-lg flex items-center justify-center group-hover:rotate-12 transition-transform flex-shrink-0">
+              <Icon name="lucide:sparkles" class="w-4.5 h-4.5 text-white" />
+            </div>
+            <span class="text-base font-bold text-gray-900 tracking-tight hidden sm:block whitespace-nowrap">{SITE.name}</span>
+            <span class="text-sm font-bold text-gray-900 sm:hidden">AVGM</span>
+          </a>
+
+          <!-- Desktop Nav Links -->
+          <div class="hidden lg:flex items-center gap-1">
+            <a href="/" class="px-3 py-2 text-sm font-medium text-gray-700 hover:text-pink-600 rounded-lg hover:bg-pink-50 transition-colors whitespace-nowrap">Home</a>
+
+            <!-- 美甲 -->
+            <a href="/category/nails" class="px-3 py-2 text-sm font-medium text-gray-700 hover:text-pink-600 rounded-lg hover:bg-pink-50 transition-colors whitespace-nowrap">Nail Supplies</a>
+
+            <!-- 美睫 -->
+            <a href="/category/eyelashes" class="px-3 py-2 text-sm font-medium text-gray-700 hover:text-pink-600 rounded-lg hover:bg-pink-50 transition-colors whitespace-nowrap">Eyelash Supplies</a>
+
+            <!-- 纹绣 -->
+            <a href="/category/permanent-makeup" class="px-3 py-2 text-sm font-medium text-gray-700 hover:text-pink-600 rounded-lg hover:bg-pink-50 transition-colors whitespace-nowrap">Permanent Makeup</a>
+
+            <!-- More Categories Dropdown -->
+            <div class="relative group">
+              <button class="px-3 py-2 text-sm font-medium text-gray-700 hover:text-pink-600 rounded-lg hover:bg-pink-50 transition-colors whitespace-nowrap flex items-center gap-1 cursor-pointer">
+                More
+                <Icon name="lucide:chevron-down" class="w-3.5 h-3.5 transition-transform duration-200 group-hover:rotate-180" />
+              </button>
+              <div class="absolute top-full left-0 mt-1 w-56 bg-white rounded-xl shadow-xl border border-gray-100 py-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                {moreCategories.map((cat) => (
+                  <a href={`/category/${cat.slug}`} class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-pink-50 hover:text-pink-600 transition-colors">
+                    {cat.name}
+                  </a>
+                ))}
+                <div class="border-t border-gray-100 my-1"></div>
+                <a href="/products" class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-pink-50 hover:text-pink-600 transition-colors font-medium">
+                  All Products
+                </a>
+              </div>
+            </div>
+
+            <a href="/factory" class="px-3 py-2 text-sm font-medium text-gray-700 hover:text-pink-600 rounded-lg hover:bg-pink-50 transition-colors whitespace-nowrap">Factory</a>
+            <a href="/about" class="px-3 py-2 text-sm font-medium text-gray-700 hover:text-pink-600 rounded-lg hover:bg-pink-50 transition-colors whitespace-nowrap">About</a>
           </div>
-          <span class="text-lg font-bold tracking-tight whitespace-nowrap hidden sm:inline-block">
-            <span class="text-pink-600">{SITE.name}</span>
-          </span>
-          <span class="text-base font-bold text-pink-600 sm:hidden">AVGM</span>
-        </a>
+        </div>
+
+        <!-- Right: Actions -->
+        <div class="flex items-center gap-2 flex-shrink-0">
+          <!-- Search -->
+          <button id="search-toggle" class="btn btn-ghost btn-circle btn-sm hidden sm:flex" aria-label="Search">
+            <Icon name="lucide:search" class="w-5 h-5 text-gray-600" />
+          </button>
+
+          <!-- WhatsApp -->
+          <a href={`https://api.whatsapp.com/send?phone=${SITE.whatsapp}&text=Hello`}
+             target="_blank" rel="noopener noreferrer"
+             class="hidden sm:inline-flex items-center gap-1.5 text-sm font-medium text-gray-700 hover:text-green-600 px-3 py-2 rounded-lg hover:bg-green-50 transition-colors">
+            <Icon name="lucide:message-circle" class="w-4 h-4 text-green-500" />
+            WhatsApp
+          </a>
+
+          <!-- Theme Toggle -->
+          <button id="theme-toggle" class="btn btn-ghost btn-circle btn-sm" aria-label="Toggle theme">
+            <Icon name="lucide:sun" class="w-5 h-5 hidden dark-icon" />
+            <Icon name="lucide:moon" class="w-5 h-5 light-icon" />
+          </button>
+
+          <!-- Quote CTA -->
+          <a href="/contact" class="btn btn-sm bg-pink-500 hover:bg-pink-600 text-white border-none rounded-full px-5 text-sm font-medium shadow-sm">
+            Get Quote
+          </a>
+
+          <!-- Mobile Menu Toggle -->
+          <button id="mobile-menu-btn" class="btn btn-ghost btn-circle btn-sm lg:hidden ml-1" aria-label="Menu">
+            <Icon name="lucide:menu" class="w-5 h-5" />
+          </button>
+        </div>
       </div>
+    </div>
 
-      <!-- Desktop Nav Links -->
-      <div class="flex-none hidden lg:flex">
-        <Links />
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="hidden lg:hidden border-t border-gray-100 bg-white shadow-lg">
+      <div class="p-4 space-y-1">
+        <a href="/" class="block py-2.5 px-3 rounded-lg hover:bg-pink-50 text-sm font-medium">Home</a>
+        <a href="/category/nails" class="block py-2.5 px-3 rounded-lg hover:bg-pink-50 text-sm font-medium">Nail Supplies</a>
+        <a href="/category/eyelashes" class="block py-2.5 px-3 rounded-lg hover:bg-pink-50 text-sm font-medium">Eyelash Supplies</a>
+        <a href="/category/permanent-makeup" class="block py-2.5 px-3 rounded-lg hover:bg-pink-50 text-sm font-medium">Permanent Makeup</a>
+        <details class="group">
+          <summary class="py-2.5 px-3 rounded-lg hover:bg-pink-50 text-sm font-medium cursor-pointer list-none flex items-center justify-between">
+            More Categories
+            <Icon name="lucide:chevron-down" class="w-4 h-4 transition group-open:rotate-180" />
+          </summary>
+          <div class="ml-3 space-y-0.5">
+            {moreCategories.map((cat) => (
+              <a href={`/category/${cat.slug}`} class="block py-2 px-3 text-sm rounded hover:bg-pink-50 text-gray-600">{cat.name}</a>
+            ))}
+            <a href="/products" class="block py-2 px-3 text-sm rounded hover:bg-pink-50 font-medium text-pink-600">All Products →</a>
+          </div>
+        </details>
+        <a href="/factory" class="block py-2.5 px-3 rounded-lg hover:bg-pink-50 text-sm font-medium">Factory Tour</a>
+        <a href="/about" class="block py-2.5 px-3 rounded-lg hover:bg-pink-50 text-sm font-medium">About Us</a>
+        <a href="/contact" class="block py-2.5 px-3 rounded-lg hover:bg-pink-50 text-sm font-medium">Contact</a>
       </div>
-
-      <!-- Spacer -->
-      <div class="flex-1 hidden lg:block"></div>
-
-      <!-- Search Button -->
-      <button id="search-toggle" class="btn btn-ghost btn-circle btn-sm hidden sm:flex" aria-label="Search">
-        <Icon name="lucide:search" class="w-5 h-5" />
-      </button>
-
-      <!-- CTA Buttons -->
-      <div class="flex-none flex items-center gap-1 sm:gap-2">
-        <a href={`https://api.whatsapp.com/send?phone=${SITE.whatsapp}&text=Hello`}
-           target="_blank" rel="noopener noreferrer"
-           class="btn btn-xs sm:btn-sm bg-green-500 text-white border-none hover:bg-green-600 rounded-full px-2 sm:px-4 text-xs">
-          <Icon name="lucide:message-circle" class="w-3.5 h-3.5 hidden sm:inline-block" />
-          WhatsApp
-        </a>
-        <a href="/contact" class="btn btn-xs sm:btn-sm btn-primary rounded-full px-3 sm:px-5 text-xs">
-          Get Quote
-        </a>
-      </div>
-    </nav>
-  </div>
+    </div>
+  </nav>
 
   <!-- Search Overlay -->
-  <div id="search-overlay" class="hidden fixed inset-0 z-1000 bg-black/50 flex items-start justify-center pt-24 px-4">
-    <div class="bg-white rounded-2xl shadow-2xl w-full max-w-2xl overflow-hidden">
-      <div class="flex items-center border-b border-gray-200 px-5 py-3">
+  <div id="search-overlay" class="hidden fixed inset-0 z-1000 bg-black/40 backdrop-blur-sm flex items-start justify-center pt-24 px-4">
+    <div class="bg-white rounded-2xl shadow-2xl w-full max-w-xl overflow-hidden">
+      <div class="flex items-center border-b border-gray-100 px-5 py-3">
         <Icon name="lucide:search" class="w-5 h-5 text-gray-400 flex-shrink-0" />
         <input id="search-input" type="text" placeholder="Search products..."
-          class="w-full px-3 py-2 text-lg outline-none border-none bg-transparent" autofocus />
+          class="w-full px-3 py-2 text-base outline-none border-none bg-transparent" autofocus />
         <button id="search-close" class="btn btn-ghost btn-circle btn-sm flex-shrink-0">
           <Icon name="lucide:x" class="w-5 h-5" />
         </button>
       </div>
-      <div id="search-results" class="max-h-96 overflow-y-auto p-4 space-y-2">
-        <p class="text-gray-400 text-sm text-center py-8">Type to search products...</p>
+      <div id="search-results" class="max-h-80 overflow-y-auto p-3 space-y-1">
+        <p class="text-gray-400 text-sm text-center py-10">Type to search products...</p>
       </div>
-    </div>
-  </div>
-
-  <!-- Mobile Menu -->
-  <div id="mobile-menu" class="hidden lg:hidden bg-base-100 border-t border-base-200 shadow-lg">
-    <div class="p-4 space-y-1">
-      <a href="/" class="block py-2.5 px-3 rounded-lg hover:bg-pink-50 font-medium text-sm">Home</a>
-      <details class="group">
-        <summary class="py-2.5 px-3 rounded-lg hover:bg-pink-50 font-medium text-sm cursor-pointer list-none flex items-center justify-between">
-          Products
-          <Icon name="lucide:chevron-down" class="w-4 h-4 transition group-open:rotate-180" />
-        </summary>
-        <div class="ml-3 mt-1 space-y-0.5">
-          <a href="/category/nails" class="block py-2 px-3 text-sm rounded hover:bg-pink-50">Nail Supplies</a>
-          <a href="/category/eyelashes" class="block py-2 px-3 text-sm rounded hover:bg-pink-50">Eyelash Supplies</a>
-          <a href="/category/permanent-makeup" class="block py-2 px-3 text-sm rounded hover:bg-pink-50">Permanent Makeup</a>
-          <a href="/category/beauty-tools" class="block py-2 px-3 text-sm rounded hover:bg-pink-50">Beauty Tools</a>
-          <a href="/category/daily-chemical" class="block py-2 px-3 text-sm rounded hover:bg-pink-50">Daily Chemical</a>
-          <a href="/category/makeup-tools" class="block py-2 px-3 text-sm rounded hover:bg-pink-50">Makeup Tools</a>
-        </div>
-      </details>
-      <a href="/products" class="block py-2.5 px-3 rounded-lg hover:bg-pink-50 font-medium text-sm">All Products</a>
-      <a href="/about" class="block py-2.5 px-3 rounded-lg hover:bg-pink-50 font-medium text-sm">About Us</a>
-      <a href="/factory" class="block py-2.5 px-3 rounded-lg hover:bg-pink-50 font-medium text-sm">Factory Tour</a>
-      <a href="/how-to-order" class="block py-2.5 px-3 rounded-lg hover:bg-pink-50 font-medium text-sm">How to Order</a>
-      <a href="/contact" class="block py-2.5 px-3 rounded-lg hover:bg-pink-50 font-medium text-sm">Contact</a>
+      <!-- Keyboard hints -->
+      <div class="flex items-center justify-between px-5 py-2.5 border-t border-gray-100 text-[11px] text-gray-400 bg-gray-50/50">
+        <span class="flex items-center gap-1"><kbd class="px-1.5 py-0.5 rounded bg-white border border-gray-200 text-[10px] font-mono">↑↓</kbd> Navigate</span>
+        <span class="flex items-center gap-1"><kbd class="px-1.5 py-0.5 rounded bg-white border border-gray-200 text-[10px] font-mono">↵</kbd> Open</span>
+        <span class="flex items-center gap-1"><kbd class="px-1.5 py-0.5 rounded bg-white border border-gray-200 text-[10px] font-mono">Esc</kbd> Close</span>
+      </div>
     </div>
   </div>
 </div>
 
 <script>
   import { products } from "../../data/products";
+  const THEME_KEY = "theme";
 
-  // Mobile menu
-  const btn = document.getElementById("mobile-menu-btn");
-  const menu = document.getElementById("mobile-menu");
-  btn?.addEventListener("click", () => menu?.classList.toggle("hidden"));
+  // ── Persistent scroll state ──
+  let lastScrollY = 0;
 
-  // Scroll hide/show
-  let lastScrollY = window.scrollY;
-  const navbar = document.getElementById("main-navbar");
-  window.addEventListener("scroll", () => {
-    if (!navbar) return;
-    const currentScrollY = window.scrollY;
-    if (currentScrollY <= 0) {
-      navbar.classList.remove("navbar-hidden");
-      lastScrollY = currentScrollY;
-      return;
+  // ── OS theme listener (registered once) ──
+  const systemDark = window.matchMedia("(prefers-color-scheme: dark)");
+
+  function timeBasedTheme(): string {
+    const hour = new Date().getHours();
+    return hour >= 6 && hour < 18 ? "light" : "dark";
+  }
+
+  function resolveTheme(): string {
+    const saved = localStorage.getItem(THEME_KEY);
+    if (saved === "dark" || saved === "light") return saved;
+    if (systemDark.matches) return "dark";
+    if (window.matchMedia("(prefers-color-scheme: light)").matches) return "light";
+    return timeBasedTheme();
+  }
+
+  // ── Init all DOM-bound behaviour (called on load + after-swap) ──
+  function initNavbar() {
+    const html = document.documentElement;
+
+    // Mobile menu
+    const btn = document.getElementById("mobile-menu-btn");
+    const menu = document.getElementById("mobile-menu");
+    btn?.addEventListener("click", () => menu?.classList.toggle("hidden"));
+
+    // Scroll hide
+    const navbar = document.getElementById("main-navbar");
+    lastScrollY = window.scrollY;
+
+    // Theme toggle
+    const themeToggle = document.getElementById("theme-toggle");
+    const sunIcon = document.querySelector(".dark-icon") as HTMLElement;
+    const moonIcon = document.querySelector(".light-icon") as HTMLElement;
+
+    function setTheme(theme: string, save = false) {
+      html.setAttribute("data-theme", theme);
+      if (save) localStorage.setItem(THEME_KEY, theme);
+      if (theme === "dark") {
+        sunIcon?.classList.remove("hidden");
+        moonIcon?.classList.add("hidden");
+      } else {
+        sunIcon?.classList.add("hidden");
+        moonIcon?.classList.remove("hidden");
+      }
     }
-    if (currentScrollY > lastScrollY) {
-      navbar.classList.add("navbar-hidden");
-    } else {
-      navbar.classList.remove("navbar-hidden");
+
+    // Apply resolved theme on every page swap (but don't overwrite manual choice)
+    const current = html.getAttribute("data-theme");
+    if (!current || current === "light" || current === "dark") {
+      setTheme(resolveTheme());
     }
-    lastScrollY = currentScrollY;
-  });
 
-  // Search overlay
-  const searchToggle = document.getElementById("search-toggle");
-  const searchOverlay = document.getElementById("search-overlay");
-  const searchClose = document.getElementById("search-close");
-  const searchInput = document.getElementById("search-input") as HTMLInputElement;
-  const searchResults = document.getElementById("search-results");
+    themeToggle?.addEventListener("click", () => {
+      const cur = html.getAttribute("data-theme") === "dark" ? "light" : "dark";
+      setTheme(cur, true);
+    });
 
-  const allProducts = products;
+    // Search
+    const searchToggle = document.getElementById("search-toggle");
+    const searchOverlay = document.getElementById("search-overlay");
+    const searchClose = document.getElementById("search-close");
+    const searchInput = document.getElementById("search-input") as HTMLInputElement;
+    const searchResults = document.getElementById("search-results");
+    const allProducts = products;
+    let searchSelectedIdx = -1;
+    let searchMatches: Array<{slug:string,name:string,category:string,price:number,images:string[]}> = [];
 
-  searchToggle?.addEventListener("click", () => {
-    searchOverlay?.classList.remove("hidden");
-    setTimeout(() => searchInput?.focus(), 100);
-  });
-
-  searchClose?.addEventListener("click", () => {
-    searchOverlay?.classList.add("hidden");
-    if (searchInput) searchInput.value = "";
-    if (searchResults) searchResults.innerHTML = '<p class="text-gray-400 text-sm text-center py-8">Type to search products...</p>';
-  });
-
-  searchOverlay?.addEventListener("click", (e) => {
-    if (e.target === searchOverlay) {
-      searchOverlay.classList.add("hidden");
-      if (searchInput) searchInput.value = "";
-      if (searchResults) searchResults.innerHTML = '<p class="text-gray-400 text-sm text-center py-8">Type to search products...</p>';
+    function openSearch() {
+      searchOverlay?.classList.remove("hidden");
+      searchSelectedIdx = -1;
+      searchMatches = [];
+      setTimeout(() => searchInput?.focus(), 100);
     }
-  });
 
-  searchInput?.addEventListener("input", () => {
-    if (!searchResults) return;
-    const q = searchInput.value.toLowerCase().trim();
-    if (!q) {
-      searchResults.innerHTML = '<p class="text-gray-400 text-sm text-center py-8">Type to search products...</p>';
-      return;
-    }
-    const matches = allProducts.filter(p =>
-      p.name.toLowerCase().includes(q) || p.category.toLowerCase().includes(q) || p.description.toLowerCase().includes(q)
-    );
-    if (matches.length === 0) {
-      searchResults.innerHTML = '<p class="text-gray-400 text-sm text-center py-8">No products found.</p>';
-      return;
-    }
-    searchResults.innerHTML = matches.map(p => `
-      <a href="/product/${p.slug}" class="flex items-center gap-4 p-3 rounded-xl hover:bg-gray-50 transition-colors">
-        <img src="${p.images[0]}" alt="${p.name}" class="w-14 h-14 rounded-lg object-cover flex-shrink-0" />
-        <div class="min-w-0">
-          <div class="font-semibold text-gray-900 text-sm truncate">${p.name}</div>
-          <div class="text-xs text-gray-500">${p.category} · $${p.price.toFixed(2)}/unit</div>
-        </div>
-      </a>
-    `).join("");
-  });
-
-  // ESC to close
-  document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape") {
+    function closeSearch() {
       searchOverlay?.classList.add("hidden");
       if (searchInput) searchInput.value = "";
-      if (searchResults) searchResults.innerHTML = '<p class="text-gray-400 text-sm text-center py-8">Type to search products...</p>';
+      searchSelectedIdx = -1;
+      searchMatches = [];
+      if (searchResults) searchResults.innerHTML = '<p class="text-gray-400 text-sm text-center py-10">Type to search products...</p>';
+    }
+
+    function renderResults() {
+      if (!searchResults) return;
+      searchResults.innerHTML = searchMatches.map((p, i) => `
+        <a href="/product/${p.slug}" data-search-idx="${i}"
+          class="search-result-item flex items-center gap-4 p-3 rounded-xl transition-colors ${i === searchSelectedIdx ? 'bg-pink-50 ring-1 ring-pink-200' : 'hover:bg-gray-50'}">
+          <img src="${p.images[0]}" alt="" class="w-12 h-12 rounded-lg object-cover flex-shrink-0" />
+          <div class="min-w-0">
+            <div class="font-medium text-gray-900 text-sm truncate">${p.name}</div>
+            <div class="text-xs text-gray-500">${p.category} · $${p.price.toFixed(2)}/unit</div>
+          </div>
+        </a>
+      `).join("");
+    }
+
+    function selectResult(idx: number) {
+      if (!searchResults) return;
+      // Remove old highlight
+      const prev = searchResults.querySelector(".search-result-item.bg-pink-50");
+      if (prev) prev.classList.remove("bg-pink-50", "ring-1", "ring-pink-200");
+      prev?.classList.add("hover:bg-gray-50");
+      // Add new highlight
+      searchSelectedIdx = idx;
+      const next = searchResults.querySelector(`[data-search-idx="${idx}"]`);
+      if (next) {
+        next.classList.add("bg-pink-50", "ring-1", "ring-pink-200");
+        next.classList.remove("hover:bg-gray-50");
+        next.scrollIntoView({ block: "nearest" });
+      }
+    }
+
+    function navigateResult(delta: number) {
+      if (searchMatches.length === 0) return;
+      const newIdx = searchSelectedIdx < 0
+        ? (delta > 0 ? 0 : searchMatches.length - 1)
+        : (searchSelectedIdx + delta + searchMatches.length) % searchMatches.length;
+      selectResult(newIdx);
+    }
+
+    function openSelected() {
+      if (searchSelectedIdx >= 0 && searchSelectedIdx < searchMatches.length) {
+        window.location.href = "/product/" + searchMatches[searchSelectedIdx].slug;
+      }
+    }
+
+    searchToggle?.addEventListener("click", openSearch);
+    searchClose?.addEventListener("click", closeSearch);
+    searchOverlay?.addEventListener("click", (e) => { if (e.target === searchOverlay) closeSearch(); });
+
+    searchInput?.addEventListener("input", () => {
+      if (!searchResults) return;
+      const q = searchInput.value.toLowerCase().trim();
+      if (!q) {
+        searchMatches = [];
+        searchSelectedIdx = -1;
+        searchResults.innerHTML = '<p class="text-gray-400 text-sm text-center py-10">Type to search products...</p>';
+        return;
+      }
+      searchMatches = allProducts.filter(p => p.name.toLowerCase().includes(q) || p.category.toLowerCase().includes(q) || p.description.toLowerCase().includes(q));
+      searchSelectedIdx = -1;
+      if (searchMatches.length === 0) {
+        searchResults.innerHTML = '<p class="text-gray-400 text-sm text-center py-10">No products found.</p>';
+        return;
+      }
+      renderResults();
+    });
+
+    document.addEventListener("keydown", (e) => {
+      if (!searchOverlay || searchOverlay.classList.contains("hidden")) return;
+      if (e.key === "Escape") { e.preventDefault(); closeSearch(); return; }
+      if (e.key === "ArrowDown") { e.preventDefault(); navigateResult(1); return; }
+      if (e.key === "ArrowUp") { e.preventDefault(); navigateResult(-1); return; }
+      if (e.key === "Enter") { e.preventDefault(); openSelected(); return; }
+    });
+  }
+
+  // ── Scroll listener (registered once globally, not per swap) ──
+  function handleScroll() {
+    const navbar = document.getElementById("main-navbar");
+    if (!navbar) return;
+    const y = window.scrollY;
+    if (y <= 0) {
+      navbar.classList.remove("navbar-hidden");
+      lastScrollY = y;
+      return;
+    }
+    if (y > lastScrollY) navbar.classList.add("navbar-hidden");
+    else navbar.classList.remove("navbar-hidden");
+    lastScrollY = y;
+  }
+
+  // ── OS theme change listener (registered once) ──
+  systemDark.addEventListener("change", (e) => {
+    if (!localStorage.getItem(THEME_KEY)) {
+      document.documentElement.setAttribute("data-theme", e.matches ? "dark" : "light");
     }
   });
+
+  // ── Bootstrap ──
+  initNavbar();
+  window.addEventListener("scroll", handleScroll, { passive: true });
+  document.addEventListener("astro:after-swap", initNavbar);
 </script>
 
 <style>
   .navbar-hidden { transform: translateY(-100%); }
+  .w-4\.5 { width: 1.125rem; }
+  .h-4\.5 { height: 1.125rem; }
 </style>
