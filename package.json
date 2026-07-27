@@ -6,7 +6,8 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "postinstall": "cp node_modules/@sveltia/cms/dist/sveltia-cms.js public/admin/sveltia-cms.js"
   },
   "dependencies": {
     "@astrojs/react": "^4.4.2",
@@ -29,6 +30,7 @@
     "tailwindcss": "^4.1.18"
   },
   "devDependencies": {
+    "@sveltia/cms": "^0.173.0",
     "daisyui": "^5.5.14"
   }
 }
