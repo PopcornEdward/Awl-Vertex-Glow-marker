@@ -283,6 +283,26 @@
           });
         }
 
+        // ── Update preview <img> near the input ──
+        function updateImagePreview(input, url) {
+          // Walk up to find the widget container, then find <img> inside it
+          var node = input;
+          for (var i = 0; i < 6; i++) {
+            if (!node || !node.querySelectorAll) break;
+            var imgs = node.querySelectorAll("img");
+            for (var j = 0; j < imgs.length; j++) {
+              // Skip small icons, only target actual preview images
+              if (imgs[j].naturalWidth !== undefined || imgs[j].width > 24) {
+                imgs[j].src = url;
+                imgs[j].style.display = "";
+                console.log("preview updated:", url);
+                return;
+              }
+            }
+            node = node.parentElement;
+          }
+        }
+
         // ── Inject URL into text input ──
         function setInputValue(input, url) {
           // 1. Focus + select existing content
@@ -306,6 +326,9 @@
 
           // 5. Blur to commit Svelte bind:value
           input.blur();
+
+          // 6. Manually update preview image as fallback
+          updateImagePreview(input, url);
         }
 
         // ── Copy to clipboard ──
