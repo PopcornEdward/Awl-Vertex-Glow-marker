@@ -7,274 +7,230 @@
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <style>
       .r2-toast {
-        position: fixed;
-        bottom: 24px;
-        right: 24px;
-        z-index: 99999;
-        padding: 14px 20px;
-        border-radius: 8px;
+        position: fixed; bottom: 24px; right: 24px; z-index: 99999;
+        padding: 14px 20px; border-radius: 8px;
         font-family: system-ui, -apple-system, sans-serif;
-        font-size: 14px;
-        max-width: 420px;
-        box-shadow: 0 4px 24px rgba(0, 0, 0, 0.35);
+        font-size: 14px; max-width: 440px;
+        box-shadow: 0 4px 24px rgba(0,0,0,0.35);
         animation: r2-slide-in 0.25s ease-out;
-        display: flex;
-        align-items: flex-start;
-        gap: 10px;
-        line-height: 1.5;
+        display: flex; align-items: flex-start; gap: 10px; line-height: 1.5;
       }
-      .r2-toast--success {
-        background: #1a3a2a;
-        border: 1px solid #2d6a4f;
-        color: #b7e4c7;
-      }
-      .r2-toast--error {
-        background: #3a1a1a;
-        border: 1px solid #6a2d2d;
-        color: #e4b7b7;
-      }
-      .r2-toast--uploading {
-        background: #1e1e2e;
-        border: 1px solid #45475a;
-        color: #cdd6f4;
-      }
-      .r2-toast-icon {
-        flex-shrink: 0;
-        font-size: 18px;
-        width: 20px;
-        text-align: center;
-      }
-      .r2-toast-close {
-        flex-shrink: 0;
-        cursor: pointer;
-        opacity: 0.6;
-        font-size: 16px;
-        margin-left: 8px;
-        background: none;
-        border: none;
-        color: inherit;
-        padding: 0;
-        line-height: 1;
-      }
-      .r2-toast-close:hover {
-        opacity: 1;
-      }
-      .r2-toast-url {
-        display: block;
-        font-size: 12px;
-        opacity: 0.8;
-        word-break: break-all;
-        margin-top: 4px;
-      }
-      @keyframes r2-slide-in {
-        from {
-          transform: translateY(16px);
-          opacity: 0;
-        }
-        to {
-          transform: translateY(0);
-          opacity: 1;
-        }
-      }
-      .r2-spinner {
-        display: inline-block;
-        width: 16px;
-        height: 16px;
-        border: 2px solid #45475a;
-        border-top-color: #89b4fa;
-        border-radius: 50%;
-        animation: r2-spin 0.7s linear infinite;
-      }
-      @keyframes r2-spin {
-        to {
-          transform: rotate(360deg);
-        }
-      }
+      .r2-toast--success { background:#1a3a2a; border:1px solid #2d6a4f; color:#b7e4c7; }
+      .r2-toast--error   { background:#3a1a1a; border:1px solid #6a2d2d; color:#e4b7b7; }
+      .r2-toast--uploading { background:#1e1e2e; border:1px solid #45475a; color:#cdd6f4; }
+      .r2-toast-icon  { flex-shrink:0; font-size:18px; width:20px; text-align:center; }
+      .r2-toast-close { flex-shrink:0; cursor:pointer; opacity:0.6; font-size:16px;
+                         margin-left:8px; background:none; border:none; color:inherit; padding:0; line-height:1; }
+      .r2-toast-close:hover { opacity:1; }
+      .r2-toast-url  { display:block; font-size:12px; opacity:0.8; word-break:break-all; margin-top:4px; }
+      @keyframes r2-slide-in { from { transform:translateY(16px); opacity:0; }
+                               to   { transform:translateY(0);    opacity:1; } }
+      .r2-spinner { display:inline-block; width:16px; height:16px;
+                    border:2px solid #45475a; border-top-color:#89b4fa;
+                    border-radius:50%; animation:r2-spin 0.7s linear infinite; }
+      @keyframes r2-spin { to { transform:rotate(360deg); } }
     </style>
   </head>
   <body>
     <script src="https://unpkg.com/@sveltia/cms/dist/sveltia-cms.js"></script>
     <script>
       (function () {
-        // ── Config ──
-        var UPLOAD_ENDPOINTS = [
-          "https://awlvertexglowmarker.aviciimailsend.dpdns.org/upload",
-          "https://awlvertexglowmarker.chinafang1234.workers.dev/upload",
-        ];
-        var UPLOAD_TIMEOUT = 15000; // 15s per attempt
+        // ── R2 S3 credentials ──
+        var ACCOUNT_ID = "8b0adeeddb1097052d05dcc7f5bc2796";
+        var BUCKET = "my-astro-avgm";
+        var ACCESS_KEY = "7f13798ec35c9e861d1bba8ce28b9705";
+        var SECRET_KEY = "17c76e70dc68b76e20830e96a239d901149efa5009e09dcfaf11e47d2fac4710";
+        var REGION = "auto";
+        var SERVICE = "s3";
+        var CDN_BASE = "https://ownshop.usbartimgotolink.qizz.io";
+        var R2_HOST = ACCOUNT_ID + ".r2.cloudflarestorage.com";
+        var R2_ENDPOINT = "https://" + R2_HOST;
 
         var uploading = false;
+        var UPLOAD_TIMEOUT = 60000;
 
-        // ── Toast notifications ──
-        function showToast(type, message, url) {
-          var toast = document.createElement("div");
-          toast.className = "r2-toast r2-toast--" + type;
-
-          var icon = "";
-          if (type === "success") icon = "✓";
-          else if (type === "error") icon = "✗";
-          else if (type === "uploading") icon =
-            '<span class="r2-spinner"></span>';
-
-          var inner =
-            '<span class="r2-toast-icon">' +
-            icon +
-            "</span><span>" +
-            message;
-          if (url) {
-            inner += '<span class="r2-toast-url">' + url + "</span>";
-          }
-          inner +=
-            '</span><button class="r2-toast-close" onclick="this.parentElement.remove()">×</button>';
-
-          toast.innerHTML = inner;
-          document.body.appendChild(toast);
-
-          if (type === "success") {
-            setTimeout(function () {
-              if (toast.parentElement) toast.remove();
-            }, 8000);
-          }
-          return toast;
+        // ── Crypto helpers ──
+        function sha256Hex(buffer) {
+          return crypto.subtle.digest("SHA-256", buffer).then(function (h) {
+            return Array.from(new Uint8Array(h),
+              function (b) { return b.toString(16).padStart(2, "0"); }).join("");
+          });
         }
-
-        // ── Upload to R2 (try each endpoint until one succeeds) ──
-        function uploadFile(file) {
-          return new Promise(function (resolve, reject) {
-            if (uploading) return reject(new Error("已有上传进行中"));
-            uploading = true;
-
-            var toast = showToast("uploading", "正在上传到云存储…");
-            var tried = 0;
-
-            function tryNext() {
-              if (tried >= UPLOAD_ENDPOINTS.length) {
-                toast.remove();
-                uploading = false;
-                reject(new Error("所有上传节点均不可用，请稍后重试"));
-                return;
-              }
-
-              var endpoint = UPLOAD_ENDPOINTS[tried];
-              tried++;
-
-              var fd = new FormData();
-              fd.append("file", file);
-
-              var controller = new AbortController();
-              var timer = setTimeout(function () {
-                controller.abort();
-              }, UPLOAD_TIMEOUT);
-
-              if (tried > 1) {
-                toast.remove();
-                toast = showToast("uploading", "正在重试备用线路…");
-              }
-
-              fetch(endpoint, {
-                method: "POST",
-                body: fd,
-                signal: controller.signal,
-              })
-                .then(function (r) {
-                  clearTimeout(timer);
-                  if (!r.ok) throw new Error("HTTP " + r.status);
-                  return r.json();
-                })
-                .then(function (data) {
-                  toast.remove();
-                  uploading = false;
-                  if (data.url) resolve(data.url);
-                  else reject(new Error(data.error || "服务器未返回URL"));
-                })
-                .catch(function (err) {
-                  clearTimeout(timer);
-                  if (err.name === "AbortError") {
-                    // Timeout — try next endpoint
-                    tryNext();
-                  } else {
-                    // Network error — try next endpoint
-                    tryNext();
-                  }
-                });
-            }
-
-            tryNext();
+        function hmacRaw(key, data) {
+          var k = typeof key === "string" ? new TextEncoder().encode(key) : key;
+          return crypto.subtle.importKey("raw", k, { name: "HMAC", hash: "SHA-256" },
+            false, ["sign"]).then(function (ck) {
+            return crypto.subtle.sign("HMAC", ck, new TextEncoder().encode(data));
+          }).then(function (s) { return new Uint8Array(s); });
+        }
+        function hmacHex(key, data) {
+          return hmacRaw(key, data).then(function (s) {
+            return Array.from(s,
+              function (b) { return b.toString(16).padStart(2, "0"); }).join("");
           });
         }
 
-        // ── Inject URL into a text input ──
-        function setInputValue(input, url) {
-          // Focus the input first so Svelte bind:value is active
-          input.focus();
+        // ── Toast ──
+        function showToast(type, msg, url) {
+          var t = document.createElement("div");
+          t.className = "r2-toast r2-toast--" + type;
+          var ico = type === "success" ? "✓" :
+                    type === "error"   ? "✗" :
+                                         '<span class="r2-spinner"></span>';
+          t.innerHTML = '<span class="r2-toast-icon">' + ico +
+            '</span><span>' + msg +
+            (url ? '<span class="r2-toast-url">' + url + '</span>' : '') +
+            '</span><button class="r2-toast-close" onclick="this.parentElement.remove()">×</button>';
+          document.body.appendChild(t);
+          if (type === "success")
+            setTimeout(function () { if (t.parentElement) t.remove(); }, 8000);
+          return t;
+        }
 
-          // Native property setter — bypasses any React/Svelte wrapper
-          var nativeSetter = Object.getOwnPropertyDescriptor(
-            window.HTMLInputElement.prototype,
-            "value"
-          );
-          if (nativeSetter && nativeSetter.set) {
-            nativeSetter.set.call(input, url);
-          } else {
-            input.value = url;
+        // ── S3 Signature V4 + PUT to R2 ──
+        async function uploadToR2(file) {
+          if (uploading) throw new Error("已有上传进行中");
+          uploading = true;
+          var toast = showToast("uploading", "正在上传到云存储 (R2) …");
+
+          try {
+            // Read file
+            var arrayBuffer = await file.arrayBuffer();
+
+            // Compute hash for unique filename
+            var hash = await sha256Hex(arrayBuffer);
+            var fileHash = hash.substring(0, 32);
+            var ext = (file.name || "image.jpg").split(".").pop().toLowerCase();
+            if (ext === "jpeg") ext = "jpg";
+
+            // Date path: YYYY/MM/DD
+            var now = new Date();
+            var datePath = [
+              now.getFullYear(),
+              String(now.getMonth() + 1).padStart(2, "0"),
+              String(now.getDate()).padStart(2, "0"),
+            ].join("/");
+            var key = datePath + "/" + fileHash + "." + ext;
+
+            // S3 Signature V4
+            var amzDate = now.toISOString()
+              .replace(/[:\-]|\.\d{3}/g, "").substring(0, 15) + "Z";
+            var dateStamp = amzDate.substring(0, 8);
+            var credentialScope = dateStamp + "/" + REGION + "/" + SERVICE + "/aws4_request";
+
+            var canonicalUri = "/" + BUCKET + "/" + key;
+            var payloadHash = "UNSIGNED-PAYLOAD";
+            var canonicalHeaders =
+              "host:" + R2_HOST + "\n" +
+              "x-amz-content-sha256:" + payloadHash + "\n" +
+              "x-amz-date:" + amzDate + "\n";
+            var signedHeaders = "host;x-amz-content-sha256;x-amz-date";
+
+            var canonicalRequest = [
+              "PUT", canonicalUri, "",
+              canonicalHeaders, signedHeaders, payloadHash,
+            ].join("\n");
+
+            var stringToSign = [
+              "AWS4-HMAC-SHA256",
+              amzDate, credentialScope,
+              await sha256Hex(new TextEncoder().encode(canonicalRequest)),
+            ].join("\n");
+
+            var kDate = await hmacRaw("AWS4" + SECRET_KEY, dateStamp);
+            var kRegion = await hmacRaw(kDate, REGION);
+            var kService = await hmacRaw(kRegion, SERVICE);
+            var kSigning = await hmacRaw(kService, "aws4_request");
+            var signature = await hmacHex(kSigning, stringToSign);
+
+            var authorization =
+              "AWS4-HMAC-SHA256 Credential=" + ACCESS_KEY + "/" + credentialScope +
+              ", SignedHeaders=" + signedHeaders + ", Signature=" + signature;
+
+            // PUT to R2
+            var r2Url = R2_ENDPOINT + canonicalUri;
+            var resp = await fetch(r2Url, {
+              method: "PUT",
+              headers: {
+                "x-amz-content-sha256": payloadHash,
+                "x-amz-date": amzDate,
+                "Authorization": authorization,
+                "Content-Type": file.type || "image/jpeg",
+              },
+              body: arrayBuffer,
+            });
+
+            toast.remove();
+            uploading = false;
+
+            if (!resp.ok) {
+              var txt = await resp.text().catch(function () { return ""; });
+              throw new Error("HTTP " + resp.status + (txt ? ": " + txt.substring(0, 120) : ""));
+            }
+
+            return CDN_BASE + "/" + key;
+
+          } catch (err) {
+            toast.remove();
+            uploading = false;
+
+            if (err.message.indexOf("Failed to fetch") !== -1 ||
+                err.name === "TypeError") {
+              throw new Error(
+                "直连 R2 失败——请到 Cloudflare 控制台 → R2 → " + BUCKET +
+                " → Settings → CORS 策略，添加允许源: " + window.location.origin +
+                "，允许方法: PUT"
+              );
+            }
+            throw err;
           }
+        }
 
-          // Trigger all possible events for different frameworks
+        // ── Inject URL into text input ──
+        function setInputValue(input, url) {
+          input.focus();
+          var ns = Object.getOwnPropertyDescriptor(
+            window.HTMLInputElement.prototype, "value");
+          if (ns && ns.set) ns.set.call(input, url);
+          else input.value = url;
           input.dispatchEvent(new Event("input", { bubbles: true }));
           input.dispatchEvent(new Event("change", { bubbles: true }));
-          input.dispatchEvent(
-            new InputEvent("input", { bubbles: true, data: url })
-          );
-
-          // Blur to trigger bind:value commit in Svelte
           input.blur();
         }
 
-        // ── Copy URL to clipboard as fallback ──
+        // ── Copy to clipboard ──
         function copyToClipboard(url) {
           try {
             if (navigator.clipboard && navigator.clipboard.writeText) {
               navigator.clipboard.writeText(url);
               return true;
             }
-          } catch (e) {
-            /* fall through */
-          }
-          // Fallback for older browsers
+          } catch (e) {}
           try {
             var ta = document.createElement("textarea");
-            ta.value = url;
-            ta.style.position = "fixed";
-            ta.style.opacity = "0";
+            ta.value = url; ta.style.cssText = "position:fixed;opacity:0";
             document.body.appendChild(ta);
-            ta.select();
-            document.execCommand("copy");
+            ta.select(); document.execCommand("copy");
             document.body.removeChild(ta);
             return true;
-          } catch (e) {
-            return false;
-          }
+          } catch (e) { return false; }
         }
 
-        // ── Find a text input near the event target ──
+        // ── Find input near element ──
         function findNearbyInput(el) {
           var node = el;
           while (node && node !== document.body) {
             if (node.querySelector) {
-              var inp = node.querySelector(
-                'input[type="text"], input:not([type])'
-              );
-              if (inp && inp.offsetParent !== null) return inp; // visible only
+              var inp = node.querySelector('input[type="text"], input:not([type])');
+              if (inp && inp.offsetParent !== null) return inp;
             }
             if (node.parentElement) {
               var sib = node.parentElement.querySelector(
-                'input[type="text"], input:not([type])'
-              );
+                'input[type="text"], input:not([type])');
               if (sib && sib.offsetParent !== null) return sib;
             }
             node = node.parentElement;
           }
-          // Fallback: any visible text input
           var inputs = document.querySelectorAll('input[type="text"]');
           for (var i = 0; i < inputs.length; i++) {
             if (inputs[i].offsetParent !== null) return inputs[i];
@@ -282,117 +238,69 @@
           return null;
         }
 
-        // ── Handle an image file upload ──
+        // ── Handle image file ──
         function handleImageFile(file, targetInput) {
-          uploadFile(file)
-            .then(function (url) {
-              var injected = false;
-              if (targetInput) {
-                try {
-                  setInputValue(targetInput, url);
-                  injected = true;
-                } catch (e) {
-                  /* continue */
-                }
-              }
-
-          var copied = copyToClipboard(url);
-          var msg = "上传成功！";
-          if (!injected && copied) {
-            msg += " URL已复制到剪贴板，请 Ctrl+V 粘贴到输入框中";
-          } else if (!injected) {
-            msg += " 请手动复制URL填入输入框";
-          }
-              showToast("success", msg, url);
-            })
-            .catch(function (err) {
-              showToast("error", "上传失败: " + err.message);
-            });
+          uploadToR2(file).then(function (url) {
+            var injected = false;
+            if (targetInput) {
+              try { setInputValue(targetInput, url); injected = true; } catch (e) {}
+            }
+            var copied = copyToClipboard(url);
+            var msg = "上传成功！";
+            if (!injected && copied) msg += " URL已复制，Ctrl+V 粘贴到输入框";
+            else if (!injected) msg += " 请手动填入URL";
+            showToast("success", msg, url);
+          }).catch(function (err) {
+            showToast("error", "上传失败: " + err.message);
+          });
         }
 
-        // ── 1. Intercept PASTE (Ctrl+V of image) — capture phase ──
-        document.addEventListener(
-          "paste",
-          function (e) {
-            var items = e.clipboardData && e.clipboardData.items;
-            if (!items) return;
-            for (var i = 0; i < items.length; i++) {
-              if (items[i].type.indexOf("image/") === 0) {
-                e.preventDefault();
-                e.stopPropagation();
-                e.stopImmediatePropagation();
-                var file = items[i].getAsFile();
-                var input = document.activeElement;
-                if (
-                  input &&
-                  (input.tagName === "INPUT" || input.tagName === "TEXTAREA")
-                ) {
-                  handleImageFile(file, input);
-                } else {
-                  uploadFile(file)
-                    .then(function (url) {
-                      copyToClipboard(url);
-                      showToast(
-                        "success",
-                        "图片已上传！URL已复制到剪贴板",
-                        url
-                      );
-                    })
-                    .catch(function (err) {
-                      showToast("error", "上传失败: " + err.message);
-                    });
-                }
-                return;
+        // ── 1. PASTE interception (capture) ──
+        document.addEventListener("paste", function (e) {
+          var items = e.clipboardData && e.clipboardData.items;
+          if (!items) return;
+          for (var i = 0; i < items.length; i++) {
+            if (items[i].type.indexOf("image/") === 0) {
+              e.preventDefault(); e.stopPropagation(); e.stopImmediatePropagation();
+              var file = items[i].getAsFile();
+              var input = document.activeElement;
+              if (input && (input.tagName === "INPUT" || input.tagName === "TEXTAREA")) {
+                handleImageFile(file, input);
+              } else {
+                uploadToR2(file).then(function (url) {
+                  copyToClipboard(url);
+                  showToast("success", "图片已上传！URL已复制", url);
+                }).catch(function (err) {
+                  showToast("error", "上传失败: " + err.message);
+                });
               }
-            }
-          },
-          true
-        );
-
-        // ── 2. Intercept DROP (drag/drop) — capture phase ──
-        document.addEventListener(
-          "drop",
-          function (e) {
-            var files = e.dataTransfer && e.dataTransfer.files;
-            if (!files || files.length === 0) return;
-            for (var i = 0; i < files.length; i++) {
-              if (files[i].type.indexOf("image/") === 0) {
-                e.preventDefault();
-                e.stopPropagation();
-                e.stopImmediatePropagation();
-                var input = findNearbyInput(e.target);
-                handleImageFile(files[i], input);
-                return;
-              }
-            }
-          },
-          true
-        );
-
-        // ── 3. Intercept file input CHANGE (Choose button) — capture phase ──
-        document.addEventListener(
-          "change",
-          function (e) {
-            var target = e.target;
-            if (
-              !target ||
-              target.type !== "file" ||
-              !target.files ||
-              !target.files[0]
-            )
               return;
-            var file = target.files[0];
-            if (file.type.indexOf("image/") !== 0) return;
+            }
+          }
+        }, true);
 
-            e.preventDefault();
-            e.stopPropagation();
-            e.stopImmediatePropagation();
+        // ── 2. DROP interception (capture) ──
+        document.addEventListener("drop", function (e) {
+          var files = e.dataTransfer && e.dataTransfer.files;
+          if (!files || files.length === 0) return;
+          for (var i = 0; i < files.length; i++) {
+            if (files[i].type.indexOf("image/") === 0) {
+              e.preventDefault(); e.stopPropagation(); e.stopImmediatePropagation();
+              handleImageFile(files[i], findNearbyInput(e.target));
+              return;
+            }
+          }
+        }, true);
 
-            var input = findNearbyInput(target);
-            handleImageFile(file, input);
-          },
-          true
-        );
+        // ── 3. File input CHANGE interception (capture) ──
+        document.addEventListener("change", function (e) {
+          var t = e.target;
+          if (!t || t.type !== "file" || !t.files || !t.files[0]) return;
+          var file = t.files[0];
+          if (file.type.indexOf("image/") !== 0) return;
+          e.preventDefault(); e.stopPropagation(); e.stopImmediatePropagation();
+          handleImageFile(file, findNearbyInput(t));
+        }, true);
       })();
     </script>
   </body>
