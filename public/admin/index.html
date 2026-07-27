@@ -142,7 +142,7 @@
           };
         }
 
-        // ── S3 Signature V4 + PUT to R2 (XHR for progress) ──
+        // ── S3 Signature V4 + PUT to R2 (fetch + tracking stream for progress) ──
         function uploadToR2(file) {
           return new Promise(function (resolve, reject) {
             if (uploading) return reject(new Error("已有上传进行中"));
@@ -150,12 +150,12 @@
 
             var progressToast = showProgressToast(file.name, file.size);
 
-            // Step 1: read file + compute hashes
+            // Read file
             var reader = new FileReader();
             reader.onload = async function () {
               var arrayBuffer = reader.result;
-
               try {
+                // Compute hashes
                 var payloadHashHex = await sha256Hex(arrayBuffer);
                 var fileHash = payloadHashHex.substring(0, 32);
                 var ext = (file.name || "image.jpg").split(".").pop().toLowerCase();
@@ -205,64 +205,71 @@
                   "AWS4-HMAC-SHA256 Credential=" + ACCESS_KEY + "/" + credentialScope +
                   ", SignedHeaders=" + signedHeaders + ", Signature=" + signature;
 
-                // Step 2: XHR PUT with progress
+                // Build progress-tracking body stream
+                var total = arrayBuffer.byteLength;
+                var loaded = 0;
+                var CHUNK = 256 * 1024; // 256KB chunks
+                var offset = 0;
+                var stream = new ReadableStream({
+                  pull: function (controller) {
+                    if (offset >= total) {
+                      controller.close();
+                      progressToast.updateProgress(100);
+                      return;
+                    }
+                    var end = Math.min(offset + CHUNK, total);
+                    controller.enqueue(new Uint8Array(arrayBuffer.slice(offset, end)));
+                    loaded += end - offset;
+                    progressToast.updateProgress(Math.round((loaded / total) * 100));
+                    offset = end;
+                  },
+                });
+
+                progressToast.updateProgress(0);
+
+                // PUT via fetch (shows CORS errors clearly in console)
                 var r2Url = R2_ENDPOINT + canonicalUri;
-                var xhr = new XMLHttpRequest();
-                xhr.open("PUT", r2Url);
-                xhr.setRequestHeader("Content-Type", contentType);
-                xhr.setRequestHeader("x-amz-content-sha256", payloadHashHex);
-                xhr.setRequestHeader("x-amz-date", amzDate);
-                xhr.setRequestHeader("Authorization", authorization);
-                xhr.timeout = 120000; // 2 min
+                var resp = await fetch(r2Url, {
+                  method: "PUT",
+                  headers: {
+                    "Content-Type": contentType,
+                    "x-amz-content-sha256": payloadHashHex,
+                    "x-amz-date": amzDate,
+                    "Authorization": authorization,
+                  },
+                  body: stream,
+                  duplex: "half",
+                });
 
-                // Progress
-                xhr.upload.onprogress = function (e) {
-                  if (e.lengthComputable) {
-                    progressToast.updateProgress((e.loaded / e.total) * 100);
-                  }
-                };
+                progressToast.remove();
+                uploading = false;
 
-                // Show 50% after hash computed (file read in memory)
-                progressToast.updateProgress(5);
-
-                xhr.onload = function () {
-                  progressToast.remove();
-                  uploading = false;
-
-                  if (xhr.status >= 200 && xhr.status < 300) {
-                    var cdnUrl = CDN_BASE + "/" + key;
-                    console.log("R2 upload success:", cdnUrl);
-                    resolve(cdnUrl);
-                  } else {
-                    console.error("R2 PUT failed:", xhr.status, xhr.responseText);
-                    reject(new Error("HTTP " + xhr.status +
-                      (xhr.responseText ? ": " + xhr.responseText.substring(0, 120) : "")));
-                  }
-                };
-
-                xhr.onerror = function () {
-                  progressToast.remove();
-                  uploading = false;
-                  console.error("R2 XHR error");
-                  reject(new Error(
-                    "直连 R2 失败——请确认 Cloudflare R2 → " + BUCKET +
-                    " → Settings → CORS 已添加允许源 " + window.location.origin + "，允许方法 PUT"
-                  ));
-                };
-
-                xhr.ontimeout = function () {
-                  progressToast.remove();
-                  uploading = false;
-                  reject(new Error("上传超时"));
-                };
-
-                xhr.send(arrayBuffer);
-
+                if (resp.ok) {
+                  var cdnUrl = CDN_BASE + "/" + key;
+                  console.log("R2 upload success:", cdnUrl);
+                  resolve(cdnUrl);
+                } else {
+                  var txt = await resp.text().catch(function () { return ""; });
+                  console.error("R2 PUT failed:", resp.status, txt);
+                  reject(new Error("HTTP " + resp.status +
+                    (txt ? ": " + txt.substring(0, 120) : "")));
+                }
               } catch (err) {
                 progressToast.remove();
                 uploading = false;
                 console.error("R2 upload error:", err);
-                reject(err);
+
+                if (err.message.indexOf("Failed to fetch") !== -1 ||
+                    err.name === "TypeError") {
+                  reject(new Error(
+                    "直连 R2 被阻止——请检查 F12 Console 中的 CORS 错误信息。" +
+                    "需要在 Cloudflare R2 → " + BUCKET +
+                    " → Settings → CORS 添加: 允许源 " + window.location.origin +
+                    "，允许方法 PUT，允许头 Content-Type, Authorization, x-amz-date, x-amz-content-sha256"
+                  ));
+                } else {
+                  reject(err);
+                }
               }
             };
 
