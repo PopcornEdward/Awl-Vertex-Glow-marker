@@ -2,9 +2,9 @@
 import Layout from "../layouts/Layout.astro";
 import { Icon } from "astro-icon/components";
 import { SITE, CATEGORIES, TRUST_PILLARS, PROCESS_STEPS } from "../data/site";
-import { getFeaturedProducts } from "../data/products";
+import { getFeaturedProducts } from "../lib/products";
 
-const featuredProducts = getFeaturedProducts();
+const featuredProducts = await getFeaturedProducts();
 ---
 
 <Layout>

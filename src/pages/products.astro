@@ -1,10 +1,10 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import { Icon } from "astro-icon/components";
-import { products } from "../data/products";
+import { getAllProducts } from "../lib/products";
 import { CATEGORIES } from "../data/site";
 
-const allProducts = products;
+const allProducts = await getAllProducts();
 const priceRange = { min: 0, max: 50 };
 ---
 
@@ -53,7 +53,7 @@ const priceRange = { min: 0, max: 50 };
                   <label class="flex items-center gap-2 cursor-pointer text-sm">
                     <input type="checkbox" class="filter-category checkbox checkbox-sm checkbox-primary rounded" value={cat.slug} />
                     <span class="text-gray-700">{cat.name}</span>
-                    <span class="text-gray-400 text-xs ml-auto">{products.filter(p => p.category === cat.slug).length}</span>
+                    <span class="text-gray-400 text-xs ml-auto">{allProducts.filter(p => p.category === cat.slug).length}</span>
                   </label>
                 ))}
               </div>

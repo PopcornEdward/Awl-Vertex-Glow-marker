@@ -1,10 +1,11 @@
 ---
 import Layout from "../../layouts/Layout.astro";
 import { Icon } from "astro-icon/components";
-import { products, getRelatedProducts } from "../../data/products";
+import { getAllProducts, getRelatedProducts } from "../../lib/products";
 import { SITE } from "../../data/site";
 
 export async function getStaticPaths() {
+  const products = await getAllProducts();
   return products.map((product) => ({
     params: { slug: product.slug },
     props: { product },
@@ -12,7 +13,7 @@ export async function getStaticPaths() {
 }
 
 const { product } = Astro.props;
-const relatedProducts = getRelatedProducts(product.category, product.slug);
+const relatedProducts = await getRelatedProducts(product.category, product.slug);
 ---
 
 <Layout>

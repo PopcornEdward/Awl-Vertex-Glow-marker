@@ -1,0 +1,133 @@
+# ======================================================
+# Sveltia CMS (Decap CMS compatible) Configuration
+# Awl Vertex Glow Market — Beauty Tools B2B Wholesale
+# ======================================================
+
+# ── Backend: Git-based via GitHub ──
+backend:
+  name: github
+  repo: YOUR_GITHUB_USER/YOUR_REPO_NAME       # ⚠️ REPLACE with actual GitHub repo (e.g. popcornedward/Awl-Vertex-Glow-marker)
+  branch: main
+  base_url: https://YOUR_WORKER.workers.dev    # ⚠️ REPLACE with your Cloudflare Worker OAuth gateway URL
+  auth_endpoint: /auth
+
+# ── Editorial Workflow: Draft → Review → Publish ──
+publish_mode: editorial_workflow
+
+# ── Media Library: Cloudflare R2 (S3 API) ──
+media_library:
+  name: s3
+  config:
+    publicKey: "YOUR_R2_ACCESS_KEY_ID"                                          # ⚠️ REPLACE
+    secretKey: "YOUR_R2_SECRET_ACCESS_KEY"                                     # ⚠️ REPLACE
+    bucket: "YOUR_R2_BUCKET_NAME"                                              # ⚠️ REPLACE
+    region: "auto"
+    endpoint: "https://YOUR_ACCOUNT_ID.r2.cloudflarestorage.com"               # ⚠️ REPLACE with your R2 S3 endpoint
+    cmsMediaFolder: "https://YOUR_CDN_DOMAIN.com"                              # ⚠️ REPLACE with your R2 custom domain or CDN URL
+
+# ── Content Collections ──
+collections:
+  # ═══════════════════════════════════════════
+  # Products Management
+  # ═══════════════════════════════════════════
+  - name: "products"
+    label: "Product Management"
+    label_singular: "Product"
+    folder: "src/content/products"
+    create: true
+    delete: false
+    slug: "{{slug}}"
+    editor:
+      preview: false
+    fields:
+      - { label: "Product Name", name: "title", widget: "string", hint: "Short display name shown on cards and listings" }
+      - { label: "SKU Code", name: "sku", widget: "string", hint: "Internal product code (e.g. n0001, e001)" }
+      - { label: "Marketing Subtitle", name: "subtitle", widget: "string", required: false, hint: "Longer marketing tagline for featured cards" }
+      - label: "Category"
+        name: "category"
+        widget: "select"
+        options:
+          - { label: "Nail Supplies", value: "nails" }
+          - { label: "Eyelash Supplies", value: "eyelashes" }
+          - { label: "Permanent Makeup", value: "permanent-makeup" }
+          - { label: "Beauty Tools", value: "beauty-tools" }
+          - { label: "Daily Chemical", value: "daily-chemical" }
+          - { label: "Makeup Tools", value: "makeup-tools" }
+      - { label: "Subcategory", name: "subcategory", widget: "string", required: false, hint: "e.g. equipment, consumables, lashes" }
+      - { label: "Wholesale Price (USD)", name: "price", widget: "number", value_type: "float", min: 0, step: 0.1 }
+      - { label: "Stock Quantity", name: "stock", widget: "number", value_type: "int", min: 0, default: 0 }
+      - { label: "MOQ (text)", name: "moq", widget: "string", required: false, hint: "e.g. '50 pcs', '20 sets'" }
+      - { label: "Main Product Image", name: "image", widget: "image", hint: "Primary product photo — shown on cards and listings" }
+      - label: "Additional Images (Gallery)"
+        name: "gallery"
+        widget: "list"
+        required: false
+        summary: "{{fields.image}}"
+        field: { label: "Image", name: "image", widget: "image" }
+      - label: "Badge"
+        name: "badge"
+        widget: "select"
+        required: false
+        options:
+          - { label: "Hot Seller", value: "Hot Seller" }
+          - { label: "Bestseller", value: "Bestseller" }
+          - { label: "New Arrival", value: "New Arrival" }
+          - { label: "Trending", value: "Trending" }
+          - { label: "Premium", value: "Premium" }
+          - { label: "Value Set", value: "Value Set" }
+          - { label: "Value Deal", value: "Value Deal" }
+      - { label: "Discount (%)", name: "discount", widget: "number", value_type: "int", min: 0, max: 99, required: false }
+      - label: "Product Specifications"
+        name: "specs"
+        widget: "list"
+        required: false
+        summary: "{{fields.label}}: {{fields.value}}"
+        fields:
+          - { label: "Label", name: "label", widget: "string" }
+          - { label: "Value", name: "value", widget: "string" }
+      - { label: "Product Description", name: "body", widget: "markdown", hint: "Full product description with features and details" }
+
+  # ═══════════════════════════════════════════
+  # Blog Management
+  # ═══════════════════════════════════════════
+  - name: "blog"
+    label: "Blog Management"
+    label_singular: "Blog Post"
+    folder: "src/content/blog"
+    create: true
+    delete: false
+    slug: "{{slug}}"
+    editor:
+      preview: false
+    fields:
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Publish Date", name: "date", widget: "datetime", format: "YYYY-MM-DD", date_format: "YYYY-MM-DD", time_format: false }
+      - { label: "Author", name: "author", widget: "string", default: "AVGM Team" }
+      - { label: "Cover Image", name: "cover", widget: "image", required: false }
+      - { label: "Description / Excerpt", name: "description", widget: "text", hint: "Short summary shown on blog listing cards" }
+      - { label: "Content Body", name: "body", widget: "markdown", hint: "Full article content in Markdown format" }
+
+  # ═══════════════════════════════════════════
+  # SEO Settings
+  # ═══════════════════════════════════════════
+  - name: "seo_settings"
+    label: "SEO Settings"
+    editor:
+      preview: false
+    files:
+      - label: "Homepage SEO"
+        name: "home_seo"
+        file: "src/data/seo/home.json"
+        fields:
+          - { label: "SEO Title", name: "seo_title", widget: "string" }
+          - { label: "Meta Description", name: "seo_description", widget: "text" }
+          - { label: "OG Image URL", name: "og_image", widget: "string", required: false }
+          - { label: "No Index (hide from search engines)", name: "noindex", widget: "boolean", default: false }
+
+      - label: "Products Page SEO"
+        name: "products_seo"
+        file: "src/data/seo/products.json"
+        fields:
+          - { label: "SEO Title", name: "seo_title", widget: "string" }
+          - { label: "Meta Description", name: "seo_description", widget: "text" }
+          - { label: "OG Image URL", name: "og_image", widget: "string", required: false }

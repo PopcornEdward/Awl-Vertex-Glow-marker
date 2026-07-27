@@ -6,6 +6,9 @@ import Navbar from "../components/navbar/NavBar.astro";
 import Footer from "../components/footer/Footer.astro";
 import MusicPlayer from "../components/MusicPlayer.astro";
 import { SITE } from "../data/site";
+import { getAllProducts } from "../lib/products";
+
+const productSearchData = await getAllProducts();
 ---
 
 <!doctype html>
@@ -43,6 +46,11 @@ import { SITE } from "../data/site";
   <body class="bg-white min-h-screen overflow-x-hidden relative">
     <!-- Vanta.js Starfield Background -->
     <canvas id="vanta-body-bg" class="fixed inset-0 z-0 pointer-events-none"></canvas>
+
+    <!-- Product search data for NavBar (embedded as JSON for client-side access) -->
+    <script type="application/json" id="products-data">
+      {JSON.stringify(productSearchData.map(p => ({ slug: p.slug, name: p.name, category: p.category, price: p.price, description: p.description, images: p.images })))}
+    </script>
 
     <!-- Content Layers -->
     <div class="relative z-10">

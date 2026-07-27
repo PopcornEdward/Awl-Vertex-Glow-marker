@@ -1,19 +1,22 @@
 ---
 import Layout from "../../layouts/Layout.astro";
 import { Icon } from "astro-icon/components";
-import { products } from "../../data/products";
+import { getProductsByCategory } from "../../lib/products";
 import { CATEGORIES } from "../../data/site";
 
 export async function getStaticPaths() {
   const slugs = CATEGORIES.map((c) => c.slug);
-  return slugs.map((slug) => {
-    const cat = CATEGORIES.find((c) => c.slug === slug);
-    const catProducts = products.filter((p) => p.category === slug);
-    return {
-      params: { category: slug },
-      props: { category: cat, products: catProducts },
-    };
-  });
+  const paths = await Promise.all(
+    slugs.map(async (slug) => {
+      const cat = CATEGORIES.find((c) => c.slug === slug);
+      const catProducts = await getProductsByCategory(slug);
+      return {
+        params: { category: slug },
+        props: { category: cat, products: catProducts },
+      };
+    })
+  );
+  return paths;
 }
 
 const { category, products: catProducts } = Astro.props;

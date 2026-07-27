@@ -1,19 +1,20 @@
 ---
 import Layout from "../../layouts/Layout.astro";
-import { blogPosts } from "../../data/blogData";
+import { getAllPosts } from "../../lib/blog";
 import BlogCard from "../../components/blog/BlogCard.astro";
 import Breadcrumbs from "../../components/ui/Breadcrumbs.astro";
 import Pagination from "../../components/ui/Pagination.astro";
 
+const allPosts = await getAllPosts();
 const url = new URL(Astro.request.url);
 const currentPage = parseInt(url.searchParams.get("page") || "1", 10);
 
 const postsPerPage = 6;
-const totalPages = Math.ceil(blogPosts.length / postsPerPage);
+const totalPages = Math.ceil(allPosts.length / postsPerPage);
 
 const start = (currentPage - 1) * postsPerPage;
 const end = start + postsPerPage;
-const currentPosts = blogPosts.slice(start, end);
+const currentPosts = allPosts.slice(start, end);
 ---
 
 <Layout>

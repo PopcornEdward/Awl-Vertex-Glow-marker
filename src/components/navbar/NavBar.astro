@@ -144,7 +144,8 @@ const moreCategories = CATEGORIES.filter(c => !["Nail Supplies", "Eyelash Suppli
 </div>
 
 <script>
-  import { products } from "../../data/products";
+  const productsDataEl = document.getElementById("products-data");
+  const products: Array<{slug:string,name:string,category:string,price:number,description:string,images:string[]}> = productsDataEl ? JSON.parse(productsDataEl.textContent || "[]") : [];
   const THEME_KEY = "theme";
 
   // ── Persistent scroll state ──
