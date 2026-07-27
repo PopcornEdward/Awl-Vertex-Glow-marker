@@ -44,6 +44,18 @@ collections:
             field: { label: "Text", name: "text", widget: "string" }
           - { label: "Photo Wall Title", name: "photo_wall_title", widget: "string" }
           - { label: "Photo Wall Subtitle", name: "photo_wall_subtitle", widget: "string" }
+          - label: "Photo Wall Categories"
+            name: "photo_wall_categories"
+            widget: "list"
+            summary: "{{fields.name}} — {{fields.images.length}} photos"
+            fields:
+              - { label: "Category Name", name: "name", widget: "string" }
+              - { label: "Cover Image URL", name: "cover", widget: "string" }
+              - label: "Images (9 photos)"
+                name: "images"
+                widget: "list"
+                summary: "{{fields.url}}"
+                field: { label: "Image URL", name: "url", widget: "string" }
           - { label: "QC Section Title", name: "qc_title", widget: "string" }
           - label: "QC Stages"
             name: "qc_stages"

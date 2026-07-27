@@ -14,6 +14,11 @@ const defaults = {
 };
 const highlights = norm(pageData?.highlights, "text").length ? norm(pageData.highlights, "text") : defaults.highlights;
 const qcStages = norm(pageData?.qc_stages, "text").length ? norm(pageData.qc_stages, "text") : defaults.qc_stages;
+const photoWallCategories = (pageData?.photo_wall_categories || []).map((cat: any) => ({
+  name: cat.name || "",
+  cover: cat.cover || "",
+  images: norm(cat.images, "url"),
+}));
 ---
 
 <Layout>
@@ -54,7 +59,7 @@ const qcStages = norm(pageData?.qc_stages, "text").length ? norm(pageData.qc_sta
         <h2 class="text-2xl font-black text-gray-900 uppercase">{t("photo_wall_title", "Inside Our Factory")}</h2>
         <p class="text-gray-500 mt-2">{t("photo_wall_subtitle", "A transparent look at our production environment")}</p>
       </div>
-      <FactoryPhotoWall />
+      <FactoryPhotoWall categories={photoWallCategories.length > 0 ? photoWallCategories : undefined} />
     </div>
   </section>
 

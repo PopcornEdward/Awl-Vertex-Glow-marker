@@ -4,7 +4,7 @@ import { Icon } from "astro-icon/components";
 const pexels = (id: number) =>
   `https://images.pexels.com/photos/${id}/pexels-photo-${id}.jpeg?auto=compress&cs=tinysrgb`;
 
-const categories = [
+const defaultCategories = [
   {
     name: "Raw Materials",
     cover: pexels(27967281) + "&w=600",
@@ -26,6 +26,13 @@ const categories = [
     images: [15016523, 11903465, 4483775, 5329064, 31112245, 4483774, 11678431, 31251587, 31112188].map(id => pexels(id) + "&w=1200"),
   },
 ];
+
+interface Cat { name: string; cover: string; images: string[]; }
+const { categories: rawCategories } = Astro.props as { categories?: Cat[] };
+
+const categories: Cat[] = (rawCategories && rawCategories.length > 0)
+  ? rawCategories
+  : defaultCategories;
 
 const catJson = JSON.stringify(categories);
 ---
