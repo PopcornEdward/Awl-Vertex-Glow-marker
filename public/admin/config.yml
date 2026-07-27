@@ -17,10 +17,6 @@ media_folder: "public/images"
 # ── Editorial Workflow: Draft → Review → Publish ──
 publish_mode: editorial_workflow
 
-# ── Media Library: Cloudflare R2 (S3 API) ──
-media_library:
-  name: r2-upload
-
 # ── Content Collections ──
 collections:
   # ═══════════════════════════════════════════

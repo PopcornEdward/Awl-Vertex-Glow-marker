@@ -7,13 +7,10 @@
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <style>
       .r2-upload-overlay {
-        position: fixed;
-        top: 0; left: 0;
+        position: fixed; top: 0; left: 0;
         width: 100%; height: 100%;
         background: rgba(0, 0, 0, 0.55);
-        display: flex;
-        align-items: center;
-        justify-content: center;
+        display: flex; align-items: center; justify-content: center;
         z-index: 99999;
       }
       .r2-upload-box {
@@ -41,61 +38,177 @@
   <body>
     <script src="https://unpkg.com/@sveltia/cms/dist/sveltia-cms.js"></script>
     <script>
-      (function registerR2Upload() {
-        var CMS = window.CMS;
-        if (!CMS) {
-          setTimeout(registerR2Upload, 100);
-          return;
+      (function () {
+        var WORKER_UPLOAD =
+          "https://awlvertexglowmarker.chinafang1234.workers.dev/upload";
+        var uploading = false;
+
+        function showOverlay(text) {
+          var el = document.createElement("div");
+          el.className = "r2-upload-overlay";
+          el.innerHTML =
+            '<div class="r2-upload-box"><div class="r2-upload-spinner"></div><p>' +
+            text +
+            "</p></div>";
+          document.body.appendChild(el);
+          return el;
         }
 
-        var WORKER_UPLOAD = "https://awlvertexglowmarker.chinafang1234.workers.dev/upload";
+        function uploadFile(file) {
+          return new Promise(function (resolve, reject) {
+            if (uploading) return reject(new Error("已有上传进行中"));
+            uploading = true;
+            var overlay = showOverlay("正在上传到云存储…");
+            var fd = new FormData();
+            fd.append("file", file);
+            fetch(WORKER_UPLOAD, { method: "POST", body: fd })
+              .then(function (r) {
+                return r.json();
+              })
+              .then(function (data) {
+                overlay.remove();
+                uploading = false;
+                if (data.url) resolve(data.url);
+                else reject(new Error(data.error || "上传失败"));
+              })
+              .catch(function (err) {
+                overlay.remove();
+                uploading = false;
+                reject(err);
+              });
+          });
+        }
 
-        CMS.registerMediaLibrary({
-          name: "r2-upload",
+        // Set value on a text input and trigger Svelte reactivity
+        function setInputValue(input, url) {
+          var nativeSetter =
+            Object.getOwnPropertyDescriptor(
+              window.HTMLInputElement.prototype,
+              "value"
+            );
+          if (nativeSetter && nativeSetter.set) {
+            nativeSetter.set.call(input, url);
+          } else {
+            input.value = url;
+          }
+          input.dispatchEvent(new Event("input", { bubbles: true }));
+          input.dispatchEvent(new Event("change", { bubbles: true }));
+        }
 
-          init: function () {},
+        // Find a text input near the event target
+        function findNearbyInput(el) {
+          var node = el;
+          while (node && node !== document.body) {
+            if (node.querySelector) {
+              var inp = node.querySelector(
+                'input[type="text"], input:not([type])'
+              );
+              if (inp) return inp;
+            }
+            if (node.parentElement) {
+              var sib = node.parentElement.querySelector(
+                'input[type="text"], input:not([type])'
+              );
+              if (sib) return sib;
+            }
+            node = node.parentElement;
+          }
+          // Fallback: any visible text input in the page
+          var inputs = document.querySelectorAll('input[type="text"]');
+          for (var i = 0; i < inputs.length; i++) {
+            var v = inputs[i].value;
+            // Prefer input that already has an image URL
+            if (v && (v.startsWith("http") || v.startsWith("/"))) {
+              return inputs[i];
+            }
+          }
+          return inputs.length > 0 ? inputs[0] : null;
+        }
 
-          show: function (opts) {
-            var input = document.createElement("input");
-            input.type = "file";
-            input.accept = (opts.config && opts.config.accept) || "image/*";
-
-            input.onchange = function () {
-              var file = input.files[0];
-              if (!file) return;
-
-              var overlay = document.createElement("div");
-              overlay.className = "r2-upload-overlay";
-              overlay.innerHTML =
-                '<div class="r2-upload-box"><div class="r2-upload-spinner"></div><p>正在上传到云存储…</p></div>';
-              document.body.appendChild(overlay);
-
-              var formData = new FormData();
-              formData.append("file", file);
-
-              fetch(WORKER_UPLOAD, { method: "POST", body: formData })
-                .then(function (r) { return r.json(); })
-                .then(function (data) {
-                  overlay.remove();
-                  if (data.url) {
-                    opts.onSelect(data.url);
-                  } else {
-                    alert("上传失败: " + (data.error || "未知错误"));
-                  }
-                })
-                .catch(function (err) {
-                  overlay.remove();
-                  alert("上传失败: " + err.message);
-                });
-            };
-
-            input.click();
+        // ── 1. Intercept PASTE (Ctrl+V) ──
+        document.addEventListener(
+          "paste",
+          function (e) {
+            var items = e.clipboardData && e.clipboardData.items;
+            if (!items) return;
+            for (var i = 0; i < items.length; i++) {
+              if (items[i].type.indexOf("image/") === 0) {
+                e.preventDefault();
+                e.stopPropagation();
+                e.stopImmediatePropagation();
+                var file = items[i].getAsFile();
+                var input = document.activeElement;
+                if (
+                  input &&
+                  (input.tagName === "INPUT" || input.tagName === "TEXTAREA")
+                ) {
+                  uploadFile(file).then(function (url) {
+                    setInputValue(input, url);
+                  });
+                }
+                return;
+              }
+            }
           },
+          true
+        );
 
-          enableStandalone: function () {
-            return true;
+        // ── 2. Intercept DROP (drag/drop) ──
+        document.addEventListener(
+          "drop",
+          function (e) {
+            var files = e.dataTransfer && e.dataTransfer.files;
+            if (!files || files.length === 0) return;
+            for (var i = 0; i < files.length; i++) {
+              if (files[i].type.indexOf("image/") === 0) {
+                e.preventDefault();
+                e.stopPropagation();
+                e.stopImmediatePropagation();
+                var input = findNearbyInput(e.target);
+                if (input) {
+                  uploadFile(files[i]).then(function (url) {
+                    setInputValue(input, url);
+                  });
+                }
+                return;
+              }
+            }
           },
-        });
+          true
+        );
+
+        // ── 3. Intercept file input CHANGE (click Choose / browse) ──
+        document.addEventListener(
+          "change",
+          function (e) {
+            var target = e.target;
+            if (
+              !target ||
+              target.type !== "file" ||
+              !target.files ||
+              !target.files[0]
+            )
+              return;
+            var file = target.files[0];
+            if (file.type.indexOf("image/") !== 0) return;
+
+            e.preventDefault();
+            e.stopPropagation();
+            e.stopImmediatePropagation();
+
+            var input = findNearbyInput(target);
+            if (input) {
+              uploadFile(file).then(function (url) {
+                setInputValue(input, url);
+              });
+            } else {
+              uploadFile(file).then(function (url) {
+                alert("上传成功！\n" + url);
+              });
+            }
+          },
+          true
+        );
       })();
     </script>
   </body>
