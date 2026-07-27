@@ -1,6 +1,7 @@
 name = "awlvertexglowmarker"
 main = "src/index.js"
 compatibility_date = "2025-01-01"
+account_id = "8b0adeeddb1097052d05dcc7f5bc2796"
 
 [vars]
 OAUTH_REDIRECT_HOST = "awlvertexglowmarker.chinafang1234.workers.dev"

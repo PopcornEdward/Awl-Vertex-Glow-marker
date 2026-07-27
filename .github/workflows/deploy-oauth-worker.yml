@@ -19,3 +19,5 @@ jobs:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           workingDirectory: "workers/oauth"
           command: deploy
+        env:
+          WRANGLER_DISABLE_AUTOCONFIG: "1"
