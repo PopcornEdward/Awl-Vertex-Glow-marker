@@ -301,33 +301,71 @@
           } catch (e) { return false; }
         }
 
+        // ── Find the open asset dialog (try multiple selectors) ──
+        function findDialog() {
+          var selectors = [
+            '[role="dialog"]',
+            '[aria-modal="true"]',
+            '.sui-dialog',
+            '.sui-modal',
+          ];
+          for (var i = 0; i < selectors.length; i++) {
+            var el = document.querySelector(selectors[i]);
+            if (el) return el;
+          }
+          // Heuristic: find a visible overlay/backdrop that contains "Insert" button
+          var all = document.querySelectorAll("button");
+          for (var j = 0; j < all.length; j++) {
+            if ((all[j].textContent || "").trim() === "Insert") {
+              var ancestor = all[j].parentElement;
+              while (ancestor && ancestor !== document.body) {
+                if (ancestor.offsetHeight > 300 && ancestor.offsetWidth > 300) return ancestor;
+                ancestor = ancestor.parentElement;
+              }
+            }
+          }
+          return null;
+        }
+
         // ── Auto-fill dialog: click "Enter URL" → fill input → click Insert ──
         function autoFillDialog(url) {
-          var dialog = document.querySelector('[role="dialog"]');
+          var dialog = findDialog();
           if (!dialog) return false;
 
-          // Step 1: find "Enter URL" option by text and click it
-          var candidates = dialog.querySelectorAll(
-            'option, [role="option"], [role="tab"], button, [role="menuitem"], label');
+          // Step 1: search ALL elements for "Enter URL" text and click it
+          var allEls = dialog.querySelectorAll("*");
           var enterURL = null;
-          for (var i = 0; i < candidates.length; i++) {
-            var t = (candidates[i].textContent || "").trim();
-            if (/enter\s*url/i.test(t)) { enterURL = candidates[i]; break; }
+          for (var i = 0; i < allEls.length; i++) {
+            // Only check leaf elements (no children) for exact text match
+            if (allEls[i].children.length > 0) continue;
+            var t = (allEls[i].textContent || "").trim();
+            if (t === "Enter URL" || t === "Enter URL of the image" ||
+                t === "输入 URL" || /^enter\s*url/i.test(t)) {
+              // Click the nearest interactive ancestor
+              enterURL = allEls[i].closest(
+                'button, [role="option"], [role="tab"], option, label, [role="button"]');
+              if (enterURL) break;
+            }
           }
+          // Fallback: find by option/select containing "enter-url" value
+          if (!enterURL) {
+            var opts = dialog.querySelectorAll('option[value*="enter-url"], option[value*="enter_url"]');
+            if (opts.length > 0) enterURL = opts[0];
+          }
+
           if (enterURL) {
             enterURL.click();
-            // In case it's an <option>, also change the parent <select> value
             if (enterURL.tagName === "OPTION" && enterURL.parentElement) {
               enterURL.parentElement.value = enterURL.value;
               enterURL.parentElement.dispatchEvent(new Event("change", { bubbles: true }));
             }
           }
 
-          // Step 2: wait for the URL text input to render, then fill it
+          // Step 2: wait for URL input, fill it
           setTimeout(function () {
             var input = dialog.querySelector(
               'input[type="text"], input:not([type]), input[type="url"]');
-            if (!input) { console.warn("no URL input in dialog"); return; }
+            if (!input) { return; }
 
             var ns = Object.getOwnPropertyDescriptor(
               window.HTMLInputElement.prototype, "value");
@@ -336,36 +374,76 @@
             input.dispatchEvent(new Event("input", { bubbles: true }));
             input.dispatchEvent(new Event("change", { bubbles: true }));
 
-            // Step 3: wait for Svelte state to update, then click Insert
+            // Step 3: wait for Svelte, then click Insert
             setTimeout(function () {
               var buttons = dialog.querySelectorAll("button");
               for (var j = 0; j < buttons.length; j++) {
                 var btnText = (buttons[j].textContent || "").trim();
                 if (btnText === "Insert" || btnText === "Choose") {
-                  if (!buttons[j].disabled) {
-                    buttons[j].click();
-                    return;
-                  }
+                  if (!buttons[j].disabled) { buttons[j].click(); return; }
                 }
               }
-            }, 200);
-          }, 200);
+            }, 250);
+          }, 250);
           return true;
         }
 
         // ── Handle image file: upload to R2 → auto-fill dialog ──
-        function handleImageFile(file) {
+        function handleImageFile(file, evt) {
           uploadToR2(file).then(function (url) {
+            // Try auto-fill if dialog is already open
             if (autoFillDialog(url)) {
               showToast("success", "上传成功！", url);
-            } else {
-              copyToClipboard(url);
-              showToast("success",
-                "已上传！URL 已复制，请在对话框 \"Enter URL\" 中 Ctrl+V 粘贴。", url);
+              return;
             }
+            // No dialog open — try to open the widget's dialog, then auto-fill
+            if (evt) {
+              var browseBtn = findBrowseButton(evt);
+              if (browseBtn) {
+                browseBtn.click();
+                setTimeout(function () {
+                  if (autoFillDialog(url)) {
+                    showToast("success", "上传成功！", url);
+                  } else {
+                    copyToClipboard(url);
+                    showToast("success", "已上传！URL 已复制，请在 \"Enter URL\" 中粘贴。", url);
+                  }
+                }, 600);
+                return;
+              }
+            }
+            // Fallback
+            copyToClipboard(url);
+            showToast("success",
+              "已上传！URL 已复制。点击 Browse 打开对话框 → \"Enter URL\" → Ctrl+V → Insert", url);
           }).catch(function (err) {
             showToast("error", "上传失败: " + err.message);
           });
+        }
+
+        // ── Find the nearest "Browse" button from a drop/paste event ──
+        function findBrowseButton(evt) {
+          var node = evt.target;
+          for (var d = 0; d < 10; d++) {
+            if (!node || node === document.body) break;
+            if (node.querySelectorAll) {
+              var buttons = node.querySelectorAll("button");
+              for (var i = 0; i < buttons.length; i++) {
+                var text = (buttons[i].textContent || "").trim().toLowerCase();
+                if (text === "browse" || text.indexOf("browse") !== -1) {
+                  return buttons[i];
+                }
+              }
+            }
+            node = node.parentElement;
+          }
+          // Fallback: find any visible "Browse" button on the page
+          var all = document.querySelectorAll("button");
+          for (var j = 0; j < all.length; j++) {
+            var t = (all[j].textContent || "").trim().toLowerCase();
+            if (t === "browse") return all[j];
+          }
+          return null;
         }
 
         // ── 1. PASTE interception: upload to R2, copy URL ──

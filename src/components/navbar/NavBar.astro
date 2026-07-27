@@ -144,196 +144,220 @@ const moreCategories = CATEGORIES.filter(c => !["Nail Supplies", "Eyelash Suppli
 </div>
 
 <script>
-  const productsDataEl = document.getElementById("products-data");
-  const products: Array<{slug:string,name:string,category:string,price:number,description:string,images:string[]}> = productsDataEl ? JSON.parse(productsDataEl.textContent || "[]") : [];
-  const THEME_KEY = "theme";
+  (function() {
+    var THEME_KEY = "theme";
+    var lastScrollY = 0;
+    var systemDark = window.matchMedia("(prefers-color-scheme: dark)");
+    var initDone = false;
+    var searchSelectedIdx = -1;
+    var searchMatches = [];
+    var allProducts = [];
+    var tearDownFns = [];
 
-  // ── Persistent scroll state ──
-  let lastScrollY = 0;
-
-  // ── OS theme listener (registered once) ──
-  const systemDark = window.matchMedia("(prefers-color-scheme: dark)");
-
-  function timeBasedTheme(): string {
-    const hour = new Date().getHours();
-    return hour >= 6 && hour < 18 ? "light" : "dark";
-  }
-
-  function resolveTheme(): string {
-    const saved = localStorage.getItem(THEME_KEY);
-    if (saved === "dark" || saved === "light") return saved;
-    if (systemDark.matches) return "dark";
-    if (window.matchMedia("(prefers-color-scheme: light)").matches) return "light";
-    return timeBasedTheme();
-  }
-
-  // ── Init all DOM-bound behaviour (called on load + after-swap) ──
-  function initNavbar() {
-    const html = document.documentElement;
-
-    // Mobile menu
-    const btn = document.getElementById("mobile-menu-btn");
-    const menu = document.getElementById("mobile-menu");
-    btn?.addEventListener("click", () => menu?.classList.toggle("hidden"));
-
-    // Scroll hide
-    const navbar = document.getElementById("main-navbar");
-    lastScrollY = window.scrollY;
-
-    // Theme toggle
-    const themeToggle = document.getElementById("theme-toggle");
-    const sunIcon = document.querySelector(".dark-icon") as HTMLElement;
-    const moonIcon = document.querySelector(".light-icon") as HTMLElement;
-
-    function setTheme(theme: string, save = false) {
-      html.setAttribute("data-theme", theme);
-      if (save) localStorage.setItem(THEME_KEY, theme);
-      if (theme === "dark") {
-        sunIcon?.classList.remove("hidden");
-        moonIcon?.classList.add("hidden");
-      } else {
-        sunIcon?.classList.add("hidden");
-        moonIcon?.classList.remove("hidden");
-      }
+    // ── Parse products once (the JSON is inline in <script type="application/json">) ──
+    var productsEl = document.getElementById("products-data");
+    try {
+      allProducts = productsEl ? JSON.parse(productsEl.textContent || "[]") : [];
+    } catch (e) {
+      allProducts = [];
     }
 
-    // Apply resolved theme on every page swap (but don't overwrite manual choice)
-    const current = html.getAttribute("data-theme");
-    if (!current || current === "light" || current === "dark") {
-      setTheme(resolveTheme());
+    function timeBasedTheme() {
+      var hour = new Date().getHours();
+      return hour >= 6 && hour < 18 ? "light" : "dark";
     }
 
-    themeToggle?.addEventListener("click", () => {
-      const cur = html.getAttribute("data-theme") === "dark" ? "light" : "dark";
-      setTheme(cur, true);
-    });
-
-    // Search
-    const searchToggle = document.getElementById("search-toggle");
-    const searchOverlay = document.getElementById("search-overlay");
-    const searchClose = document.getElementById("search-close");
-    const searchInput = document.getElementById("search-input") as HTMLInputElement;
-    const searchResults = document.getElementById("search-results");
-    const allProducts = products;
-    let searchSelectedIdx = -1;
-    let searchMatches: Array<{slug:string,name:string,category:string,price:number,images:string[]}> = [];
-
-    function openSearch() {
-      searchOverlay?.classList.remove("hidden");
-      searchSelectedIdx = -1;
-      searchMatches = [];
-      setTimeout(() => searchInput?.focus(), 100);
+    function resolveTheme() {
+      var saved = localStorage.getItem(THEME_KEY);
+      if (saved === "dark" || saved === "light") return saved;
+      if (systemDark.matches) return "dark";
+      if (window.matchMedia("(prefers-color-scheme: light)").matches) return "light";
+      return timeBasedTheme();
     }
 
-    function closeSearch() {
-      searchOverlay?.classList.add("hidden");
-      if (searchInput) searchInput.value = "";
-      searchSelectedIdx = -1;
-      searchMatches = [];
-      if (searchResults) searchResults.innerHTML = '<p class="text-gray-400 text-sm text-center py-10">Type to search products...</p>';
-    }
-
-    function renderResults() {
-      if (!searchResults) return;
-      searchResults.innerHTML = searchMatches.map((p, i) => `
-        <a href="/product/${p.slug}" data-search-idx="${i}"
-          class="search-result-item flex items-center gap-4 p-3 rounded-xl transition-colors ${i === searchSelectedIdx ? 'bg-pink-50 ring-1 ring-pink-200' : 'hover:bg-gray-50'}">
-          <img src="${p.images[0]}" alt="" class="w-12 h-12 rounded-lg object-cover flex-shrink-0" />
-          <div class="min-w-0">
-            <div class="font-medium text-gray-900 text-sm truncate">${p.name}</div>
-            <div class="text-xs text-gray-500">${p.category} · $${p.price.toFixed(2)}/unit</div>
-          </div>
-        </a>
-      `).join("");
-    }
-
-    function selectResult(idx: number) {
-      if (!searchResults) return;
-      // Remove old highlight
-      const prev = searchResults.querySelector(".search-result-item.bg-pink-50");
-      if (prev) prev.classList.remove("bg-pink-50", "ring-1", "ring-pink-200");
-      prev?.classList.add("hover:bg-gray-50");
-      // Add new highlight
-      searchSelectedIdx = idx;
-      const next = searchResults.querySelector(`[data-search-idx="${idx}"]`);
-      if (next) {
-        next.classList.add("bg-pink-50", "ring-1", "ring-pink-200");
-        next.classList.remove("hover:bg-gray-50");
-        next.scrollIntoView({ block: "nearest" });
-      }
-    }
-
-    function navigateResult(delta: number) {
-      if (searchMatches.length === 0) return;
-      const newIdx = searchSelectedIdx < 0
-        ? (delta > 0 ? 0 : searchMatches.length - 1)
-        : (searchSelectedIdx + delta + searchMatches.length) % searchMatches.length;
-      selectResult(newIdx);
-    }
-
-    function openSelected() {
-      if (searchSelectedIdx >= 0 && searchSelectedIdx < searchMatches.length) {
-        window.location.href = "/product/" + searchMatches[searchSelectedIdx].slug;
-      }
-    }
-
-    searchToggle?.addEventListener("click", openSearch);
-    searchClose?.addEventListener("click", closeSearch);
-    searchOverlay?.addEventListener("click", (e) => { if (e.target === searchOverlay) closeSearch(); });
-
-    searchInput?.addEventListener("input", () => {
-      if (!searchResults) return;
-      const q = searchInput.value.toLowerCase().trim();
-      if (!q) {
-        searchMatches = [];
-        searchSelectedIdx = -1;
-        searchResults.innerHTML = '<p class="text-gray-400 text-sm text-center py-10">Type to search products...</p>';
-        return;
-      }
-      searchMatches = allProducts.filter(p => p.name.toLowerCase().includes(q) || p.category.toLowerCase().includes(q) || p.description.toLowerCase().includes(q));
-      searchSelectedIdx = -1;
-      if (searchMatches.length === 0) {
-        searchResults.innerHTML = '<p class="text-gray-400 text-sm text-center py-10">No products found.</p>';
-        return;
-      }
-      renderResults();
-    });
-
-    document.addEventListener("keydown", (e) => {
-      if (!searchOverlay || searchOverlay.classList.contains("hidden")) return;
-      if (e.key === "Escape") { e.preventDefault(); closeSearch(); return; }
-      if (e.key === "ArrowDown") { e.preventDefault(); navigateResult(1); return; }
-      if (e.key === "ArrowUp") { e.preventDefault(); navigateResult(-1); return; }
-      if (e.key === "Enter") { e.preventDefault(); openSelected(); return; }
-    });
-  }
-
-  // ── Scroll listener (registered once globally, not per swap) ──
-  function handleScroll() {
-    const navbar = document.getElementById("main-navbar");
-    if (!navbar) return;
-    const y = window.scrollY;
-    if (y <= 0) {
-      navbar.classList.remove("navbar-hidden");
+    function handleScroll() {
+      var navbar = document.getElementById("main-navbar");
+      if (!navbar) return;
+      var y = window.scrollY;
+      if (y <= 0) { navbar.classList.remove("navbar-hidden"); lastScrollY = y; return; }
+      if (y > lastScrollY) navbar.classList.add("navbar-hidden");
+      else navbar.classList.remove("navbar-hidden");
       lastScrollY = y;
-      return;
     }
-    if (y > lastScrollY) navbar.classList.add("navbar-hidden");
-    else navbar.classList.remove("navbar-hidden");
-    lastScrollY = y;
-  }
 
-  // ── OS theme change listener (registered once) ──
-  systemDark.addEventListener("change", (e) => {
-    if (!localStorage.getItem(THEME_KEY)) {
-      document.documentElement.setAttribute("data-theme", e.matches ? "dark" : "light");
+    function initNavbar() {
+      var html = document.documentElement;
+      var fns = []; // cleanup functions registered this cycle
+
+      // Mobile menu
+      var menuBtn = document.getElementById("mobile-menu-btn");
+      var menu = document.getElementById("mobile-menu");
+      if (menuBtn && menu) {
+        var toggleMenu = function () { menu.classList.toggle("hidden"); };
+        menuBtn.addEventListener("click", toggleMenu);
+        fns.push(function () { menuBtn.removeEventListener("click", toggleMenu); });
+      }
+
+      // Theme toggle
+      var themeToggle = document.getElementById("theme-toggle");
+      var sunIcon = document.querySelector(".dark-icon");
+      var moonIcon = document.querySelector(".light-icon");
+
+      function setTheme(theme, save) {
+        html.setAttribute("data-theme", theme);
+        if (save) localStorage.setItem(THEME_KEY, theme);
+        if (theme === "dark") {
+          if (sunIcon) sunIcon.classList.remove("hidden");
+          if (moonIcon) moonIcon.classList.add("hidden");
+        } else {
+          if (sunIcon) sunIcon.classList.add("hidden");
+          if (moonIcon) moonIcon.classList.remove("hidden");
+        }
+      }
+
+      var current = html.getAttribute("data-theme");
+      if (!current || current === "light" || current === "dark") {
+        var resolved = resolveTheme();
+        if (current !== resolved) setTheme(resolved);
+      }
+
+      if (themeToggle) {
+        var toggleClick = function () {
+          var cur = html.getAttribute("data-theme") === "dark" ? "light" : "dark";
+          setTheme(cur, true);
+        };
+        themeToggle.addEventListener("click", toggleClick);
+        fns.push(function () { themeToggle.removeEventListener("click", toggleClick); });
+      }
+
+      // Search
+      var searchToggle = document.getElementById("search-toggle");
+      var searchOverlay = document.getElementById("search-overlay");
+      var searchClose = document.getElementById("search-close");
+      var searchInput = document.getElementById("search-input");
+      var searchResults = document.getElementById("search-results");
+
+      function openSearch() {
+        if (searchOverlay) searchOverlay.classList.remove("hidden");
+        searchSelectedIdx = -1;
+        searchMatches = [];
+        setTimeout(function () { if (searchInput) searchInput.focus(); }, 100);
+      }
+
+      function closeSearch() {
+        if (searchOverlay) searchOverlay.classList.add("hidden");
+        if (searchInput) searchInput.value = "";
+        searchSelectedIdx = -1;
+        searchMatches = [];
+        if (searchResults) searchResults.innerHTML = '<p class="text-gray-400 text-sm text-center py-10">Type to search products...</p>';
+      }
+
+      function renderResults() {
+        if (!searchResults) return;
+        searchResults.innerHTML = searchMatches.map(function (p, i) {
+          return '<a href="/product/' + p.slug + '" data-search-idx="' + i + '"' +
+            ' class="search-result-item flex items-center gap-4 p-3 rounded-xl transition-colors ' +
+            (i === searchSelectedIdx ? 'bg-pink-50 ring-1 ring-pink-200' : 'hover:bg-gray-50') + '">' +
+            '<img src="' + p.images[0] + '" alt="" class="w-12 h-12 rounded-lg object-cover flex-shrink-0" />' +
+            '<div class="min-w-0">' +
+            '<div class="font-medium text-gray-900 text-sm truncate">' + p.name + '</div>' +
+            '<div class="text-xs text-gray-500">' + p.category + ' · $' + p.price.toFixed(2) + '/unit</div>' +
+            '</div></a>';
+        }).join("");
+      }
+
+      function selectResult(idx) {
+        if (!searchResults) return;
+        var prev = searchResults.querySelector(".search-result-item.bg-pink-50");
+        if (prev) { prev.classList.remove("bg-pink-50", "ring-1", "ring-pink-200"); prev.classList.add("hover:bg-gray-50"); }
+        searchSelectedIdx = idx;
+        var next = searchResults.querySelector('[data-search-idx="' + idx + '"]');
+        if (next) { next.classList.add("bg-pink-50", "ring-1", "ring-pink-200"); next.classList.remove("hover:bg-gray-50"); next.scrollIntoView({ block: "nearest" }); }
+      }
+
+      function navigateResult(delta) {
+        if (searchMatches.length === 0) return;
+        var newIdx = searchSelectedIdx < 0
+          ? (delta > 0 ? 0 : searchMatches.length - 1)
+          : (searchSelectedIdx + delta + searchMatches.length) % searchMatches.length;
+        selectResult(newIdx);
+      }
+
+      function openSelected() {
+        if (searchSelectedIdx >= 0 && searchSelectedIdx < searchMatches.length) {
+          window.location.href = "/product/" + searchMatches[searchSelectedIdx].slug;
+        }
+      }
+
+      if (searchToggle) { searchToggle.addEventListener("click", openSearch); fns.push(function () { searchToggle.removeEventListener("click", openSearch); }); }
+      if (searchClose) { searchClose.addEventListener("click", closeSearch); fns.push(function () { searchClose.removeEventListener("click", closeSearch); }); }
+      if (searchOverlay) {
+        var overlayClick = function (e) { if (e.target === searchOverlay) closeSearch(); };
+        searchOverlay.addEventListener("click", overlayClick);
+        fns.push(function () { searchOverlay.removeEventListener("click", overlayClick); });
+      }
+
+      if (searchInput) {
+        var inputHandler = function () {
+          if (!searchResults) return;
+          var q = searchInput.value.toLowerCase().trim();
+          if (!q) {
+            searchMatches = [];
+            searchSelectedIdx = -1;
+            searchResults.innerHTML = '<p class="text-gray-400 text-sm text-center py-10">Type to search products...</p>';
+            return;
+          }
+          var lowerQ = q;
+          searchMatches = allProducts.filter(function (p) { return p.name.toLowerCase().indexOf(lowerQ) !== -1 || p.category.toLowerCase().indexOf(lowerQ) !== -1 || p.description.toLowerCase().indexOf(lowerQ) !== -1; });
+          searchSelectedIdx = -1;
+          if (searchMatches.length === 0) {
+            searchResults.innerHTML = '<p class="text-gray-400 text-sm text-center py-10">No products found.</p>';
+            return;
+          }
+          renderResults();
+        };
+        searchInput.addEventListener("input", inputHandler);
+        fns.push(function () { searchInput.removeEventListener("input", inputHandler); });
+      }
+
+      var globalKeyHandler = function (e) {
+        if (!searchOverlay || searchOverlay.classList.contains("hidden")) return;
+        if (e.key === "Escape") { e.preventDefault(); closeSearch(); return; }
+        if (e.key === "ArrowDown") { e.preventDefault(); navigateResult(1); return; }
+        if (e.key === "ArrowUp") { e.preventDefault(); navigateResult(-1); return; }
+        if (e.key === "Enter") { e.preventDefault(); openSelected(); return; }
+      };
+      document.addEventListener("keydown", globalKeyHandler);
+      fns.push(function () { document.removeEventListener("keydown", globalKeyHandler); });
+
+      // Store cleanup fns for next destroy cycle
+      tearDownFns = fns;
     }
-  });
 
-  // ── Bootstrap ──
-  initNavbar();
-  window.addEventListener("scroll", handleScroll, { passive: true });
-  document.addEventListener("astro:after-swap", initNavbar);
+    function destroyNavbar() {
+      for (var i = 0; i < tearDownFns.length; i++) {
+        try { tearDownFns[i](); } catch (e) {}
+      }
+      tearDownFns = [];
+    }
+
+    // ── OS theme listener (register once globally) ──
+    systemDark.addEventListener("change", function (e) {
+      if (!localStorage.getItem(THEME_KEY)) {
+        document.documentElement.setAttribute("data-theme", e.matches ? "dark" : "light");
+      }
+    });
+
+    // ── Scroll listener (register once globally) ──
+    window.addEventListener("scroll", handleScroll, { passive: true });
+
+    // ── Bootstrap + SPA lifecycle ──
+    initNavbar();
+    document.addEventListener("astro:after-swap", function () {
+      destroyNavbar();
+      initNavbar();
+    });
+  })();
 </script>
 
 <style>

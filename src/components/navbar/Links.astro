@@ -58,13 +58,20 @@ const categories = [
 </div>
 
 <script>
-  const setupToggle = () => {
-    const toggleBtn = document.getElementById("mobile-links-toggle");
-    const menu = document.getElementById("mobile-links-menu");
-    const chevron = document.getElementById("chevron-icon");
-    if (toggleBtn && menu && chevron) {
-      toggleBtn.addEventListener("click", () => {
-        const isOpen = menu.classList.contains("grid-rows-[1fr]");
+  (function() {
+    var toggleFn = null;
+
+    function setupToggle() {
+      var btn = document.getElementById("mobile-links-toggle");
+      var menu = document.getElementById("mobile-links-menu");
+      var chevron = document.getElementById("chevron-icon");
+      if (!btn || !menu || !chevron) return;
+
+      // Remove old handler first
+      if (toggleFn) btn.removeEventListener("click", toggleFn);
+
+      toggleFn = function () {
+        var isOpen = menu.classList.contains("grid-rows-[1fr]");
         if (isOpen) {
           menu.classList.remove("grid-rows-[1fr]");
           menu.classList.add("grid-rows-[0fr]");
@@ -74,9 +81,11 @@ const categories = [
           menu.classList.add("grid-rows-[1fr]");
           chevron.classList.add("rotate-180");
         }
-      });
+      };
+      btn.addEventListener("click", toggleFn);
     }
-  };
-  setupToggle();
-  document.addEventListener("astro:after-swap", setupToggle);
+
+    setupToggle();
+    document.addEventListener("astro:after-swap", setupToggle);
+  })();
 </script>
