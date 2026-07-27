@@ -13,7 +13,11 @@ export default defineConfig({
 
   integrations: [react(), icon()],
 
+  prefetch: {
+    defaultStrategy: "hover",
+  },
+
   vite: {
-    plugins: [tailwindcss()]
-  }
+    plugins: [tailwindcss()],
+  },
 });
