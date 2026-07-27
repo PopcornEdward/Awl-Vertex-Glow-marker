@@ -1,16 +1,11 @@
 name = "awlvertexglowmarker"
 main = "src/index.js"
 compatibility_date = "2025-01-01"
-workers_dev = true
 account_id = "8b0adeeddb1097052d05dcc7f5bc2796"
 
 [vars]
 OAUTH_REDIRECT_HOST = "awlvertexglowmarker.aviciimailsend.dpdns.org"
 OAUTH_ORIGIN = "https://vertex.aviciiedulab.dpdns.org"
-
-[[routes]]
-pattern = "awlvertexglowmarker.aviciimailsend.dpdns.org/*"
-zone_name = "aviciimailsend.dpdns.org"
 
 [[r2_buckets]]
 binding = "MY_BUCKET"
