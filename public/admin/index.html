@@ -38,6 +38,7 @@
         width:0%;
       }
       .r2-progress-text { font-size:12px; margin-top:4px; color:#a6adc8; }
+
     </style>
   </head>
   <body>
@@ -481,6 +482,141 @@
           e.preventDefault(); e.stopPropagation(); e.stopImmediatePropagation();
           handleImageFile(file);
         }, true);
+      })();
+    </script>
+
+    <!-- Multi-column editor layout: watch for form render → apply grid -->
+    <script>
+      (function () {
+        var GRID_COLS = "1fr 1fr"; // 2-column default
+        var FULL_SPAN = "1 / -1";
+        var applied = false;
+
+        // Fields that MUST span full width (by label text match)
+        var FULL_WIDTH_LABELS = [
+          "Product Name", "Main Product Image", "Additional Images",
+          "Product Specifications", "Product Description",
+        ];
+
+        function applyGrid() {
+          // Find all form field groups — look for label + input patterns
+          // Sveltia renders each config field as a container with a <label> inside
+          var labels = document.querySelectorAll("label");
+          if (labels.length < 3) return; // not ready yet
+
+          // Walk up from labels to find the form/editor container
+          var formParent = null;
+          var fieldContainers = [];
+
+          // Find the main scrollable editor area
+          var panels = document.querySelectorAll('[class*="pane"], [class*="panel"], [class*="editor"], main, [role="main"]');
+          for (var pi = 0; pi < panels.length; pi++) {
+            var p = panels[pi];
+            if (p.querySelectorAll("label").length >= 3) {
+              formParent = p;
+              break;
+            }
+          }
+          if (!formParent) return;
+
+          // Find direct field containers (immediate children with labels)
+          var children = formParent.children;
+          var fieldEls = [];
+          for (var i = 0; i < children.length; i++) {
+            var c = children[i];
+            if (c.querySelector("label")) {
+              fieldEls.push(c);
+            }
+          }
+          if (fieldEls.length < 2) {
+            // Try deeper: fields might be nested one level
+            for (var i = 0; i < children.length; i++) {
+              var grandchildren = children[i].children;
+              for (var j = 0; j < grandchildren.length; j++) {
+                if (grandchildren[j].querySelector && grandchildren[j].querySelector("label")) {
+                  fieldEls.push(grandchildren[j]);
+                }
+              }
+            }
+          }
+
+          if (fieldEls.length < 3) return;
+
+          // Ensure the parent is a grid
+          var container = fieldEls[0].parentElement;
+          if (!container) return;
+
+          container.style.display = "grid";
+          container.style.gridTemplateColumns = GRID_COLS;
+          container.style.gap = "8px 20px";
+          container.style.alignItems = "start";
+
+          // Style each field
+          for (var i = 0; i < fieldEls.length; i++) {
+            var el = fieldEls[i];
+            el.style.marginBottom = "4px";
+
+            var label = el.querySelector("label");
+            var labelText = label ? (label.textContent || "").trim() : "";
+
+            // Check if this field should span full width
+            var isFull = false;
+            if (i === 0) isFull = true; // first field = title, always full
+            if (i === fieldEls.length - 1) isFull = true; // last field = body, always full
+
+            for (var j = 0; j < FULL_WIDTH_LABELS.length; j++) {
+              if (labelText === FULL_WIDTH_LABELS[j]) isFull = true;
+            }
+
+            // Image widgets and large textareas: detect by content
+            if (el.querySelector("textarea")) isFull = true;
+            if (el.querySelector('[class*="image"]') || el.querySelector('input[type="file"]')) isFull = true;
+
+            // List/object widgets: detect by having "Add" button
+            var buttons = el.querySelectorAll("button");
+            for (var b = 0; b < buttons.length; b++) {
+              var btnText = (buttons[b].textContent || "").trim();
+              if (btnText === "Add" || btnText.indexOf("Add ") === 0) {
+                isFull = true;
+                break;
+              }
+            }
+
+            if (isFull) {
+              el.style.gridColumn = FULL_SPAN;
+            }
+          }
+
+          applied = true;
+        }
+
+        // Try immediately, then retry until form renders
+        var attempts = 0;
+        var maxAttempts = 30;
+        function tryApply() {
+          if (applied) return;
+          applyGrid();
+          attempts++;
+          if (!applied && attempts < maxAttempts) {
+            setTimeout(tryApply, 600);
+          }
+        }
+
+        // Start observing after CMS boot
+        setTimeout(tryApply, 2000);
+
+        // Re-apply on navigation (when user switches entries)
+        var observer = new MutationObserver(function () {
+          applied = false;
+          attempts = 0;
+          tryApply();
+        });
+        setTimeout(function () {
+          var root = document.querySelector('[class*="app"], #app, #root, body');
+          if (root) {
+            observer.observe(root, { childList: true, subtree: true });
+          }
+        }, 3000);
       })();
     </script>
   </body>
