@@ -283,8 +283,15 @@ const featuredProducts = await getFeaturedProducts();
   import Swiper from "swiper";
   import { Navigation, Pagination, Autoplay, EffectFade } from "swiper/modules";
 
+  let heroSwiper = null;
   const initHeroSwiper = () => {
-    new Swiper(".hero-swiper", {
+    const el = document.querySelector(".hero-swiper");
+    if (!el) return;
+    if (heroSwiper) {
+      heroSwiper.destroy(true, true);
+      heroSwiper = null;
+    }
+    heroSwiper = new Swiper(el, {
       modules: [Navigation, Pagination, Autoplay, EffectFade],
       loop: true,
       effect: "fade",

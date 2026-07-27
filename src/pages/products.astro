@@ -385,8 +385,12 @@ const priceRange = { min: 0, max: 50 };
     bindSort();
   }
 
-  // ── Init + SPA re-init ──
+  // ── Init + SPA re-init (with cleanup) ──
+  let _bindFiltersDone = false;
   bindFilters();
-  document.addEventListener("astro:after-swap", bindFilters);
+  document.addEventListener("astro:after-swap", () => {
+    // Re-bind to new DOM after swap (old DOM is removed, old listeners dropped)
+    bindFilters();
+  });
 </script>
 </Layout>

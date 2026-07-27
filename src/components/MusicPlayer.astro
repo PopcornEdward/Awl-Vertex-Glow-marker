@@ -101,8 +101,14 @@
     (window as any)[ENG_KEY] = true;
   }
 
+  let _teardownFns: Array<() => void> = [];
+
   // ── DOM binding — runs on every page swap ──
   function initPlayer() {
+    // Clean up previous listeners first
+    for (const fn of _teardownFns) { try { fn(); } catch (e) {} }
+    _teardownFns = [];
+
     bootstrapEngine();
 
     const audio = (window as any).__mp_audio as HTMLAudioElement;
@@ -171,6 +177,7 @@
       });
       bubble.classList.add("rotate-45");
       resizeCanvas();
+      if (animId) cancelAnimationFrame(animId);
       animId = requestAnimationFrame(drawWaveform);
       if (ctx.state === "suspended") ctx.resume();
     }
@@ -184,14 +191,18 @@
       setTimeout(() => panel.classList.add("hidden"), 300);
     }
 
-    bubble.addEventListener("click", (e) => {
+    const bubbleClick = (e: Event) => {
       e.stopPropagation();
       isOpen ? closePanel() : openPanel();
-    });
+    };
+    bubble.addEventListener("click", bubbleClick);
+    _teardownFns.push(() => bubble.removeEventListener("click", bubbleClick));
 
-    document.addEventListener("click", (e) => {
+    const docClick = (e: Event) => {
       if (isOpen && !panel.contains(e.target as Node) && e.target !== bubble) closePanel();
-    });
+    };
+    document.addEventListener("click", docClick);
+    _teardownFns.push(() => document.removeEventListener("click", docClick));
 
     // Play/Pause UI sync
     function renderPlayState(playing: boolean) {
@@ -214,7 +225,7 @@
     }
     renderPlayState(!audio.paused);
 
-    playBtn.addEventListener("click", (e) => {
+    const playClick = (e: Event) => {
       e.stopPropagation();
       if (audio.paused) {
         ctx.resume();
@@ -222,7 +233,9 @@
       } else {
         audio.pause();
       }
-    });
+    };
+    playBtn.addEventListener("click", playClick);
+    _teardownFns.push(() => playBtn.removeEventListener("click", playClick));
 
     // Volume
     function setVolume(v: number) {
@@ -232,15 +245,17 @@
       volumeBadge.textContent = String(clamped);
     }
 
-    volumeSlider.addEventListener("input", () => {
-      setVolume(parseInt(volumeSlider.value));
-    });
+    const volInput = () => { setVolume(parseInt(volumeSlider.value)); };
+    volumeSlider.addEventListener("input", volInput);
+    _teardownFns.push(() => volumeSlider.removeEventListener("input", volInput));
 
-    panel.addEventListener("wheel", (e) => {
+    const wheelHandler = (e: WheelEvent) => {
       e.preventDefault();
       const delta = e.deltaY > 0 ? -3 : 3;
       setVolume(audio.volume * 100 + delta);
-    }, { passive: false });
+    };
+    panel.addEventListener("wheel", wheelHandler, { passive: false });
+    _teardownFns.push(() => panel.removeEventListener("wheel", wheelHandler));
 
     setVolume(audio.volume * 100);
   }
