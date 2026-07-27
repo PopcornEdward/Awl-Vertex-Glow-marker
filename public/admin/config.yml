@@ -44,18 +44,42 @@ collections:
             field: { label: "Text", name: "text", widget: "string" }
           - { label: "Photo Wall Title", name: "photo_wall_title", widget: "string" }
           - { label: "Photo Wall Subtitle", name: "photo_wall_subtitle", widget: "string" }
-          - label: "Photo Wall Categories"
-            name: "photo_wall_categories"
+          - label: "Category 1 — Raw Materials"
+            name: "pw_cat_1_name"
+            widget: "string"
+          - { label: "Category 1 Cover Image", name: "pw_cat_1_cover", widget: "image" }
+          - label: "Category 1 Images (9 photos)"
+            name: "pw_cat_1_images"
             widget: "list"
-            summary: "{{fields.name}} — {{fields.images.length}} photos"
-            fields:
-              - { label: "Category Name", name: "name", widget: "string" }
-              - { label: "Cover Image", name: "cover", widget: "image" }
-              - label: "Images (9 photos)"
-                name: "images"
-                widget: "list"
-                summary: "{{fields.url}}"
-                field: { label: "Image", name: "url", widget: "image" }
+            summary: "{{fields.url}}"
+            field: { label: "Image", name: "url", widget: "image" }
+          - label: "Category 2 — Production Line"
+            name: "pw_cat_2_name"
+            widget: "string"
+          - { label: "Category 2 Cover Image", name: "pw_cat_2_cover", widget: "image" }
+          - label: "Category 2 Images (9 photos)"
+            name: "pw_cat_2_images"
+            widget: "list"
+            summary: "{{fields.url}}"
+            field: { label: "Image", name: "url", widget: "image" }
+          - label: "Category 3 — Quality Control"
+            name: "pw_cat_3_name"
+            widget: "string"
+          - { label: "Category 3 Cover Image", name: "pw_cat_3_cover", widget: "image" }
+          - label: "Category 3 Images (9 photos)"
+            name: "pw_cat_3_images"
+            widget: "list"
+            summary: "{{fields.url}}"
+            field: { label: "Image", name: "url", widget: "image" }
+          - label: "Category 4 — Packing & Loading"
+            name: "pw_cat_4_name"
+            widget: "string"
+          - { label: "Category 4 Cover Image", name: "pw_cat_4_cover", widget: "image" }
+          - label: "Category 4 Images (9 photos)"
+            name: "pw_cat_4_images"
+            widget: "list"
+            summary: "{{fields.url}}"
+            field: { label: "Image", name: "url", widget: "image" }
           - { label: "QC Section Title", name: "qc_title", widget: "string" }
           - label: "QC Stages"
             name: "qc_stages"

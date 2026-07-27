@@ -13,67 +13,57 @@
   ],
   "photo_wall_title": "Inside Our Factory",
   "photo_wall_subtitle": "A transparent look at our production environment",
-  "photo_wall_categories": [
-    {
-      "name": "Raw Materials",
-      "cover": "https://images.pexels.com/photos/27967281/pexels-photo-27967281.jpeg?auto=compress&cs=tinysrgb&w=600",
-      "images": [
-        { "url": "https://images.pexels.com/photos/27967281/pexels-photo-27967281.jpeg?auto=compress&cs=tinysrgb&w=1200" },
-        { "url": "https://images.pexels.com/photos/37598393/pexels-photo-37598393.jpeg?auto=compress&cs=tinysrgb&w=1200" },
-        { "url": "https://images.pexels.com/photos/36397980/pexels-photo-36397980.jpeg?auto=compress&cs=tinysrgb&w=1200" },
-        { "url": "https://images.pexels.com/photos/17315564/pexels-photo-17315564.jpeg?auto=compress&cs=tinysrgb&w=1200" },
-        { "url": "https://images.pexels.com/photos/36878025/pexels-photo-36878025.jpeg?auto=compress&cs=tinysrgb&w=1200" },
-        { "url": "https://images.pexels.com/photos/33791802/pexels-photo-33791802.jpeg?auto=compress&cs=tinysrgb&w=1200" },
-        { "url": "https://images.pexels.com/photos/36397790/pexels-photo-36397790.jpeg?auto=compress&cs=tinysrgb&w=1200" },
-        { "url": "https://images.pexels.com/photos/27967288/pexels-photo-27967288.jpeg?auto=compress&cs=tinysrgb&w=1200" },
-        { "url": "https://images.pexels.com/photos/17315568/pexels-photo-17315568.jpeg?auto=compress&cs=tinysrgb&w=1200" }
-      ]
-    },
-    {
-      "name": "Production Line",
-      "cover": "https://images.pexels.com/photos/34221997/pexels-photo-34221997.jpeg?auto=compress&cs=tinysrgb&w=600",
-      "images": [
-        { "url": "https://images.pexels.com/photos/34221997/pexels-photo-34221997.jpeg?auto=compress&cs=tinysrgb&w=1200" },
-        { "url": "https://images.pexels.com/photos/36423822/pexels-photo-36423822.jpeg?auto=compress&cs=tinysrgb&w=1200" },
-        { "url": "https://images.pexels.com/photos/34718930/pexels-photo-34718930.jpeg?auto=compress&cs=tinysrgb&w=1200" },
-        { "url": "https://images.pexels.com/photos/18631424/pexels-photo-18631424.jpeg?auto=compress&cs=tinysrgb&w=1200" },
-        { "url": "https://images.pexels.com/photos/5532716/pexels-photo-5532716.jpeg?auto=compress&cs=tinysrgb&w=1200" },
-        { "url": "https://images.pexels.com/photos/29988964/pexels-photo-29988964.jpeg?auto=compress&cs=tinysrgb&w=1200" },
-        { "url": "https://images.pexels.com/photos/31212954/pexels-photo-31212954.jpeg?auto=compress&cs=tinysrgb&w=1200" },
-        { "url": "https://images.pexels.com/photos/38357014/pexels-photo-38357014.jpeg?auto=compress&cs=tinysrgb&w=1200" },
-        { "url": "https://images.pexels.com/photos/31112181/pexels-photo-31112181.jpeg?auto=compress&cs=tinysrgb&w=1200" }
-      ]
-    },
-    {
-      "name": "Quality Control",
-      "cover": "https://images.pexels.com/photos/37466061/pexels-photo-37466061.jpeg?auto=compress&cs=tinysrgb&w=600",
-      "images": [
-        { "url": "https://images.pexels.com/photos/37466061/pexels-photo-37466061.jpeg?auto=compress&cs=tinysrgb&w=1200" },
-        { "url": "https://images.pexels.com/photos/35383621/pexels-photo-35383621.jpeg?auto=compress&cs=tinysrgb&w=1200" },
-        { "url": "https://images.pexels.com/photos/31336017/pexels-photo-31336017.jpeg?auto=compress&cs=tinysrgb&w=1200" },
-        { "url": "https://images.pexels.com/photos/34054482/pexels-photo-34054482.jpeg?auto=compress&cs=tinysrgb&w=1200" },
-        { "url": "https://images.pexels.com/photos/5953835/pexels-photo-5953835.jpeg?auto=compress&cs=tinysrgb&w=1200" },
-        { "url": "https://images.pexels.com/photos/35383622/pexels-photo-35383622.jpeg?auto=compress&cs=tinysrgb&w=1200" },
-        { "url": "https://images.pexels.com/photos/31090818/pexels-photo-31090818.jpeg?auto=compress&cs=tinysrgb&w=1200" },
-        { "url": "https://images.pexels.com/photos/31112229/pexels-photo-31112229.jpeg?auto=compress&cs=tinysrgb&w=1200" },
-        { "url": "https://images.pexels.com/photos/32845674/pexels-photo-32845674.jpeg?auto=compress&cs=tinysrgb&w=1200" }
-      ]
-    },
-    {
-      "name": "Packing & Loading",
-      "cover": "https://images.pexels.com/photos/15016523/pexels-photo-15016523.jpeg?auto=compress&cs=tinysrgb&w=600",
-      "images": [
-        { "url": "https://images.pexels.com/photos/15016523/pexels-photo-15016523.jpeg?auto=compress&cs=tinysrgb&w=1200" },
-        { "url": "https://images.pexels.com/photos/11903465/pexels-photo-11903465.jpeg?auto=compress&cs=tinysrgb&w=1200" },
-        { "url": "https://images.pexels.com/photos/4483775/pexels-photo-4483775.jpeg?auto=compress&cs=tinysrgb&w=1200" },
-        { "url": "https://images.pexels.com/photos/5329064/pexels-photo-5329064.jpeg?auto=compress&cs=tinysrgb&w=1200" },
-        { "url": "https://images.pexels.com/photos/31112245/pexels-photo-31112245.jpeg?auto=compress&cs=tinysrgb&w=1200" },
-        { "url": "https://images.pexels.com/photos/4483774/pexels-photo-4483774.jpeg?auto=compress&cs=tinysrgb&w=1200" },
-        { "url": "https://images.pexels.com/photos/11678431/pexels-photo-11678431.jpeg?auto=compress&cs=tinysrgb&w=1200" },
-        { "url": "https://images.pexels.com/photos/31251587/pexels-photo-31251587.jpeg?auto=compress&cs=tinysrgb&w=1200" },
-        { "url": "https://images.pexels.com/photos/31112188/pexels-photo-31112188.jpeg?auto=compress&cs=tinysrgb&w=1200" }
-      ]
-    }
+  "pw_cat_1_name": "Raw Materials",
+  "pw_cat_1_cover": "https://images.pexels.com/photos/27967281/pexels-photo-27967281.jpeg?auto=compress&cs=tinysrgb&w=600",
+  "pw_cat_1_images": [
+    { "url": "https://images.pexels.com/photos/27967281/pexels-photo-27967281.jpeg?auto=compress&cs=tinysrgb&w=1200" },
+    { "url": "https://images.pexels.com/photos/37598393/pexels-photo-37598393.jpeg?auto=compress&cs=tinysrgb&w=1200" },
+    { "url": "https://images.pexels.com/photos/36397980/pexels-photo-36397980.jpeg?auto=compress&cs=tinysrgb&w=1200" },
+    { "url": "https://images.pexels.com/photos/17315564/pexels-photo-17315564.jpeg?auto=compress&cs=tinysrgb&w=1200" },
+    { "url": "https://images.pexels.com/photos/36878025/pexels-photo-36878025.jpeg?auto=compress&cs=tinysrgb&w=1200" },
+    { "url": "https://images.pexels.com/photos/33791802/pexels-photo-33791802.jpeg?auto=compress&cs=tinysrgb&w=1200" },
+    { "url": "https://images.pexels.com/photos/36397790/pexels-photo-36397790.jpeg?auto=compress&cs=tinysrgb&w=1200" },
+    { "url": "https://images.pexels.com/photos/27967288/pexels-photo-27967288.jpeg?auto=compress&cs=tinysrgb&w=1200" },
+    { "url": "https://images.pexels.com/photos/17315568/pexels-photo-17315568.jpeg?auto=compress&cs=tinysrgb&w=1200" }
+  ],
+  "pw_cat_2_name": "Production Line",
+  "pw_cat_2_cover": "https://images.pexels.com/photos/34221997/pexels-photo-34221997.jpeg?auto=compress&cs=tinysrgb&w=600",
+  "pw_cat_2_images": [
+    { "url": "https://images.pexels.com/photos/34221997/pexels-photo-34221997.jpeg?auto=compress&cs=tinysrgb&w=1200" },
+    { "url": "https://images.pexels.com/photos/36423822/pexels-photo-36423822.jpeg?auto=compress&cs=tinysrgb&w=1200" },
+    { "url": "https://images.pexels.com/photos/34718930/pexels-photo-34718930.jpeg?auto=compress&cs=tinysrgb&w=1200" },
+    { "url": "https://images.pexels.com/photos/18631424/pexels-photo-18631424.jpeg?auto=compress&cs=tinysrgb&w=1200" },
+    { "url": "https://images.pexels.com/photos/5532716/pexels-photo-5532716.jpeg?auto=compress&cs=tinysrgb&w=1200" },
+    { "url": "https://images.pexels.com/photos/29988964/pexels-photo-29988964.jpeg?auto=compress&cs=tinysrgb&w=1200" },
+    { "url": "https://images.pexels.com/photos/31212954/pexels-photo-31212954.jpeg?auto=compress&cs=tinysrgb&w=1200" },
+    { "url": "https://images.pexels.com/photos/38357014/pexels-photo-38357014.jpeg?auto=compress&cs=tinysrgb&w=1200" },
+    { "url": "https://images.pexels.com/photos/31112181/pexels-photo-31112181.jpeg?auto=compress&cs=tinysrgb&w=1200" }
+  ],
+  "pw_cat_3_name": "Quality Control",
+  "pw_cat_3_cover": "https://images.pexels.com/photos/37466061/pexels-photo-37466061.jpeg?auto=compress&cs=tinysrgb&w=600",
+  "pw_cat_3_images": [
+    { "url": "https://images.pexels.com/photos/37466061/pexels-photo-37466061.jpeg?auto=compress&cs=tinysrgb&w=1200" },
+    { "url": "https://images.pexels.com/photos/35383621/pexels-photo-35383621.jpeg?auto=compress&cs=tinysrgb&w=1200" },
+    { "url": "https://images.pexels.com/photos/31336017/pexels-photo-31336017.jpeg?auto=compress&cs=tinysrgb&w=1200" },
+    { "url": "https://images.pexels.com/photos/34054482/pexels-photo-34054482.jpeg?auto=compress&cs=tinysrgb&w=1200" },
+    { "url": "https://images.pexels.com/photos/5953835/pexels-photo-5953835.jpeg?auto=compress&cs=tinysrgb&w=1200" },
+    { "url": "https://images.pexels.com/photos/35383622/pexels-photo-35383622.jpeg?auto=compress&cs=tinysrgb&w=1200" },
+    { "url": "https://images.pexels.com/photos/31090818/pexels-photo-31090818.jpeg?auto=compress&cs=tinysrgb&w=1200" },
+    { "url": "https://images.pexels.com/photos/31112229/pexels-photo-31112229.jpeg?auto=compress&cs=tinysrgb&w=1200" },
+    { "url": "https://images.pexels.com/photos/32845674/pexels-photo-32845674.jpeg?auto=compress&cs=tinysrgb&w=1200" }
+  ],
+  "pw_cat_4_name": "Packing & Loading",
+  "pw_cat_4_cover": "https://images.pexels.com/photos/15016523/pexels-photo-15016523.jpeg?auto=compress&cs=tinysrgb&w=600",
+  "pw_cat_4_images": [
+    { "url": "https://images.pexels.com/photos/15016523/pexels-photo-15016523.jpeg?auto=compress&cs=tinysrgb&w=1200" },
+    { "url": "https://images.pexels.com/photos/11903465/pexels-photo-11903465.jpeg?auto=compress&cs=tinysrgb&w=1200" },
+    { "url": "https://images.pexels.com/photos/4483775/pexels-photo-4483775.jpeg?auto=compress&cs=tinysrgb&w=1200" },
+    { "url": "https://images.pexels.com/photos/5329064/pexels-photo-5329064.jpeg?auto=compress&cs=tinysrgb&w=1200" },
+    { "url": "https://images.pexels.com/photos/31112245/pexels-photo-31112245.jpeg?auto=compress&cs=tinysrgb&w=1200" },
+    { "url": "https://images.pexels.com/photos/4483774/pexels-photo-4483774.jpeg?auto=compress&cs=tinysrgb&w=1200" },
+    { "url": "https://images.pexels.com/photos/11678431/pexels-photo-11678431.jpeg?auto=compress&cs=tinysrgb&w=1200" },
+    { "url": "https://images.pexels.com/photos/31251587/pexels-photo-31251587.jpeg?auto=compress&cs=tinysrgb&w=1200" },
+    { "url": "https://images.pexels.com/photos/31112188/pexels-photo-31112188.jpeg?auto=compress&cs=tinysrgb&w=1200" }
   ],
   "qc_title": "6-Stage Quality Control",
   "qc_stages": [
