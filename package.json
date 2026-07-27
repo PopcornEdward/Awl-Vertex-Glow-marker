@@ -4,6 +4,7 @@
   "version": "0.0.1",
   "scripts": {
     "dev": "astro dev",
+    "prebuild": "node scripts/generate-product-data.js",
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro"
@@ -29,6 +30,7 @@
     "tailwindcss": "^4.1.18"
   },
   "devDependencies": {
-    "daisyui": "^5.5.14"
+    "daisyui": "^5.5.14",
+    "gray-matter": "^4.0.3"
   }
 }

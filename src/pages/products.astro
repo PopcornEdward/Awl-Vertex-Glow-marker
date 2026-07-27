@@ -1,18 +1,7 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import { Icon } from "astro-icon/components";
-import { getAllProducts } from "../lib/products";
 import { CATEGORIES } from "../data/site";
-
-const allProducts = await getAllProducts();
-const PAGE_SIZE = 12;
-const initialProducts = allProducts.slice(0, PAGE_SIZE);
-// Full product data for client-side search/filter/paginate
-const productsJson = JSON.stringify(allProducts.map(p => ({
-  slug: p.slug, name: p.name, category: p.category,
-  price: p.price, badge: p.badge || "", discount: p.discount || 0,
-  image: p.images[0], moq: p.moq
-})));
 ---
 
 <Layout>
@@ -151,7 +140,7 @@ const productsJson = JSON.stringify(allProducts.map(p => ({
               <button id="open-mobile-filter" class="btn btn-outline btn-sm rounded-full lg:hidden text-xs">
                 <Icon name="lucide:sliders-horizontal" class="w-4 h-4" /> Filters
               </button>
-              <span id="product-count" class="text-sm text-gray-500">{allProducts.length} products</span>
+              <span id="product-count" class="text-sm text-gray-500">Loading...</span>
             </div>
             <select id="sort-select" class="select select-sm select-bordered rounded-full text-xs">
               <option value="default">Sort: Featured</option>
@@ -162,39 +151,9 @@ const productsJson = JSON.stringify(allProducts.map(p => ({
             </select>
           </div>
 
-          <!-- Product Grid -->
+          <!-- Product Grid — populated client-side after fetch -->
           <div id="products-grid" class="grid grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6">
-            {initialProducts.map((product) => (
-              <a href={`/product/${product.slug}`}
-                class="product-card group bg-white rounded-2xl shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden border border-gray-100"
-                data-category={product.category}
-                data-price={product.price}
-                data-badge={product.badge || ""}
-                data-name={product.name.toLowerCase()}>
-                <div class="relative aspect-[3/4] overflow-hidden bg-gray-100">
-                  <img src={product.images[0]} alt={product.name}
-                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                    loading="lazy" />
-                  {product.badge && (
-                    <span class="absolute top-3 left-3 bg-pink-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wide">{product.badge}</span>
-                  )}
-                  {product.discount && product.discount > 0 && (
-                    <span class="absolute top-3 right-3 bg-red-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">-{product.discount}%</span>
-                  )}
-                  <div class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/40 to-transparent h-20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center pb-3">
-                    <span class="text-white text-xs font-semibold">Quick View</span>
-                  </div>
-                </div>
-                <div class="p-3 sm:p-4">
-                  <span class="text-[10px] text-gray-400 uppercase tracking-wide">{product.category.replace(/-/g, ' ')}</span>
-                  <h3 class="font-semibold text-gray-900 group-hover:text-pink-600 transition-colors text-xs sm:text-sm leading-snug line-clamp-2 mt-0.5 mb-2">{product.name}</h3>
-                  <div class="flex items-baseline justify-between">
-                    <span class="text-base sm:text-lg font-bold text-pink-600">${product.price.toFixed(2)}</span>
-                    <span class="text-[10px] text-gray-400">wholesale</span>
-                  </div>
-                </div>
-              </a>
-            ))}
+            <!-- Skeleton placeholders shown while loading -->
           </div>
 
           <!-- Loader indicator -->
@@ -223,91 +182,103 @@ const productsJson = JSON.stringify(allProducts.map(p => ({
   }
 </style>
 
-<!-- Full product data for client-side search & infinite scroll -->
-<div id="products-full-data" hidden>{productsJson}</div>
 
 <script>
-  // ── Read full product data ──
-  var _allProducts = [];
-  try {
-    var el = document.getElementById("products-full-data");
-    _allProducts = el ? JSON.parse(el.textContent || "[]") : [];
-  } catch (e) { _allProducts = []; }
-
   var PAGE_SIZE = 12;
-  var _renderedCount = PAGE_SIZE; // first page rendered server-side
-  var _currentFiltered: any[] = [];
-  var _observer: IntersectionObserver | null = null;
+  var _allProducts = [];
+  var _currentFiltered = [];
+  var _renderedCount = 0;
+  var _observer = null;
   var _loading = false;
+  var _initDone = false;
 
-  // ── Card HTML from product data ──
-  function cardHTML(p: any) {
-    var badgeHTML = p.badge ? '<span class="absolute top-3 left-3 bg-pink-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wide">' + p.badge + '</span>' : '';
-    var discountHTML = p.discount > 0 ? '<span class="absolute top-3 right-3 bg-red-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">-' + p.discount + '%</span>' : '';
-    return '<a href="/product/' + p.slug + '"' +
+  // ── Skeleton HTML ──
+  function skeletonHTML() {
+    var html = "";
+    for (var i = 0; i < 6; i++) {
+      html += '<div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden animate-pulse">' +
+        '<div class="aspect-[3/4] bg-gray-200"></div>' +
+        '<div class="p-3 sm:p-4 space-y-2">' +
+        '<div class="h-3 bg-gray-200 rounded w-1/3"></div>' +
+        '<div class="h-4 bg-gray-200 rounded w-3/4"></div>' +
+        '<div class="h-5 bg-gray-200 rounded w-1/2"></div>' +
+        '</div></div>';
+    }
+    return html;
+  }
+
+  // Show skeletons immediately
+  var grid = document.getElementById("products-grid");
+  if (grid) grid.innerHTML = skeletonHTML();
+
+  // ── Card HTML from product data (short field names) ──
+  function cardHTML(p) {
+    var badgeHTML = p.b ? '<span class="absolute top-3 left-3 bg-pink-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wide">' + p.b + '</span>' : '';
+    var discountHTML = p.d > 0 ? '<span class="absolute top-3 right-3 bg-red-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">-' + p.d + '%</span>' : '';
+    return '<a href="/product/' + p.s + '"' +
       ' class="product-card group bg-white rounded-2xl shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden border border-gray-100"' +
-      ' data-category="' + p.category + '" data-price="' + p.price + '" data-badge="' + (p.badge || '') + '" data-name="' + p.name.toLowerCase() + '">' +
+      ' data-category="' + p.c + '" data-price="' + p.p + '" data-badge="' + (p.b || '') + '" data-name="' + p.n.toLowerCase() + '">' +
       '<div class="relative aspect-[3/4] overflow-hidden bg-gray-100">' +
-      '<img src="' + p.image + '" alt="' + p.name + '" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />' +
+      '<img src="' + p.i + '" alt="' + p.n + '" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />' +
       badgeHTML + discountHTML +
       '<div class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/40 to-transparent h-20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center pb-3"><span class="text-white text-xs font-semibold">Quick View</span></div>' +
       '</div>' +
       '<div class="p-3 sm:p-4">' +
-      '<span class="text-[10px] text-gray-400 uppercase tracking-wide">' + p.category.replace(/-/g, ' ') + '</span>' +
-      '<h3 class="font-semibold text-gray-900 group-hover:text-pink-600 transition-colors text-xs sm:text-sm leading-snug line-clamp-2 mt-0.5 mb-2">' + p.name + '</h3>' +
-      '<div class="flex items-baseline justify-between"><span class="text-base sm:text-lg font-bold text-pink-600">$' + p.price.toFixed(2) + '</span><span class="text-[10px] text-gray-400">wholesale</span></div>' +
+      '<span class="text-[10px] text-gray-400 uppercase tracking-wide">' + p.c.replace(/-/g, ' ') + '</span>' +
+      '<h3 class="font-semibold text-gray-900 group-hover:text-pink-600 transition-colors text-xs sm:text-sm leading-snug line-clamp-2 mt-0.5 mb-2">' + p.n + '</h3>' +
+      '<div class="flex items-baseline justify-between"><span class="text-base sm:text-lg font-bold text-pink-600">$' + p.p.toFixed(2) + '</span><span class="text-[10px] text-gray-400">wholesale</span></div>' +
       '</div></a>';
   }
 
   // ── Get active filters ──
   function getFilters() {
-    var searchQ = ((document.getElementById("search-products") as HTMLInputElement)?.value || "").toLowerCase();
-    var searchQM = ((document.getElementById("search-products-mobile") as HTMLInputElement)?.value || "").toLowerCase();
+    var searchQ = (document.getElementById("search-products")?.value || "").toLowerCase();
+    var searchQM = (document.getElementById("search-products-mobile")?.value || "").toLowerCase();
     var query = searchQ || searchQM;
 
-    var catChecks = document.querySelectorAll<HTMLInputElement>(".filter-category:checked");
-    var catChecksM = document.querySelectorAll<HTMLInputElement>(".filter-category-mobile:checked");
+    var catChecks = document.querySelectorAll(".filter-category:checked");
+    var catChecksM = document.querySelectorAll(".filter-category-mobile:checked");
     var allCats = Array.from(catChecks).concat(Array.from(catChecksM)).map(function(c){return c.value});
     var specificCats = allCats.filter(function(c){return c !== "all"});
     var selectedCats = specificCats.length > 0 ? specificCats : ["all"];
 
-    var maxPrice = parseInt((document.getElementById("price-range") as HTMLInputElement)?.value || "50");
-    var maxPriceM = parseInt((document.getElementById("price-range-mobile") as HTMLInputElement)?.value || "50");
+    var maxPrice = parseInt(document.getElementById("price-range")?.value || "50");
+    var maxPriceM = parseInt(document.getElementById("price-range-mobile")?.value || "50");
     maxPrice = Math.min(maxPrice, maxPriceM);
 
-    var badgeChecks = document.querySelectorAll<HTMLInputElement>(".filter-badge:checked");
+    var badgeChecks = document.querySelectorAll(".filter-badge:checked");
     var selectedBadges = Array.from(badgeChecks).map(function(c){return c.value});
 
     return { query: query, cats: selectedCats, maxPrice: maxPrice, badges: selectedBadges };
   }
 
   // ── Sort products ──
-  function sortProducts(products: any[], sortVal: string) {
+  function sortProducts(products, sortVal) {
     var sorted = products.slice();
-    if (sortVal === "price-asc") sorted.sort(function(a,b){return a.price - b.price});
-    else if (sortVal === "price-desc") sorted.sort(function(a,b){return b.price - a.price});
-    else if (sortVal === "name-asc") sorted.sort(function(a,b){return a.name.localeCompare(b.name)});
-    else if (sortVal === "name-desc") sorted.sort(function(a,b){return b.name.localeCompare(a.name)});
+    if (sortVal === "price-asc") sorted.sort(function(a,b){return a.p - b.p});
+    else if (sortVal === "price-desc") sorted.sort(function(a,b){return b.p - a.p});
+    else if (sortVal === "name-asc") sorted.sort(function(a,b){return a.n.localeCompare(b.n)});
+    else if (sortVal === "name-desc") sorted.sort(function(a,b){return b.n.localeCompare(a.n)});
     return sorted;
   }
 
   // ── Filter + re-render (full reset, first page) ──
   function applyFilters() {
+    if (!_initDone) return;
     var f = getFilters();
     var q = f.query;
 
     _currentFiltered = _allProducts.filter(function(p){
-      if (q && p.name.toLowerCase().indexOf(q) === -1 && p.category.indexOf(q) === -1) return false;
-      if (f.cats[0] !== "all" && f.cats.indexOf(p.category) === -1) return false;
-      if (p.price > f.maxPrice) return false;
-      if (f.badges.length > 0 && f.badges.indexOf(p.badge) === -1) return false;
+      if (q && p.n.toLowerCase().indexOf(q) === -1 && p.c.indexOf(q) === -1) return false;
+      if (f.cats[0] !== "all" && f.cats.indexOf(p.c) === -1) return false;
+      if (p.p > f.maxPrice) return false;
+      if (f.badges.length > 0 && f.badges.indexOf(p.b) === -1) return false;
       return true;
     });
 
-    var sortVal = (document.getElementById("sort-select") as HTMLSelectElement)?.value || "default";
+    var sortVal = document.getElementById("sort-select")?.value || "default";
     if (sortVal !== "default") _currentFiltered = sortProducts(_currentFiltered, sortVal);
 
-    // Re-render first page
     var grid = document.getElementById("products-grid");
     if (!grid) return;
     grid.innerHTML = "";
@@ -343,7 +314,7 @@ const productsJson = JSON.stringify(allProducts.map(p => ({
     _loading = true;
     var indicator = document.getElementById("loading-indicator");
     if (indicator) indicator.classList.remove("hidden");
-    setTimeout(function(){ renderNextPage(); }, 150); // small delay for spinner visibility
+    setTimeout(function(){ renderNextPage(); }, 150);
   }
 
   // ── Infinite scroll observer ──
@@ -368,9 +339,9 @@ const productsJson = JSON.stringify(allProducts.map(p => ({
     document.getElementById("search-products-mobile")?.addEventListener("input", applyFilters);
     document.querySelectorAll(".filter-badge").forEach(function(c){c.addEventListener("change", applyFilters)});
 
-    function setupCategoryGroup(selector: string) {
-      var all = document.querySelector(selector + '[value="all"]') as HTMLInputElement;
-      var items = document.querySelectorAll(selector + ':not([value="all"])') as NodeListOf<HTMLInputElement>;
+    function setupCategoryGroup(selector) {
+      var all = document.querySelector(selector + '[value="all"]');
+      var items = document.querySelectorAll(selector + ':not([value="all"])');
       if (!all || items.length === 0) return;
       items.forEach(function(item){
         item.addEventListener("change", function(){
@@ -388,24 +359,24 @@ const productsJson = JSON.stringify(allProducts.map(p => ({
     setupCategoryGroup(".filter-category-mobile");
 
     document.getElementById("price-range")?.addEventListener("input", function(){
-      (document.getElementById("price-display") as HTMLElement).textContent = "$" + (this as HTMLInputElement).value + " max";
+      document.getElementById("price-display").textContent = "$" + this.value + " max";
       applyFilters();
     });
     document.getElementById("price-range-mobile")?.addEventListener("input", function(){
-      (document.getElementById("price-display-mobile") as HTMLElement).textContent = "$" + (this as HTMLInputElement).value + " max";
+      document.getElementById("price-display-mobile").textContent = "$" + this.value + " max";
       applyFilters();
     });
 
     function resetFilters() {
-      document.querySelectorAll<HTMLInputElement>(".filter-category").forEach(function(c){c.checked = c.value === "all"});
-      document.querySelectorAll<HTMLInputElement>(".filter-badge").forEach(function(c){c.checked = false});
-      (document.getElementById("price-range") as HTMLInputElement).value = "50";
-      (document.getElementById("price-display") as HTMLElement).textContent = "$50 max";
-      (document.getElementById("search-products") as HTMLInputElement).value = "";
-      document.querySelectorAll<HTMLInputElement>(".filter-category-mobile").forEach(function(c){c.checked = c.value === "all"});
-      (document.getElementById("price-range-mobile") as HTMLInputElement).value = "50";
-      (document.getElementById("price-display-mobile") as HTMLElement).textContent = "$50 max";
-      (document.getElementById("search-products-mobile") as HTMLInputElement).value = "";
+      document.querySelectorAll(".filter-category").forEach(function(c){c.checked = c.value === "all"});
+      document.querySelectorAll(".filter-badge").forEach(function(c){c.checked = false});
+      document.getElementById("price-range").value = "50";
+      document.getElementById("price-display").textContent = "$50 max";
+      document.getElementById("search-products").value = "";
+      document.querySelectorAll(".filter-category-mobile").forEach(function(c){c.checked = c.value === "all"});
+      document.getElementById("price-range-mobile").value = "50";
+      document.getElementById("price-display-mobile").textContent = "$50 max";
+      document.getElementById("search-products-mobile").value = "";
       applyFilters();
     }
 
@@ -426,25 +397,45 @@ const productsJson = JSON.stringify(allProducts.map(p => ({
     });
   }
 
-  // ── Init ──
-  _currentFiltered = _allProducts.slice();
+  // ── Fetch products & initialize ──
+  function initProducts() {
+    var base = document.querySelector("meta[name=\"base\"]")?.content || "";
+    fetch(base + "/api/products-all.json")
+      .then(function(r){ return r.json(); })
+      .then(function(data){
+        _allProducts = data;
+        _currentFiltered = data.slice();
+        _renderedCount = 0;
+        _initDone = true;
+        // Render first page
+        if (grid) grid.innerHTML = "";
+        renderNextPage();
+        var countEl = document.getElementById("product-count");
+        if (countEl) countEl.textContent = data.length + " products";
+        setupObserver();
+      })
+      .catch(function(err){
+        console.error("Failed to load products:", err);
+        if (grid) grid.innerHTML = '<div class="col-span-full text-center py-20"><p class="text-red-400">Failed to load products. Please refresh.</p></div>';
+      });
+  }
+
   bindFilterInputs();
   bindSort();
   bindMobileDrawer();
-  setupObserver();
+  initProducts();
 
   document.addEventListener("astro:after-swap", function(){
-    // Re-read data (new DOM)
-    var newEl = document.getElementById("products-full-data");
-    if (newEl) {
-      try { _allProducts = JSON.parse(newEl.textContent || "[]"); } catch(e) { _allProducts = []; }
-    }
-    _currentFiltered = _allProducts.slice();
-    _renderedCount = PAGE_SIZE;
+    _initDone = false;
+    _allProducts = [];
+    _currentFiltered = [];
+    _renderedCount = 0;
+    grid = document.getElementById("products-grid");
+    if (grid) grid.innerHTML = skeletonHTML();
     bindFilterInputs();
     bindSort();
     bindMobileDrawer();
-    setupObserver();
+    initProducts();
   });
 </script>
 </Layout>

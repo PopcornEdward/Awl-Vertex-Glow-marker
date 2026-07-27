@@ -6,16 +6,13 @@ import Navbar from "../components/navbar/NavBar.astro";
 import Footer from "../components/footer/Footer.astro";
 import MusicPlayer from "../components/MusicPlayer.astro";
 import { SITE } from "../data/site";
-import { getAllProducts } from "../lib/products";
-
-const productSearchData = await getAllProducts();
-const productsJson = JSON.stringify(productSearchData.map(p => ({ slug: p.slug, name: p.name, category: p.category, price: p.price, description: p.description, image: p.images[0] })));
 ---
 
 <!doctype html>
 <html lang="en" data-theme="light" class="overflow-x-hidden">
   <head>
     <meta charset="UTF-8" />
+    <meta name="base" content={Astro.base || "/"} />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
@@ -48,8 +45,6 @@ const productsJson = JSON.stringify(productSearchData.map(p => ({ slug: p.slug, 
     <!-- Vanta.js Starfield Background -->
     <canvas id="vanta-body-bg" class="fixed inset-0 z-0 pointer-events-none"></canvas>
 
-    <!-- Product search data for NavBar -->
-    <div id="products-data" hidden>{productsJson}</div>
 
     <!-- Content Layers -->
     <div class="relative z-10">

@@ -151,15 +151,29 @@ const moreCategories = CATEGORIES.filter(c => !["Nail Supplies", "Eyelash Suppli
     var initDone = false;
     var searchSelectedIdx = -1;
     var searchMatches = [];
-    var allProducts = [];
+    var searchIndex = [];
+    var searchLoaded = false;
+    var searchLoading = false;
     var tearDownFns = [];
 
-    // ── Read products from hidden div (set in Layout.astro) ──
-    var productsEl = document.getElementById("products-data");
-    try {
-      allProducts = productsEl ? JSON.parse(productsEl.textContent || "[]") : [];
-    } catch (e) {
-      allProducts = [];
+    // ── Fetch search index on demand (cached in memory) ──
+    function loadSearchIndex(cb) {
+      if (searchLoaded) { cb(searchIndex); return; }
+      if (searchLoading) { setTimeout(function(){ loadSearchIndex(cb); }, 100); return; }
+      searchLoading = true;
+      var base = document.querySelector("meta[name=\"base\"]")?.content || "";
+      fetch(base + "/api/search-index.json")
+        .then(function(r){ return r.json(); })
+        .then(function(data){
+          searchIndex = data;
+          searchLoaded = true;
+          searchLoading = false;
+          cb(searchIndex);
+        })
+        .catch(function(){
+          searchLoading = false;
+          cb([]);
+        });
     }
 
     function timeBasedTheme() {
@@ -242,6 +256,8 @@ const moreCategories = CATEGORIES.filter(c => !["Nail Supplies", "Eyelash Suppli
         searchSelectedIdx = -1;
         searchMatches = [];
         setTimeout(function () { if (searchInput) searchInput.focus(); }, 100);
+        // Preload search index in background
+        loadSearchIndex(function(){});
       }
 
       function closeSearch() {
@@ -255,13 +271,13 @@ const moreCategories = CATEGORIES.filter(c => !["Nail Supplies", "Eyelash Suppli
       function renderResults() {
         if (!searchResults) return;
         searchResults.innerHTML = searchMatches.map(function (p, i) {
-          return '<a href="/product/' + p.slug + '" data-search-idx="' + i + '"' +
+          return '<a href="/product/' + p.s + '" data-search-idx="' + i + '"' +
             ' class="search-result-item flex items-center gap-4 p-3 rounded-xl transition-colors ' +
             (i === searchSelectedIdx ? 'bg-pink-50 ring-1 ring-pink-200' : 'hover:bg-gray-50') + '">' +
-            '<img src="' + p.image + '" alt="" class="w-12 h-12 rounded-lg object-cover flex-shrink-0" />' +
+            '<img src="' + p.i + '" alt="" class="w-12 h-12 rounded-lg object-cover flex-shrink-0" />' +
             '<div class="min-w-0">' +
-            '<div class="font-medium text-gray-900 text-sm truncate">' + p.name + '</div>' +
-            '<div class="text-xs text-gray-500">' + p.category + ' · $' + p.price.toFixed(2) + '/unit</div>' +
+            '<div class="font-medium text-gray-900 text-sm truncate">' + p.n + '</div>' +
+            '<div class="text-xs text-gray-500">' + p.c + ' · $' + p.p.toFixed(2) + '/unit</div>' +
             '</div></a>';
         }).join("");
       }
@@ -285,7 +301,7 @@ const moreCategories = CATEGORIES.filter(c => !["Nail Supplies", "Eyelash Suppli
 
       function openSelected() {
         if (searchSelectedIdx >= 0 && searchSelectedIdx < searchMatches.length) {
-          window.location.href = "/product/" + searchMatches[searchSelectedIdx].slug;
+          window.location.href = "/product/" + searchMatches[searchSelectedIdx].s;
         }
       }
 
@@ -308,13 +324,15 @@ const moreCategories = CATEGORIES.filter(c => !["Nail Supplies", "Eyelash Suppli
             return;
           }
           var lowerQ = q;
-          searchMatches = allProducts.filter(function (p) { return p.name.toLowerCase().indexOf(lowerQ) !== -1 || p.category.toLowerCase().indexOf(lowerQ) !== -1 || p.description.toLowerCase().indexOf(lowerQ) !== -1; });
-          searchSelectedIdx = -1;
-          if (searchMatches.length === 0) {
-            searchResults.innerHTML = '<p class="text-gray-400 text-sm text-center py-10">No products found.</p>';
-            return;
-          }
-          renderResults();
+          loadSearchIndex(function(products){
+            searchMatches = products.filter(function (p) { return p.n.toLowerCase().indexOf(lowerQ) !== -1 || p.c.toLowerCase().indexOf(lowerQ) !== -1; });
+            searchSelectedIdx = -1;
+            if (searchMatches.length === 0) {
+              searchResults.innerHTML = '<p class="text-gray-400 text-sm text-center py-10">No products found.</p>';
+              return;
+            }
+            renderResults();
+          });
         };
         searchInput.addEventListener("input", inputHandler);
         fns.push(function () { searchInput.removeEventListener("input", inputHandler); });
