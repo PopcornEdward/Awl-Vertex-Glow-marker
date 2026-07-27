@@ -1,6 +1,17 @@
 /**
- * Cloudflare Worker — GitHub OAuth Gateway for Sveltia/Decap CMS
+ * Cloudflare Worker — GitHub OAuth Gateway + R2 Image Upload
+ * for Sveltia/Decap CMS
  */
+
+const CDN_BASE = "https://ownshop.usbartimgotolink.qizz.io";
+
+function corsHeaders(origin) {
+  return {
+    "Access-Control-Allow-Origin": origin,
+    "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+    "Access-Control-Allow-Headers": "Content-Type, Authorization",
+  };
+}
 
 export default {
   async fetch(request, env) {
@@ -9,14 +20,7 @@ export default {
 
     // CORS preflight
     if (request.method === "OPTIONS") {
-      return new Response(null, {
-        status: 204,
-        headers: {
-          "Access-Control-Allow-Origin": origin,
-          "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
-          "Access-Control-Allow-Headers": "Content-Type, Authorization",
-        },
-      });
+      return new Response(null, { status: 204, headers: corsHeaders(origin) });
     }
 
     // ── /auth — 发起 GitHub OAuth，跳转到 GitHub 授权页 ──
@@ -97,6 +101,48 @@ export default {
 </body>
 </html>`,
         { headers: { "Content-Type": "text/html; charset=utf-8" } }
+      );
+    }
+
+    // ── /upload — 图片上传到 R2，返回 CDN URL ──
+    if (url.pathname === "/upload" && request.method === "POST") {
+      const contentType = request.headers.get("Content-Type") || "";
+      if (!contentType.includes("multipart/form-data")) {
+        return new Response(
+          JSON.stringify({ error: "Expected multipart/form-data" }),
+          { status: 400, headers: { ...corsHeaders(origin), "Content-Type": "application/json" } }
+        );
+      }
+
+      const formData = await request.formData();
+      const file = formData.get("file");
+      if (!file || typeof file === "string") {
+        return new Response(
+          JSON.stringify({ error: "No file provided" }),
+          { status: 400, headers: { ...corsHeaders(origin), "Content-Type": "application/json" } }
+        );
+      }
+
+      const arrayBuffer = await file.arrayBuffer();
+      const hashBuffer = await crypto.subtle.digest("SHA-256", arrayBuffer);
+      const hashArray = Array.from(new Uint8Array(hashBuffer));
+      const hashHex = hashArray.map((b) => b.toString(16).padStart(2, "0")).join("");
+      const fileHash = hashHex.substring(0, 32);
+
+      const ext = (file.name || "image.jpg").split(".").pop() || "jpg";
+      const now = new Date();
+      const year = now.getFullYear();
+      const month = String(now.getMonth() + 1).padStart(2, "0");
+      const day = String(now.getDate()).padStart(2, "0");
+      const key = `${year}/${month}/${day}/${fileHash}.${ext}`;
+
+      await env.MY_BUCKET.put(key, arrayBuffer, {
+        httpMetadata: { contentType: file.type || "image/jpeg" },
+      });
+
+      return new Response(
+        JSON.stringify({ url: `${CDN_BASE}/${key}` }),
+        { headers: { ...corsHeaders(origin), "Content-Type": "application/json" } }
       );
     }
 

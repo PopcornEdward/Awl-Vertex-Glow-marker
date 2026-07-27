@@ -19,14 +19,7 @@ publish_mode: editorial_workflow
 
 # ── Media Library: Cloudflare R2 (S3 API) ──
 media_library:
-  name: s3
-  config:
-    publicKey: "7f13798ec35c9e861d1bba8ce28b9705"
-    secretKey: "17c76e70dc68b76e20830e96a239d901149efa5009e09dcfaf11e47d2fac4710"
-    bucket: "my-astro-avgm"
-    region: "auto"
-    endpoint: "https://8b0adeeddb1097052d05dcc7f5bc2796.r2.cloudflarestorage.com"
-    cmsMediaFolder: "https://ownshop.usbartimgotolink.qzz.io"
+  name: r2-upload
 
 # ── Content Collections ──
 collections:
