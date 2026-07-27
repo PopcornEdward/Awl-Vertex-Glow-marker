@@ -6,96 +6,237 @@
     <title>独立站后台管理系统</title>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <style>
-      .r2-upload-overlay {
-        position: fixed; top: 0; left: 0;
-        width: 100%; height: 100%;
-        background: rgba(0, 0, 0, 0.55);
-        display: flex; align-items: center; justify-content: center;
+      .r2-toast {
+        position: fixed;
+        bottom: 24px;
+        right: 24px;
         z-index: 99999;
+        padding: 14px 20px;
+        border-radius: 8px;
+        font-family: system-ui, -apple-system, sans-serif;
+        font-size: 14px;
+        max-width: 420px;
+        box-shadow: 0 4px 24px rgba(0, 0, 0, 0.35);
+        animation: r2-slide-in 0.25s ease-out;
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+        line-height: 1.5;
       }
-      .r2-upload-box {
+      .r2-toast--success {
+        background: #1a3a2a;
+        border: 1px solid #2d6a4f;
+        color: #b7e4c7;
+      }
+      .r2-toast--error {
+        background: #3a1a1a;
+        border: 1px solid #6a2d2d;
+        color: #e4b7b7;
+      }
+      .r2-toast--uploading {
         background: #1e1e2e;
         border: 1px solid #45475a;
-        border-radius: 12px;
-        padding: 36px 48px;
-        text-align: center;
         color: #cdd6f4;
-        font-family: system-ui, -apple-system, sans-serif;
-        min-width: 280px;
-        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
       }
-      .r2-upload-spinner {
-        width: 36px; height: 36px;
-        border: 3px solid #45475a;
+      .r2-toast-icon {
+        flex-shrink: 0;
+        font-size: 18px;
+        width: 20px;
+        text-align: center;
+      }
+      .r2-toast-close {
+        flex-shrink: 0;
+        cursor: pointer;
+        opacity: 0.6;
+        font-size: 16px;
+        margin-left: 8px;
+        background: none;
+        border: none;
+        color: inherit;
+        padding: 0;
+        line-height: 1;
+      }
+      .r2-toast-close:hover {
+        opacity: 1;
+      }
+      .r2-toast-url {
+        display: block;
+        font-size: 12px;
+        opacity: 0.8;
+        word-break: break-all;
+        margin-top: 4px;
+      }
+      @keyframes r2-slide-in {
+        from {
+          transform: translateY(16px);
+          opacity: 0;
+        }
+        to {
+          transform: translateY(0);
+          opacity: 1;
+        }
+      }
+      .r2-spinner {
+        display: inline-block;
+        width: 16px;
+        height: 16px;
+        border: 2px solid #45475a;
         border-top-color: #89b4fa;
         border-radius: 50%;
-        animation: r2-spin 0.8s linear infinite;
-        margin: 12px auto;
+        animation: r2-spin 0.7s linear infinite;
       }
-      @keyframes r2-spin { to { transform: rotate(360deg); } }
+      @keyframes r2-spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
     </style>
   </head>
   <body>
     <script src="https://unpkg.com/@sveltia/cms/dist/sveltia-cms.js"></script>
     <script>
       (function () {
+        // ── Config ──
         var WORKER_UPLOAD =
-          "https://awlvertexglowmarker.chinafang1234.workers.dev/upload";
+          "https://awlvertexglowmarker.aviciimailsend.dpdns.org/upload";
+        var UPLOAD_TIMEOUT = 30000; // 30s
+
         var uploading = false;
 
-        function showOverlay(text) {
-          var el = document.createElement("div");
-          el.className = "r2-upload-overlay";
-          el.innerHTML =
-            '<div class="r2-upload-box"><div class="r2-upload-spinner"></div><p>' +
-            text +
-            "</p></div>";
-          document.body.appendChild(el);
-          return el;
+        // ── Toast notifications ──
+        function showToast(type, message, url) {
+          var toast = document.createElement("div");
+          toast.className = "r2-toast r2-toast--" + type;
+
+          var icon = "";
+          if (type === "success") icon = "✅";
+          else if (type === "error") icon = "❌";
+          else if (type === "uploading") icon =
+            '<span class="r2-spinner"></span>';
+
+          var inner =
+            '<span class="r2-toast-icon">' +
+            icon +
+            "</span><span>" +
+            message;
+          if (url) {
+            inner += '<span class="r2-toast-url">' + url + "</span>";
+          }
+          inner +=
+            '</span><button class="r2-toast-close" onclick="this.parentElement.remove()">×</button>';
+
+          toast.innerHTML = inner;
+          document.body.appendChild(toast);
+
+          if (type === "success") {
+            setTimeout(function () {
+              if (toast.parentElement) toast.remove();
+            }, 6000);
+          }
+          return toast;
         }
 
+        // ── Upload to R2 ──
         function uploadFile(file) {
           return new Promise(function (resolve, reject) {
             if (uploading) return reject(new Error("已有上传进行中"));
+
             uploading = true;
-            var overlay = showOverlay("正在上传到云存储…");
+            var toast = showToast("uploading", "正在上传到云存储…");
+
             var fd = new FormData();
             fd.append("file", file);
-            fetch(WORKER_UPLOAD, { method: "POST", body: fd })
+
+            var controller = new AbortController();
+            var timer = setTimeout(function () {
+              controller.abort();
+            }, UPLOAD_TIMEOUT);
+
+            fetch(WORKER_UPLOAD, {
+              method: "POST",
+              body: fd,
+              signal: controller.signal,
+            })
               .then(function (r) {
+                clearTimeout(timer);
+                if (!r.ok)
+                  throw new Error("HTTP " + r.status + " " + r.statusText);
                 return r.json();
               })
               .then(function (data) {
-                overlay.remove();
+                toast.remove();
                 uploading = false;
                 if (data.url) resolve(data.url);
-                else reject(new Error(data.error || "上传失败"));
+                else reject(new Error(data.error || "服务器未返回URL"));
               })
               .catch(function (err) {
-                overlay.remove();
+                clearTimeout(timer);
+                toast.remove();
                 uploading = false;
-                reject(err);
+
+                if (err.name === "AbortError") {
+                  reject(new Error("上传超时，请检查网络后重试"));
+                } else {
+                  reject(err);
+                }
               });
           });
         }
 
-        // Set value on a text input and trigger Svelte reactivity
+        // ── Inject URL into a text input ──
         function setInputValue(input, url) {
-          var nativeSetter =
-            Object.getOwnPropertyDescriptor(
-              window.HTMLInputElement.prototype,
-              "value"
-            );
+          // Focus the input first so Svelte bind:value is active
+          input.focus();
+
+          // Native property setter — bypasses any React/Svelte wrapper
+          var nativeSetter = Object.getOwnPropertyDescriptor(
+            window.HTMLInputElement.prototype,
+            "value"
+          );
           if (nativeSetter && nativeSetter.set) {
             nativeSetter.set.call(input, url);
           } else {
             input.value = url;
           }
+
+          // Trigger all possible events for different frameworks
           input.dispatchEvent(new Event("input", { bubbles: true }));
           input.dispatchEvent(new Event("change", { bubbles: true }));
+          input.dispatchEvent(
+            new InputEvent("input", { bubbles: true, data: url })
+          );
+
+          // Blur to trigger bind:value commit in Svelte
+          input.blur();
         }
 
-        // Find a text input near the event target
+        // ── Copy URL to clipboard as fallback ──
+        function copyToClipboard(url) {
+          try {
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+              navigator.clipboard.writeText(url);
+              return true;
+            }
+          } catch (e) {
+            /* fall through */
+          }
+          // Fallback for older browsers
+          try {
+            var ta = document.createElement("textarea");
+            ta.value = url;
+            ta.style.position = "fixed";
+            ta.style.opacity = "0";
+            document.body.appendChild(ta);
+            ta.select();
+            document.execCommand("copy");
+            document.body.removeChild(ta);
+            return true;
+          } catch (e) {
+            return false;
+          }
+        }
+
+        // ── Find a text input near the event target ──
         function findNearbyInput(el) {
           var node = el;
           while (node && node !== document.body) {
@@ -103,29 +244,53 @@
               var inp = node.querySelector(
                 'input[type="text"], input:not([type])'
               );
-              if (inp) return inp;
+              if (inp && inp.offsetParent !== null) return inp; // visible only
             }
             if (node.parentElement) {
               var sib = node.parentElement.querySelector(
                 'input[type="text"], input:not([type])'
               );
-              if (sib) return sib;
+              if (sib && sib.offsetParent !== null) return sib;
             }
             node = node.parentElement;
           }
-          // Fallback: any visible text input in the page
+          // Fallback: any visible text input
           var inputs = document.querySelectorAll('input[type="text"]');
           for (var i = 0; i < inputs.length; i++) {
-            var v = inputs[i].value;
-            // Prefer input that already has an image URL
-            if (v && (v.startsWith("http") || v.startsWith("/"))) {
-              return inputs[i];
-            }
+            if (inputs[i].offsetParent !== null) return inputs[i];
           }
-          return inputs.length > 0 ? inputs[0] : null;
+          return null;
         }
 
-        // ── 1. Intercept PASTE (Ctrl+V) ──
+        // ── Handle an image file upload ──
+        function handleImageFile(file, targetInput) {
+          uploadFile(file)
+            .then(function (url) {
+              var injected = false;
+              if (targetInput) {
+                try {
+                  setInputValue(targetInput, url);
+                  injected = true;
+                } catch (e) {
+                  /* continue */
+                }
+              }
+
+          var copied = copyToClipboard(url);
+          var msg = "上传成功！";
+          if (!injected && copied) {
+            msg += " URL已复制到剪贴板，请 Ctrl+V 粘贴到输入框中";
+          } else if (!injected) {
+            msg += " 请手动复制URL填入输入框";
+          }
+              showToast("success", msg, url);
+            })
+            .catch(function (err) {
+              showToast("error", "上传失败: " + err.message);
+            });
+        }
+
+        // ── 1. Intercept PASTE (Ctrl+V of image) — capture phase ──
         document.addEventListener(
           "paste",
           function (e) {
@@ -142,9 +307,20 @@
                   input &&
                   (input.tagName === "INPUT" || input.tagName === "TEXTAREA")
                 ) {
-                  uploadFile(file).then(function (url) {
-                    setInputValue(input, url);
-                  });
+                  handleImageFile(file, input);
+                } else {
+                  uploadFile(file)
+                    .then(function (url) {
+                      copyToClipboard(url);
+                      showToast(
+                        "success",
+                        "图片已上传！URL已复制到剪贴板",
+                        url
+                      );
+                    })
+                    .catch(function (err) {
+                      showToast("error", "上传失败: " + err.message);
+                    });
                 }
                 return;
               }
@@ -153,7 +329,7 @@
           true
         );
 
-        // ── 2. Intercept DROP (drag/drop) ──
+        // ── 2. Intercept DROP (drag/drop) — capture phase ──
         document.addEventListener(
           "drop",
           function (e) {
@@ -165,11 +341,7 @@
                 e.stopPropagation();
                 e.stopImmediatePropagation();
                 var input = findNearbyInput(e.target);
-                if (input) {
-                  uploadFile(files[i]).then(function (url) {
-                    setInputValue(input, url);
-                  });
-                }
+                handleImageFile(files[i], input);
                 return;
               }
             }
@@ -177,7 +349,7 @@
           true
         );
 
-        // ── 3. Intercept file input CHANGE (click Choose / browse) ──
+        // ── 3. Intercept file input CHANGE (Choose button) — capture phase ──
         document.addEventListener(
           "change",
           function (e) {
@@ -197,15 +369,7 @@
             e.stopImmediatePropagation();
 
             var input = findNearbyInput(target);
-            if (input) {
-              uploadFile(file).then(function (url) {
-                setInputValue(input, url);
-              });
-            } else {
-              uploadFile(file).then(function (url) {
-                alert("上传成功！\n" + url);
-              });
-            }
+            handleImageFile(file, input);
           },
           true
         );
