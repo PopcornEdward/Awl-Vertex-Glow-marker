@@ -20,6 +20,82 @@ publish_mode: editorial_workflow
 # ── Content Collections ──
 collections:
   # ═══════════════════════════════════════════
+  # Page Content — Factory & About
+  # ═══════════════════════════════════════════
+  - name: "pages"
+    label: "Page Content"
+    editor:
+      preview: false
+    files:
+      - label: "Factory Page"
+        name: "factory_page"
+        file: "src/data/pages/factory.json"
+        fields:
+          - { label: "Hero Image URL", name: "hero_image", widget: "string" }
+          - { label: "Hero Title", name: "hero_title", widget: "string" }
+          - { label: "Hero Subtitle", name: "hero_subtitle", widget: "string" }
+          - { label: "Manufacturing Section Title", name: "mfg_title", widget: "string" }
+          - { label: "Manufacturing Description", name: "mfg_description", widget: "text" }
+          - { label: "Manufacturing Image URL", name: "mfg_image", widget: "string" }
+          - label: "Highlights"
+            name: "highlights"
+            widget: "list"
+            summary: "{{fields.text}}"
+            field: { label: "Text", name: "text", widget: "string" }
+          - { label: "Photo Wall Title", name: "photo_wall_title", widget: "string" }
+          - { label: "Photo Wall Subtitle", name: "photo_wall_subtitle", widget: "string" }
+          - { label: "QC Section Title", name: "qc_title", widget: "string" }
+          - label: "QC Stages"
+            name: "qc_stages"
+            widget: "list"
+            summary: "{{fields.text}}"
+            field: { label: "Text", name: "text", widget: "string" }
+          - { label: "CTA Title", name: "cta_title", widget: "string" }
+          - { label: "CTA Description", name: "cta_description", widget: "text" }
+
+      - label: "About Page"
+        name: "about_page"
+        file: "src/data/pages/about.json"
+        fields:
+          - { label: "Hero Image URL", name: "hero_image", widget: "string" }
+          - { label: "Hero Title", name: "hero_title", widget: "string" }
+          - { label: "Hero Subtitle", name: "hero_subtitle", widget: "string" }
+          - { label: "Company Profile Title", name: "profile_title", widget: "string" }
+          - { label: "Profile Paragraph 1", name: "profile_p1", widget: "text" }
+          - { label: "Profile Paragraph 2", name: "profile_p2", widget: "text" }
+          - { label: "Profile Paragraph 3", name: "profile_p3", widget: "text" }
+          - label: "Profile Images"
+            name: "profile_images"
+            widget: "list"
+            summary: "{{fields.url}}"
+            field: { label: "Image URL", name: "url", widget: "string" }
+          - { label: "Mission Title", name: "mission_title", widget: "string" }
+          - { label: "Mission Description", name: "mission_desc", widget: "text" }
+          - { label: "Vision Title", name: "vision_title", widget: "string" }
+          - { label: "Vision Description", name: "vision_desc", widget: "text" }
+          - { label: "Values Title", name: "values_title", widget: "string" }
+          - { label: "Values Description", name: "values_desc", widget: "text" }
+          - { label: "Global Reach Title", name: "global_title", widget: "string" }
+          - { label: "Global Reach Description", name: "global_desc", widget: "text" }
+          - label: "Regions"
+            name: "regions"
+            widget: "list"
+            summary: "{{fields.name}}: {{fields.count}}"
+            fields:
+              - { label: "Region Name", name: "name", widget: "string" }
+              - { label: "Country Count", name: "count", widget: "string" }
+              - label: "Color"
+                name: "color"
+                widget: "select"
+                options:
+                  - { label: "Pink", value: "pink" }
+                  - { label: "Blue", value: "blue" }
+                  - { label: "Purple", value: "purple" }
+                  - { label: "Green", value: "green" }
+          - { label: "CTA Title", name: "cta_title", widget: "string" }
+          - { label: "CTA Description", name: "cta_description", widget: "text" }
+
+  # ═══════════════════════════════════════════
   # Products Management
   # ═══════════════════════════════════════════
   - name: "products"

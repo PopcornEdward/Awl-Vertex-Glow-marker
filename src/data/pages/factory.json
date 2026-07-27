@@ -1,0 +1,27 @@
+{
+  "hero_image": "https://images.pexels.com/photos/3997388/pexels-photo-3997388.jpeg?auto=compress&cs=tinysrgb&w=1920",
+  "hero_title": "Factory Tour",
+  "hero_subtitle": "See where your products are made",
+  "mfg_title": "Manufacturing Excellence",
+  "mfg_description": "Our main factory is located in Zhejiang Province — the heart of China's manufacturing hub. Spanning 5,000+ sqm, our facility houses dedicated production lines for each product category: nail supplies, eyelash tools, PMU equipment, beauty devices, and daily chemical products.",
+  "mfg_image": "https://images.pexels.com/photos/5069610/pexels-photo-5069610.jpeg?auto=compress&cs=tinysrgb&w=800",
+  "highlights": [
+    { "text": "R&D Center: In-house product development team that tracks global beauty trends and creates new products monthly." },
+    { "text": "Production Lines: 6 dedicated assembly lines with modern equipment for consistent quality at scale." },
+    { "text": "QC Stations: 6-stage quality inspection integrated into every production batch." },
+    { "text": "Warehouse: 2000+ sqm storage capacity for fast order fulfillment." }
+  ],
+  "photo_wall_title": "Inside Our Factory",
+  "photo_wall_subtitle": "A transparent look at our production environment",
+  "qc_title": "6-Stage Quality Control",
+  "qc_stages": [
+    { "text": "Material Inspection" },
+    { "text": "Production QC" },
+    { "text": "Function Test" },
+    { "text": "Appearance Check" },
+    { "text": "Packaging QC" },
+    { "text": "Final Audit" }
+  ],
+  "cta_title": "Want a Live Video Tour?",
+  "cta_description": "Contact us to schedule a live video walkthrough of our factory. We're proud to show you where your products come from."
+}
