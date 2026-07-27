@@ -443,53 +443,74 @@
           });
         }
 
-        // ── Override "Choose an Image" clicks: lock correct text input ──
-        document.addEventListener("click", function (e) {
-          var target = e.target;
-          var chooseBtn = null;
+        // ── Find the open SelectAssetsDialog ──
+        function findAssetDialog() {
+          return document.querySelector('[role="dialog"]');
+        }
 
-          // Walk up from click target to find a "Choose" button
-          var node = target;
-          while (node && node !== document.body) {
-            var text = (node.textContent || "").trim().toLowerCase();
-            if (text.indexOf("choose") !== -1 && text.indexOf("image") !== -1) {
-              chooseBtn = node;
+        // ── Switch dialog to "Enter URL" tab + fill + submit ──
+        function injectURLViaDialog(url) {
+          var dialog = findAssetDialog();
+          if (!dialog) {
+            console.warn("no open asset dialog found");
+            return false;
+          }
+
+          // Find "Enter URL" tab option by text content
+          var enterURLOption = null;
+          var candidates = dialog.querySelectorAll(
+            'option, [role="option"], [role="tab"], button, label');
+          for (var i = 0; i < candidates.length; i++) {
+            var text = (candidates[i].textContent || "").trim();
+            if (text === "Enter URL" || text === "输入 URL" ||
+                text.indexOf("Enter URL") !== -1 || text.indexOf("输入 URL") !== -1) {
+              enterURLOption = candidates[i];
               break;
             }
-            node = node.parentElement;
           }
 
-          if (!chooseBtn) return;
-
-          // Find the text input in this specific widget
-          var textInput = findNearbyInput(chooseBtn);
-          if (!textInput) {
-            console.warn("no text input found near Choose button");
-            return;
+          if (enterURLOption) {
+            enterURLOption.click();
           }
 
-          // Prevent Sveltia's own file dialog
-          e.preventDefault();
-          e.stopPropagation();
-          e.stopImmediatePropagation();
-
-          // Create our own file input, positioned inside the correct widget context
-          var fileInput = document.createElement("input");
-          fileInput.type = "file";
-          fileInput.accept = "image/*";
-          fileInput.style.cssText = "position:fixed;top:-9999px;left:-9999px";
-          fileInput.dataset.r2upload = "1";
-
-          fileInput.addEventListener("change", function () {
-            if (fileInput.files && fileInput.files[0]) {
-              handleImageFile(fileInput.files[0], textInput);
+          // Wait for Svelte to render the URL input, then fill + submit
+          setTimeout(function () {
+            var input = dialog.querySelector(
+              'input[type="text"], input:not([type]), input[type="url"]');
+            if (!input) {
+              console.warn("no URL input found in dialog");
+              return;
             }
-            fileInput.remove();
-          });
 
-          document.body.appendChild(fileInput);
-          fileInput.click();
-        }, true);
+            // Set value via native setter
+            var ns = Object.getOwnPropertyDescriptor(
+              window.HTMLInputElement.prototype, "value");
+            if (ns && ns.set) ns.set.call(input, url);
+            else input.value = url;
+
+            input.dispatchEvent(new Event("input", { bubbles: true }));
+            input.dispatchEvent(new Event("change", { bubbles: true }));
+
+            // Click Insert/Choose/OK button after Svelte updates state
+            setTimeout(function () {
+              var buttons = dialog.querySelectorAll("button");
+              for (var j = 0; j < buttons.length; j++) {
+                var btnText = (buttons[j].textContent || "").trim();
+                if (btnText === "Insert" || btnText === "Choose" ||
+                    btnText === "OK" || btnText === "插入" || btnText === "选择") {
+                  if (!buttons[j].disabled) {
+                    buttons[j].click();
+                    showToast("success", "Uploaded!", url);
+                    return;
+                  }
+                }
+              }
+              // Fallback: URL filled but couldn't auto-submit
+              showToast("success", "URL filled — click Insert to confirm", url);
+            }, 200);
+          }, 150);
+          return true;
+        }
 
         // ── 1. PASTE interception (capture) ──
         document.addEventListener("paste", function (e) {
@@ -528,15 +549,27 @@
           }
         }, true);
 
-        // ── 3. File input CHANGE interception (capture) ──
+        // ── 3. File input CHANGE — R2 upload + inject into dialog ──
         document.addEventListener("change", function (e) {
           var t = e.target;
           if (!t || t.type !== "file" || !t.files || !t.files[0]) return;
-          if (t.dataset.r2upload === "1") return; // handled by click interceptor
           var file = t.files[0];
           if (file.type.indexOf("image/") !== 0) return;
-          e.preventDefault(); e.stopPropagation(); e.stopImmediatePropagation();
-          handleImageFile(file, findNearbyInput(t));
+
+          e.preventDefault();
+          e.stopPropagation();
+          e.stopImmediatePropagation();
+
+          uploadToR2(file).then(function (url) {
+            copyToClipboard(url);
+            if (!injectURLViaDialog(url)) {
+              // Dialog not available — fallback: just copy to clipboard
+              showToast("success",
+                "Uploaded! URL copied — paste into the dialog's Enter URL tab.", url);
+            }
+          }).catch(function (err) {
+            showToast("error", "Upload failed: " + err.message);
+          });
         }, true);
       })();
     </script>
