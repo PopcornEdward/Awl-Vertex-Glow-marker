@@ -1,0 +1,9 @@
+name = "awlvertexglowmarker"
+main = "src/index.js"
+compatibility_date = "2025-01-01"
+
+[vars]
+# OAUTH_CLIENT_ID = ""
+# OAUTH_CLIENT_SECRET = ""
+OAUTH_REDIRECT_HOST = "awlvertexglowmarker.aviciimailsend.dpdns.org"
+OAUTH_ORIGIN = "https://popcornedward.github.io"

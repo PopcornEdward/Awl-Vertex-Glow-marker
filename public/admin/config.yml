@@ -6,9 +6,9 @@
 # ── Backend: Git-based via GitHub ──
 backend:
   name: github
-  repo: YOUR_GITHUB_USER/YOUR_REPO_NAME       # ⚠️ REPLACE with actual GitHub repo (e.g. popcornedward/Awl-Vertex-Glow-marker)
+  repo: PopcornEdward/Awl-Vertex-Glow-marker
   branch: main
-  base_url: https://YOUR_WORKER.workers.dev    # ⚠️ REPLACE with your Cloudflare Worker OAuth gateway URL
+  base_url: https://awlvertexglowmarker.aviciimailsend.dpdns.org
   auth_endpoint: /auth
 
 # ── Editorial Workflow: Draft → Review → Publish ──
@@ -18,12 +18,12 @@ publish_mode: editorial_workflow
 media_library:
   name: s3
   config:
-    publicKey: "YOUR_R2_ACCESS_KEY_ID"                                          # ⚠️ REPLACE
-    secretKey: "YOUR_R2_SECRET_ACCESS_KEY"                                     # ⚠️ REPLACE
-    bucket: "YOUR_R2_BUCKET_NAME"                                              # ⚠️ REPLACE
+    publicKey: "7f13798ec35c9e861d1bba8ce28b9705"
+    secretKey: "17c76e70dc68b76e20830e96a239d901149efa5009e09dcfaf11e47d2fac4710"
+    bucket: "my-astro-avgm"
     region: "auto"
-    endpoint: "https://YOUR_ACCOUNT_ID.r2.cloudflarestorage.com"               # ⚠️ REPLACE with your R2 S3 endpoint
-    cmsMediaFolder: "https://YOUR_CDN_DOMAIN.com"                              # ⚠️ REPLACE with your R2 custom domain or CDN URL
+    endpoint: "https://8b0adeeddb1097052d05dcc7f5bc2796.r2.cloudflarestorage.com"
+    cmsMediaFolder: "https://ownshop.usbartimgotolink.qzz.io"
 
 # ── Content Collections ──
 collections:
