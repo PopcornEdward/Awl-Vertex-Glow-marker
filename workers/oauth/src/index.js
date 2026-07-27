@@ -3,7 +3,7 @@
  * for Sveltia/Decap CMS
  */
 
-const CDN_BASE = "https://ownshop.usbartimgotolink.qizz.io";
+const CDN_BASE = "https://ownshop.usbartimgotolink.qzz.io";
 
 function corsHeaders(origin) {
   return {

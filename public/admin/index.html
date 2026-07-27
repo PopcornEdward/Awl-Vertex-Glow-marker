@@ -51,7 +51,7 @@
         var SECRET_KEY = "17c76e70dc68b76e20830e96a239d901149efa5009e09dcfaf11e47d2fac4710";
         var REGION = "auto";
         var SERVICE = "s3";
-        var CDN_BASE = "https://ownshop.usbartimgotolink.qizz.io";
+        var CDN_BASE = "https://ownshop.usbartimgotolink.qzz.io";
         var R2_HOST = ACCOUNT_ID + ".r2.cloudflarestorage.com";
         var R2_ENDPOINT = "https://" + R2_HOST;
 
@@ -205,55 +205,55 @@
                   "AWS4-HMAC-SHA256 Credential=" + ACCESS_KEY + "/" + credentialScope +
                   ", SignedHeaders=" + signedHeaders + ", Signature=" + signature;
 
-                // Build progress-tracking body stream
-                var total = arrayBuffer.byteLength;
-                var loaded = 0;
-                var CHUNK = 256 * 1024; // 256KB chunks
-                var offset = 0;
-                var stream = new ReadableStream({
-                  pull: function (controller) {
-                    if (offset >= total) {
-                      controller.close();
-                      progressToast.updateProgress(100);
-                      return;
-                    }
-                    var end = Math.min(offset + CHUNK, total);
-                    controller.enqueue(new Uint8Array(arrayBuffer.slice(offset, end)));
-                    loaded += end - offset;
-                    progressToast.updateProgress(Math.round((loaded / total) * 100));
-                    offset = end;
-                  },
-                });
+                // PUT to R2 via XHR (sends raw ArrayBuffer with Content-Length, + progress)
+                var r2Url = R2_ENDPOINT + canonicalUri;
+                var xhr = new XMLHttpRequest();
+                xhr.open("PUT", r2Url);
+                xhr.setRequestHeader("Content-Type", contentType);
+                xhr.setRequestHeader("x-amz-content-sha256", payloadHashHex);
+                xhr.setRequestHeader("x-amz-date", amzDate);
+                xhr.setRequestHeader("Authorization", authorization);
+                xhr.timeout = 120000;
 
+                xhr.upload.onprogress = function (e) {
+                  if (e.lengthComputable) {
+                    progressToast.updateProgress(
+                      Math.round((e.loaded / e.total) * 100));
+                  }
+                };
                 progressToast.updateProgress(0);
 
-                // PUT via fetch (shows CORS errors clearly in console)
-                var r2Url = R2_ENDPOINT + canonicalUri;
-                var resp = await fetch(r2Url, {
-                  method: "PUT",
-                  headers: {
-                    "Content-Type": contentType,
-                    "x-amz-content-sha256": payloadHashHex,
-                    "x-amz-date": amzDate,
-                    "Authorization": authorization,
-                  },
-                  body: stream,
-                  duplex: "half",
-                });
+                xhr.onload = function () {
+                  progressToast.remove();
+                  uploading = false;
+                  if (xhr.status >= 200 && xhr.status < 300) {
+                    var cdnUrl = CDN_BASE + "/" + key;
+                    console.log("R2 upload success:", cdnUrl);
+                    resolve(cdnUrl);
+                  } else {
+                    console.error("R2 PUT failed:", xhr.status, xhr.responseText);
+                    reject(new Error("HTTP " + xhr.status +
+                      (xhr.responseText ? ": " + xhr.responseText.substring(0, 120) : "")));
+                  }
+                };
 
-                progressToast.remove();
-                uploading = false;
+                xhr.onerror = function () {
+                  progressToast.remove();
+                  uploading = false;
+                  reject(new Error(
+                    "上传被阻止——请检查浏览器 F12 Console 中的 CORS 错误。" +
+                    "需要 Cloudflare R2 → " + BUCKET +
+                    " → CORS 添加允许源 " + window.location.origin + "，方法 PUT"
+                  ));
+                };
 
-                if (resp.ok) {
-                  var cdnUrl = CDN_BASE + "/" + key;
-                  console.log("R2 upload success:", cdnUrl);
-                  resolve(cdnUrl);
-                } else {
-                  var txt = await resp.text().catch(function () { return ""; });
-                  console.error("R2 PUT failed:", resp.status, txt);
-                  reject(new Error("HTTP " + resp.status +
-                    (txt ? ": " + txt.substring(0, 120) : "")));
-                }
+                xhr.ontimeout = function () {
+                  progressToast.remove();
+                  uploading = false;
+                  reject(new Error("上传超时"));
+                };
+
+                xhr.send(arrayBuffer);
               } catch (err) {
                 progressToast.remove();
                 uploading = false;
@@ -285,13 +285,26 @@
 
         // ── Inject URL into text input ──
         function setInputValue(input, url) {
+          // 1. Focus + select existing content
           input.focus();
+          try { input.setSelectionRange(0, input.value.length); } catch (e) {}
+
+          // 2. Set value via native setter (bypasses framework wrappers)
           var ns = Object.getOwnPropertyDescriptor(
             window.HTMLInputElement.prototype, "value");
           if (ns && ns.set) ns.set.call(input, url);
           else input.value = url;
-          input.dispatchEvent(new Event("input", { bubbles: true }));
+
+          // 3. InputEvent (Svelte bind:value listens for this)
+          input.dispatchEvent(new InputEvent("input", {
+            bubbles: true, cancelable: true,
+            data: url, inputType: "insertFromPaste",
+          }));
+
+          // 4. Change event (backup)
           input.dispatchEvent(new Event("change", { bubbles: true }));
+
+          // 5. Blur to commit Svelte bind:value
           input.blur();
         }
 
@@ -313,25 +326,47 @@
           } catch (e) { return false; }
         }
 
-        // ── Find input near element ──
-        function findNearbyInput(el) {
+        // ── Find the image-URL text input near the event ──
+        function findNearbyInput(el, evt) {
+          // Strategy A: elementsFromPoint at drop location
+          if (evt && evt.clientX !== undefined) {
+            try {
+              var els = document.elementsFromPoint(evt.clientX, evt.clientY);
+              for (var i = 0; i < els.length; i++) {
+                if (!els[i].querySelector) continue;
+                var inp = els[i].querySelector(
+                  'input[type="text"], input:not([type]), input[type="url"]');
+                if (inp) { console.log("found input via elementsFromPoint", inp); return inp; }
+              }
+            } catch (e) {}
+          }
+
+          // Strategy B: traverse up from target, find any text input
           var node = el;
           while (node && node !== document.body) {
-            if (node.querySelector) {
-              var inp = node.querySelector('input[type="text"], input:not([type])');
-              if (inp && inp.offsetParent !== null) return inp;
-            }
-            if (node.parentElement) {
-              var sib = node.parentElement.querySelector(
-                'input[type="text"], input:not([type])');
-              if (sib && sib.offsetParent !== null) return sib;
+            if (node.querySelectorAll) {
+              var inputs = node.querySelectorAll("input");
+              for (var j = 0; j < inputs.length; j++) {
+                var t = inputs[j].type;
+                if (t === "text" || t === "url" || t === "" || !t) {
+                  console.log("found input via tree walk", inputs[j]);
+                  return inputs[j];
+                }
+              }
             }
             node = node.parentElement;
           }
-          var inputs = document.querySelectorAll('input[type="text"]');
-          for (var i = 0; i < inputs.length; i++) {
-            if (inputs[i].offsetParent !== null) return inputs[i];
+
+          // Strategy C: any visible text input on the page (last resort)
+          var all = document.querySelectorAll(
+            'input[type="text"], input[type="url"], input:not([type])');
+          for (var k = 0; k < all.length; k++) {
+            if (all[k].offsetParent !== null) {
+              console.log("found input via page scan", all[k]);
+              return all[k];
+            }
           }
+          console.warn("no text input found anywhere");
           return null;
         }
 
@@ -340,12 +375,22 @@
           uploadToR2(file).then(function (url) {
             var injected = false;
             if (targetInput) {
-              try { setInputValue(targetInput, url); injected = true; } catch (e) {}
+              try { setInputValue(targetInput, url); injected = true; } catch (e) {
+                console.error("setInputValue failed", e);
+              }
+            } else {
+              console.warn("no targetInput for injection, trying fallback");
+              // Last attempt: find any image-widget-looking input
+              var all = document.querySelectorAll('input[type="text"], input[type="url"], input:not([type])');
+              for (var i = 0; i < all.length; i++) {
+                if (all[i].offsetParent !== null && !all[i].value) {
+                  try { setInputValue(all[i], url); injected = true; break; } catch (e) {}
+                }
+              }
             }
             var copied = copyToClipboard(url);
             var msg = "上传成功！";
-            if (!injected && copied) msg += " URL已复制，Ctrl+V 粘贴到输入框";
-            else if (!injected) msg += " 请手动填入URL";
+            if (!injected) msg += " URL已复制到剪贴板，请在图片输入框中 Ctrl+V 粘贴";
             showToast("success", msg, url);
           }).catch(function (err) {
             showToast("error", "上传失败: " + err.message);
