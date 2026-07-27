@@ -258,7 +258,7 @@ const moreCategories = CATEGORIES.filter(c => !["Nail Supplies", "Eyelash Suppli
           return '<a href="/product/' + p.slug + '" data-search-idx="' + i + '"' +
             ' class="search-result-item flex items-center gap-4 p-3 rounded-xl transition-colors ' +
             (i === searchSelectedIdx ? 'bg-pink-50 ring-1 ring-pink-200' : 'hover:bg-gray-50') + '">' +
-            '<img src="' + p.images[0] + '" alt="" class="w-12 h-12 rounded-lg object-cover flex-shrink-0" />' +
+            '<img src="' + p.image + '" alt="" class="w-12 h-12 rounded-lg object-cover flex-shrink-0" />' +
             '<div class="min-w-0">' +
             '<div class="font-medium text-gray-900 text-sm truncate">' + p.name + '</div>' +
             '<div class="text-xs text-gray-500">' + p.category + ' · $' + p.price.toFixed(2) + '/unit</div>' +

@@ -9,7 +9,7 @@ import { SITE } from "../data/site";
 import { getAllProducts } from "../lib/products";
 
 const productSearchData = await getAllProducts();
-const productsJson = JSON.stringify(productSearchData.map(p => ({ slug: p.slug, name: p.name, category: p.category, price: p.price, description: p.description, images: p.images })));
+const productsJson = JSON.stringify(productSearchData.map(p => ({ slug: p.slug, name: p.name, category: p.category, price: p.price, description: p.description, image: p.images[0] })));
 ---
 
 <!doctype html>

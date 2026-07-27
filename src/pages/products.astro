@@ -5,11 +5,17 @@ import { getAllProducts } from "../lib/products";
 import { CATEGORIES } from "../data/site";
 
 const allProducts = await getAllProducts();
-const priceRange = { min: 0, max: 50 };
+const PAGE_SIZE = 12;
+const initialProducts = allProducts.slice(0, PAGE_SIZE);
+// Full product data for client-side search/filter/paginate
+const productsJson = JSON.stringify(allProducts.map(p => ({
+  slug: p.slug, name: p.name, category: p.category,
+  price: p.price, badge: p.badge || "", discount: p.discount || 0,
+  image: p.images[0], moq: p.moq
+})));
 ---
 
 <Layout>
-  <!-- Header -->
   <section class="bg-white border-b border-gray-100">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
       <div class="flex items-center gap-2 text-sm text-gray-400 mb-3">
@@ -22,7 +28,6 @@ const priceRange = { min: 0, max: 50 };
     </div>
   </section>
 
-  <!-- Main Content -->
   <section class="bg-white min-h-screen pb-20">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <div class="flex gap-8 lg:gap-12">
@@ -30,8 +35,6 @@ const priceRange = { min: 0, max: 50 };
         <!-- ===== SIDEBAR FILTERS ===== -->
         <aside id="filter-sidebar" class="hidden lg:block w-64 flex-shrink-0">
           <div class="sticky top-24 space-y-8">
-
-            <!-- Search -->
             <div>
               <h4 class="font-bold text-gray-900 text-sm mb-3 uppercase tracking-wider">Search</h4>
               <div class="relative">
@@ -40,8 +43,6 @@ const priceRange = { min: 0, max: 50 };
                   class="input input-bordered input-sm w-full pl-9 text-sm rounded-lg focus:outline-none focus:border-pink-400" />
               </div>
             </div>
-
-            <!-- Categories -->
             <div>
               <h4 class="font-bold text-gray-900 text-sm mb-3 uppercase tracking-wider">Categories</h4>
               <div class="space-y-2">
@@ -53,26 +54,20 @@ const priceRange = { min: 0, max: 50 };
                   <label class="flex items-center gap-2 cursor-pointer text-sm">
                     <input type="checkbox" class="filter-category checkbox checkbox-sm checkbox-primary rounded" value={cat.slug} />
                     <span class="text-gray-700">{cat.name}</span>
-                    <span class="text-gray-400 text-xs ml-auto">{allProducts.filter(p => p.category === cat.slug).length}</span>
                   </label>
                 ))}
               </div>
             </div>
-
-            <!-- Price Range -->
             <div>
               <h4 class="font-bold text-gray-900 text-sm mb-3 uppercase tracking-wider">Price Range</h4>
               <div class="space-y-3">
-                <input type="range" id="price-range" min="0" max="50" value="50" step="1"
-                  class="range range-xs range-primary" />
+                <input type="range" id="price-range" min="0" max="50" value="50" step="1" class="range range-xs range-primary" />
                 <div class="flex justify-between text-xs text-gray-500">
                   <span>$0</span>
                   <span id="price-display">$50 max</span>
                 </div>
               </div>
             </div>
-
-            <!-- Badge Filter -->
             <div>
               <h4 class="font-bold text-gray-900 text-sm mb-3 uppercase tracking-wider">Product Type</h4>
               <div class="space-y-2">
@@ -94,8 +89,6 @@ const priceRange = { min: 0, max: 50 };
                 </label>
               </div>
             </div>
-
-            <!-- Reset -->
             <button id="reset-filters" class="btn btn-outline btn-sm rounded-full w-full text-xs">
               <Icon name="lucide:rotate-ccw" class="w-3.5 h-3.5" /> Reset Filters
             </button>
@@ -153,7 +146,6 @@ const priceRange = { min: 0, max: 50 };
 
         <!-- ===== PRODUCTS AREA ===== -->
         <div class="flex-1 min-w-0">
-          <!-- Top Bar: Sort + Count + Mobile Filter Button -->
           <div class="flex items-center justify-between mb-6 gap-4">
             <div class="flex items-center gap-4">
               <button id="open-mobile-filter" class="btn btn-outline btn-sm rounded-full lg:hidden text-xs">
@@ -172,7 +164,7 @@ const priceRange = { min: 0, max: 50 };
 
           <!-- Product Grid -->
           <div id="products-grid" class="grid grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6">
-            {allProducts.map((product) => (
+            {initialProducts.map((product) => (
               <a href={`/product/${product.slug}`}
                 class="product-card group bg-white rounded-2xl shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden border border-gray-100"
                 data-category={product.category}
@@ -205,6 +197,12 @@ const priceRange = { min: 0, max: 50 };
             ))}
           </div>
 
+          <!-- Loader indicator -->
+          <div id="load-more-trigger" class="text-center py-10"></div>
+          <div id="loading-indicator" class="hidden text-center py-6">
+            <span class="loading loading-spinner loading-md text-pink-500"></span>
+          </div>
+
           <!-- Empty State -->
           <div id="no-results" class="hidden text-center py-20">
             <Icon name="lucide:search-x" class="w-12 h-12 text-gray-300 mx-auto mb-4" />
@@ -215,6 +213,7 @@ const priceRange = { min: 0, max: 50 };
       </div>
     </div>
   </section>
+
 <style>
   .line-clamp-2 {
     display: -webkit-box;
@@ -224,173 +223,228 @@ const priceRange = { min: 0, max: 50 };
   }
 </style>
 
+<!-- Full product data for client-side search & infinite scroll -->
+<div id="products-full-data" hidden>{productsJson}</div>
+
 <script>
-  // ── Client-side filtering ──
-  function filterProducts() {
-    const searchQ = (document.getElementById("search-products") as HTMLInputElement)?.value?.toLowerCase() || "";
-    const searchQMobile = (document.getElementById("search-products-mobile") as HTMLInputElement)?.value?.toLowerCase() || "";
-    const query = searchQ || searchQMobile;
+  // ── Read full product data ──
+  var _allProducts = [];
+  try {
+    var el = document.getElementById("products-full-data");
+    _allProducts = el ? JSON.parse(el.textContent || "[]") : [];
+  } catch (e) { _allProducts = []; }
 
-    const desktopChecks = document.querySelectorAll<HTMLInputElement>(".filter-category:checked");
-    const mobileChecks = document.querySelectorAll<HTMLInputElement>(".filter-category-mobile:checked");
-    const rawCats = [...Array.from(desktopChecks), ...Array.from(mobileChecks)].map(c => c.value);
-    // If any specific category is selected, strip "all" from the set
-    const specificCats = rawCats.filter(c => c !== "all");
-    const selectedCats = specificCats.length > 0 ? specificCats : ["all"];
+  var PAGE_SIZE = 12;
+  var _renderedCount = PAGE_SIZE; // first page rendered server-side
+  var _currentFiltered: any[] = [];
+  var _observer: IntersectionObserver | null = null;
+  var _loading = false;
 
-    const priceLimit = parseInt((document.getElementById("price-range") as HTMLInputElement)?.value || "50");
-    const priceLimitMobile = parseInt((document.getElementById("price-range-mobile") as HTMLInputElement)?.value || "50");
-    const maxPrice = Math.min(priceLimit, priceLimitMobile);
+  // ── Card HTML from product data ──
+  function cardHTML(p: any) {
+    var badgeHTML = p.badge ? '<span class="absolute top-3 left-3 bg-pink-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wide">' + p.badge + '</span>' : '';
+    var discountHTML = p.discount > 0 ? '<span class="absolute top-3 right-3 bg-red-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">-' + p.discount + '%</span>' : '';
+    return '<a href="/product/' + p.slug + '"' +
+      ' class="product-card group bg-white rounded-2xl shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden border border-gray-100"' +
+      ' data-category="' + p.category + '" data-price="' + p.price + '" data-badge="' + (p.badge || '') + '" data-name="' + p.name.toLowerCase() + '">' +
+      '<div class="relative aspect-[3/4] overflow-hidden bg-gray-100">' +
+      '<img src="' + p.image + '" alt="' + p.name + '" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />' +
+      badgeHTML + discountHTML +
+      '<div class="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/40 to-transparent h-20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center pb-3"><span class="text-white text-xs font-semibold">Quick View</span></div>' +
+      '</div>' +
+      '<div class="p-3 sm:p-4">' +
+      '<span class="text-[10px] text-gray-400 uppercase tracking-wide">' + p.category.replace(/-/g, ' ') + '</span>' +
+      '<h3 class="font-semibold text-gray-900 group-hover:text-pink-600 transition-colors text-xs sm:text-sm leading-snug line-clamp-2 mt-0.5 mb-2">' + p.name + '</h3>' +
+      '<div class="flex items-baseline justify-between"><span class="text-base sm:text-lg font-bold text-pink-600">$' + p.price.toFixed(2) + '</span><span class="text-[10px] text-gray-400">wholesale</span></div>' +
+      '</div></a>';
+  }
 
-    const badgeChecks = document.querySelectorAll<HTMLInputElement>(".filter-badge:checked");
-    const selectedBadges = Array.from(badgeChecks).map(c => c.value);
+  // ── Get active filters ──
+  function getFilters() {
+    var searchQ = ((document.getElementById("search-products") as HTMLInputElement)?.value || "").toLowerCase();
+    var searchQM = ((document.getElementById("search-products-mobile") as HTMLInputElement)?.value || "").toLowerCase();
+    var query = searchQ || searchQM;
 
-    const cards = document.querySelectorAll<HTMLElement>(".product-card");
-    let visible = 0;
+    var catChecks = document.querySelectorAll<HTMLInputElement>(".filter-category:checked");
+    var catChecksM = document.querySelectorAll<HTMLInputElement>(".filter-category-mobile:checked");
+    var allCats = Array.from(catChecks).concat(Array.from(catChecksM)).map(function(c){return c.value});
+    var specificCats = allCats.filter(function(c){return c !== "all"});
+    var selectedCats = specificCats.length > 0 ? specificCats : ["all"];
 
-    cards.forEach((card) => {
-      const cat = card.dataset.category || "";
-      const price = parseFloat(card.dataset.price || "0");
-      const badge = card.dataset.badge || "";
-      const name = card.dataset.name || "";
+    var maxPrice = parseInt((document.getElementById("price-range") as HTMLInputElement)?.value || "50");
+    var maxPriceM = parseInt((document.getElementById("price-range-mobile") as HTMLInputElement)?.value || "50");
+    maxPrice = Math.min(maxPrice, maxPriceM);
 
-      const matchSearch = !query || name.includes(query) || cat.includes(query);
-      const matchCat = selectedCats.includes("all") || selectedCats.includes(cat);
-      const matchPrice = price <= maxPrice;
-      const matchBadge = selectedBadges.length === 0 || selectedBadges.includes(badge);
+    var badgeChecks = document.querySelectorAll<HTMLInputElement>(".filter-badge:checked");
+    var selectedBadges = Array.from(badgeChecks).map(function(c){return c.value});
 
-      if (matchSearch && matchCat && matchPrice && matchBadge) {
-        card.style.display = "";
-        visible++;
-      } else {
-        card.style.display = "none";
-      }
+    return { query: query, cats: selectedCats, maxPrice: maxPrice, badges: selectedBadges };
+  }
+
+  // ── Sort products ──
+  function sortProducts(products: any[], sortVal: string) {
+    var sorted = products.slice();
+    if (sortVal === "price-asc") sorted.sort(function(a,b){return a.price - b.price});
+    else if (sortVal === "price-desc") sorted.sort(function(a,b){return b.price - a.price});
+    else if (sortVal === "name-asc") sorted.sort(function(a,b){return a.name.localeCompare(b.name)});
+    else if (sortVal === "name-desc") sorted.sort(function(a,b){return b.name.localeCompare(a.name)});
+    return sorted;
+  }
+
+  // ── Filter + re-render (full reset, first page) ──
+  function applyFilters() {
+    var f = getFilters();
+    var q = f.query;
+
+    _currentFiltered = _allProducts.filter(function(p){
+      if (q && p.name.toLowerCase().indexOf(q) === -1 && p.category.indexOf(q) === -1) return false;
+      if (f.cats[0] !== "all" && f.cats.indexOf(p.category) === -1) return false;
+      if (p.price > f.maxPrice) return false;
+      if (f.badges.length > 0 && f.badges.indexOf(p.badge) === -1) return false;
+      return true;
     });
 
-    const countEl = document.getElementById("product-count");
-    if (countEl) countEl.textContent = `${visible} products`;
+    var sortVal = (document.getElementById("sort-select") as HTMLSelectElement)?.value || "default";
+    if (sortVal !== "default") _currentFiltered = sortProducts(_currentFiltered, sortVal);
 
-    const noResults = document.getElementById("no-results");
-    if (noResults) noResults.classList.toggle("hidden", visible > 0);
+    // Re-render first page
+    var grid = document.getElementById("products-grid");
+    if (!grid) return;
+    grid.innerHTML = "";
+    _renderedCount = 0;
+    renderNextPage();
+
+    var countEl = document.getElementById("product-count");
+    if (countEl) countEl.textContent = _currentFiltered.length + " products";
+    var noResults = document.getElementById("no-results");
+    if (noResults) noResults.classList.toggle("hidden", _currentFiltered.length > 0);
   }
 
-  function resetFilters() {
-    document.querySelectorAll<HTMLInputElement>(".filter-category").forEach(c => { c.checked = c.value === "all"; });
-    document.querySelectorAll<HTMLInputElement>(".filter-badge").forEach(c => { c.checked = false; });
-    const priceEl = document.getElementById("price-range") as HTMLInputElement;
-    if (priceEl) { priceEl.value = "50"; }
-    const priceDisplay = document.getElementById("price-display");
-    if (priceDisplay) priceDisplay.textContent = "$50 max";
-    const searchEl = document.getElementById("search-products") as HTMLInputElement;
-    if (searchEl) searchEl.value = "";
+  // ── Render next page of filtered products ──
+  function renderNextPage() {
+    var grid = document.getElementById("products-grid");
+    if (!grid) return;
+    var batch = _currentFiltered.slice(_renderedCount, _renderedCount + PAGE_SIZE);
+    if (batch.length === 0) return;
+    var html = "";
+    for (var i = 0; i < batch.length; i++) { html += cardHTML(batch[i]); }
+    grid.insertAdjacentHTML("beforeend", html);
+    _renderedCount += batch.length;
+    _loading = false;
 
-    document.querySelectorAll<HTMLInputElement>(".filter-category-mobile").forEach(c => { c.checked = c.value === "all"; });
-    const priceMobile = document.getElementById("price-range-mobile") as HTMLInputElement;
-    if (priceMobile) { priceMobile.value = "50"; }
-    const priceDisplayMobile = document.getElementById("price-display-mobile");
-    if (priceDisplayMobile) priceDisplayMobile.textContent = "$50 max";
-    const searchMobile = document.getElementById("search-products-mobile") as HTMLInputElement;
-    if (searchMobile) searchMobile.value = "";
-
-    filterProducts();
+    var indicator = document.getElementById("loading-indicator");
+    if (indicator) indicator.classList.add("hidden");
   }
 
+  // ── Load more (called by IntersectionObserver) ──
+  function loadMore() {
+    if (_loading) return;
+    if (_renderedCount >= _currentFiltered.length) return;
+    _loading = true;
+    var indicator = document.getElementById("loading-indicator");
+    if (indicator) indicator.classList.remove("hidden");
+    setTimeout(function(){ renderNextPage(); }, 150); // small delay for spinner visibility
+  }
+
+  // ── Infinite scroll observer ──
+  function setupObserver() {
+    if (_observer) _observer.disconnect();
+    var trigger = document.getElementById("load-more-trigger");
+    if (!trigger) return;
+    _observer = new IntersectionObserver(function(entries) {
+      if (entries[0].isIntersecting) loadMore();
+    }, { rootMargin: "300px" });
+    _observer.observe(trigger);
+  }
+
+  // ── Sort handler ──
   function bindSort() {
-    document.getElementById("sort-select")?.addEventListener("change", () => {
-      const val = (document.getElementById("sort-select") as HTMLSelectElement).value;
-      const grid = document.getElementById("products-grid");
-      if (!grid) return;
-      const cards = [...grid.querySelectorAll<HTMLElement>(".product-card")];
-
-      cards.sort((a, b) => {
-        const priceA = parseFloat(a.dataset.price || "0");
-        const priceB = parseFloat(b.dataset.price || "0");
-        const nameA = a.dataset.name || "";
-        const nameB = b.dataset.name || "";
-
-        if (val === "price-asc") return priceA - priceB;
-        if (val === "price-desc") return priceB - priceA;
-        if (val === "name-asc") return nameA.localeCompare(nameB);
-        if (val === "name-desc") return nameB.localeCompare(nameA);
-        return 0;
-      });
-
-      cards.forEach(c => grid.appendChild(c));
-    });
+    document.getElementById("sort-select")?.addEventListener("change", applyFilters);
   }
 
-  function bindFilters() {
-    // Search inputs
-    document.getElementById("search-products")?.addEventListener("input", filterProducts);
-    document.getElementById("search-products-mobile")?.addEventListener("input", filterProducts);
+  // ── Bind all filter inputs ──
+  function bindFilterInputs() {
+    document.getElementById("search-products")?.addEventListener("input", applyFilters);
+    document.getElementById("search-products-mobile")?.addEventListener("input", applyFilters);
+    document.querySelectorAll(".filter-badge").forEach(function(c){c.addEventListener("change", applyFilters)});
 
-    // Badge checkboxes
-    document.querySelectorAll(".filter-badge").forEach(c => c.addEventListener("change", filterProducts));
-
-    // Category mutual exclusion: selecting a category unchecks "All", unchecking everything rechecks "All"
     function setupCategoryGroup(selector: string) {
-      const all = document.querySelector(selector + '[value="all"]') as HTMLInputElement;
-      const items = document.querySelectorAll(selector + ':not([value="all"])') as NodeListOf<HTMLInputElement>;
+      var all = document.querySelector(selector + '[value="all"]') as HTMLInputElement;
+      var items = document.querySelectorAll(selector + ':not([value="all"])') as NodeListOf<HTMLInputElement>;
       if (!all || items.length === 0) return;
-
-      items.forEach(item => {
-        item.addEventListener("change", () => {
-          if (item.checked) {
-            all.checked = false;
-          } else {
-            const anyChecked = Array.from(items).some(c => c.checked);
-            if (!anyChecked) all.checked = true;
-          }
-          filterProducts();
+      items.forEach(function(item){
+        item.addEventListener("change", function(){
+          if (item.checked) all.checked = false;
+          else { var any = Array.from(items).some(function(c){return c.checked}); if (!any) all.checked = true; }
+          applyFilters();
         });
       });
-
-      all.addEventListener("change", () => {
-        if (all.checked) {
-          items.forEach(c => { c.checked = false; });
-        }
-        filterProducts();
+      all.addEventListener("change", function(){
+        if (all.checked) items.forEach(function(c){c.checked = false});
+        applyFilters();
       });
     }
     setupCategoryGroup(".filter-category");
     setupCategoryGroup(".filter-category-mobile");
 
-    // Price range
-    document.getElementById("price-range")?.addEventListener("input", function() {
-      const display = document.getElementById("price-display");
-      if (display) display.textContent = `$${(this as HTMLInputElement).value} max`;
-      filterProducts();
+    document.getElementById("price-range")?.addEventListener("input", function(){
+      (document.getElementById("price-display") as HTMLElement).textContent = "$" + (this as HTMLInputElement).value + " max";
+      applyFilters();
     });
-    document.getElementById("price-range-mobile")?.addEventListener("input", function() {
-      const display = document.getElementById("price-display-mobile");
-      if (display) display.textContent = `$${(this as HTMLInputElement).value} max`;
-      filterProducts();
+    document.getElementById("price-range-mobile")?.addEventListener("input", function(){
+      (document.getElementById("price-display-mobile") as HTMLElement).textContent = "$" + (this as HTMLInputElement).value + " max";
+      applyFilters();
     });
 
-    // Reset
+    function resetFilters() {
+      document.querySelectorAll<HTMLInputElement>(".filter-category").forEach(function(c){c.checked = c.value === "all"});
+      document.querySelectorAll<HTMLInputElement>(".filter-badge").forEach(function(c){c.checked = false});
+      (document.getElementById("price-range") as HTMLInputElement).value = "50";
+      (document.getElementById("price-display") as HTMLElement).textContent = "$50 max";
+      (document.getElementById("search-products") as HTMLInputElement).value = "";
+      document.querySelectorAll<HTMLInputElement>(".filter-category-mobile").forEach(function(c){c.checked = c.value === "all"});
+      (document.getElementById("price-range-mobile") as HTMLInputElement).value = "50";
+      (document.getElementById("price-display-mobile") as HTMLElement).textContent = "$50 max";
+      (document.getElementById("search-products-mobile") as HTMLInputElement).value = "";
+      applyFilters();
+    }
+
     document.getElementById("reset-filters")?.addEventListener("click", resetFilters);
     document.getElementById("reset-filters-mobile")?.addEventListener("click", resetFilters);
-
-    // Mobile filter drawer
-    document.getElementById("open-mobile-filter")?.addEventListener("click", () => {
-      document.getElementById("mobile-filter-overlay")?.classList.remove("hidden");
-    });
-    document.getElementById("close-mobile-filter")?.addEventListener("click", () => {
-      document.getElementById("mobile-filter-overlay")?.classList.add("hidden");
-    });
-    document.getElementById("mobile-filter-backdrop")?.addEventListener("click", () => {
-      document.getElementById("mobile-filter-overlay")?.classList.add("hidden");
-    });
-
-    bindSort();
   }
 
-  // ── Init + SPA re-init (with cleanup) ──
-  let _bindFiltersDone = false;
-  bindFilters();
-  document.addEventListener("astro:after-swap", () => {
-    // Re-bind to new DOM after swap (old DOM is removed, old listeners dropped)
-    bindFilters();
+  // ── Mobile drawer ──
+  function bindMobileDrawer() {
+    document.getElementById("open-mobile-filter")?.addEventListener("click", function(){
+      document.getElementById("mobile-filter-overlay")?.classList.remove("hidden");
+    });
+    document.getElementById("close-mobile-filter")?.addEventListener("click", function(){
+      document.getElementById("mobile-filter-overlay")?.classList.add("hidden");
+    });
+    document.getElementById("mobile-filter-backdrop")?.addEventListener("click", function(){
+      document.getElementById("mobile-filter-overlay")?.classList.add("hidden");
+    });
+  }
+
+  // ── Init ──
+  _currentFiltered = _allProducts.slice();
+  bindFilterInputs();
+  bindSort();
+  bindMobileDrawer();
+  setupObserver();
+
+  document.addEventListener("astro:after-swap", function(){
+    // Re-read data (new DOM)
+    var newEl = document.getElementById("products-full-data");
+    if (newEl) {
+      try { _allProducts = JSON.parse(newEl.textContent || "[]"); } catch(e) { _allProducts = []; }
+    }
+    _currentFiltered = _allProducts.slice();
+    _renderedCount = PAGE_SIZE;
+    bindFilterInputs();
+    bindSort();
+    bindMobileDrawer();
+    setupObserver();
   });
 </script>
 </Layout>
