@@ -283,54 +283,6 @@
           });
         }
 
-        // ── Update preview <img> near the input ──
-        function updateImagePreview(input, url) {
-          // Walk up to find the widget container, then find <img> inside it
-          var node = input;
-          for (var i = 0; i < 6; i++) {
-            if (!node || !node.querySelectorAll) break;
-            var imgs = node.querySelectorAll("img");
-            for (var j = 0; j < imgs.length; j++) {
-              // Skip small icons, only target actual preview images
-              if (imgs[j].naturalWidth !== undefined || imgs[j].width > 24) {
-                imgs[j].src = url;
-                imgs[j].style.display = "";
-                console.log("preview updated:", url);
-                return;
-              }
-            }
-            node = node.parentElement;
-          }
-        }
-
-        // ── Inject URL into text input ──
-        function setInputValue(input, url) {
-          // 1. Focus + select existing content
-          input.focus();
-          try { input.setSelectionRange(0, input.value.length); } catch (e) {}
-
-          // 2. Set value via native setter (bypasses framework wrappers)
-          var ns = Object.getOwnPropertyDescriptor(
-            window.HTMLInputElement.prototype, "value");
-          if (ns && ns.set) ns.set.call(input, url);
-          else input.value = url;
-
-          // 3. InputEvent (Svelte bind:value listens for this)
-          input.dispatchEvent(new InputEvent("input", {
-            bubbles: true, cancelable: true,
-            data: url, inputType: "insertFromPaste",
-          }));
-
-          // 4. Change event (backup)
-          input.dispatchEvent(new Event("change", { bubbles: true }));
-
-          // 5. Blur to commit Svelte bind:value
-          input.blur();
-
-          // 6. Manually update preview image as fallback
-          updateImagePreview(input, url);
-        }
-
         // ── Copy to clipboard ──
         function copyToClipboard(url) {
           try {
@@ -349,227 +301,51 @@
           } catch (e) { return false; }
         }
 
-        // ── Check if element is a text/url input ──
-        function isTextInput(el) {
-          if (!el || el.tagName !== "INPUT") return false;
-          var t = el.type;
-          return t === "text" || t === "url" || t === "" || !t;
-        }
-
-        // ── Find the CLOSEST image-URL text input near the event ──
-        function findNearbyInput(el, evt) {
-          // Strategy A: elementsFromPoint at drop/paste location
-          if (evt && evt.clientX !== undefined) {
-            try {
-              var els = document.elementsFromPoint(evt.clientX, evt.clientY);
-              for (var i = 0; i < els.length; i++) {
-                if (!els[i].querySelector) continue;
-                var inp = els[i].querySelector(
-                  'input[type="text"], input:not([type]), input[type="url"]');
-                if (inp) { console.log("found input via elementsFromPoint", inp); return inp; }
-              }
-            } catch (e) {}
-          }
-
-          // Strategy B: search siblings outward — find CLOSEST text input
-          var node = el;
-          for (var depth = 0; depth < 8; depth++) {
-            if (!node || node === document.body || node === document.documentElement) break;
-            var parent = node.parentElement;
-            if (!parent) break;
-
-            // Search siblings of 'node' (and their subtrees) for text inputs
-            var children = parent.children;
-            for (var j = 0; j < children.length; j++) {
-              var child = children[j];
-              if (child === node) continue;
-
-              // Check child itself
-              if (isTextInput(child)) {
-                console.log("found input via sibling search", child);
-                return child;
-              }
-              // Check child's subtree (but only shallow — direct children first)
-              if (child.querySelectorAll) {
-                var inputs = child.querySelectorAll(
-                  'input[type="text"], input:not([type]), input[type="url"]');
-                for (var k = 0; k < inputs.length; k++) {
-                  console.log("found input via sibling subtree", inputs[k]);
-                  return inputs[k];
-                }
-              }
-            }
-
-            node = parent;
-          }
-
-          // Strategy C: any visible text input on the page (last resort)
-          var all = document.querySelectorAll(
-            'input[type="text"], input[type="url"], input:not([type])');
-          for (var m = 0; m < all.length; m++) {
-            if (all[m].offsetParent !== null) {
-              console.log("found input via page scan", all[m]);
-              return all[m];
-            }
-          }
-          console.warn("no text input found anywhere");
-          return null;
-        }
-
-        // ── Handle image file ──
-        function handleImageFile(file, targetInput) {
+        // ── Handle image file: upload to R2, copy URL, prompt user ──
+        function handleImageFile(file) {
           uploadToR2(file).then(function (url) {
-            var injected = false;
-            if (targetInput) {
-              try { setInputValue(targetInput, url); injected = true; } catch (e) {
-                console.error("setInputValue failed", e);
-              }
-            } else {
-              console.warn("no targetInput for injection, trying fallback");
-              // Last attempt: find any image-widget-looking input
-              var all = document.querySelectorAll('input[type="text"], input[type="url"], input:not([type])');
-              for (var i = 0; i < all.length; i++) {
-                if (all[i].offsetParent !== null && !all[i].value) {
-                  try { setInputValue(all[i], url); injected = true; break; } catch (e) {}
-                }
-              }
-            }
-            var copied = copyToClipboard(url);
-            var msg = "上传成功！";
-            if (!injected) msg += " URL已复制到剪贴板，请在图片输入框中 Ctrl+V 粘贴";
-            showToast("success", msg, url);
+            copyToClipboard(url);
+            showToast("success",
+              "已上传到 R2！URL 已复制到剪贴板。请打开对话框的 \"Enter URL\" 标签页，Ctrl+V 粘贴后点 Insert。", url);
           }).catch(function (err) {
             showToast("error", "上传失败: " + err.message);
           });
         }
 
-        // ── Find the open SelectAssetsDialog ──
-        function findAssetDialog() {
-          return document.querySelector('[role="dialog"]');
-        }
-
-        // ── Switch dialog to "Enter URL" tab + fill + submit ──
-        function injectURLViaDialog(url) {
-          var dialog = findAssetDialog();
-          if (!dialog) {
-            console.warn("no open asset dialog found");
-            return false;
-          }
-
-          // Find "Enter URL" tab option by text content
-          var enterURLOption = null;
-          var candidates = dialog.querySelectorAll(
-            'option, [role="option"], [role="tab"], button, label');
-          for (var i = 0; i < candidates.length; i++) {
-            var text = (candidates[i].textContent || "").trim();
-            if (text === "Enter URL" || text === "输入 URL" ||
-                text.indexOf("Enter URL") !== -1 || text.indexOf("输入 URL") !== -1) {
-              enterURLOption = candidates[i];
-              break;
-            }
-          }
-
-          if (enterURLOption) {
-            enterURLOption.click();
-          }
-
-          // Wait for Svelte to render the URL input, then fill + submit
-          setTimeout(function () {
-            var input = dialog.querySelector(
-              'input[type="text"], input:not([type]), input[type="url"]');
-            if (!input) {
-              console.warn("no URL input found in dialog");
-              return;
-            }
-
-            // Set value via native setter
-            var ns = Object.getOwnPropertyDescriptor(
-              window.HTMLInputElement.prototype, "value");
-            if (ns && ns.set) ns.set.call(input, url);
-            else input.value = url;
-
-            input.dispatchEvent(new Event("input", { bubbles: true }));
-            input.dispatchEvent(new Event("change", { bubbles: true }));
-
-            // Click Insert/Choose/OK button after Svelte updates state
-            setTimeout(function () {
-              var buttons = dialog.querySelectorAll("button");
-              for (var j = 0; j < buttons.length; j++) {
-                var btnText = (buttons[j].textContent || "").trim();
-                if (btnText === "Insert" || btnText === "Choose" ||
-                    btnText === "OK" || btnText === "插入" || btnText === "选择") {
-                  if (!buttons[j].disabled) {
-                    buttons[j].click();
-                    showToast("success", "Uploaded!", url);
-                    return;
-                  }
-                }
-              }
-              // Fallback: URL filled but couldn't auto-submit
-              showToast("success", "URL filled — click Insert to confirm", url);
-            }, 200);
-          }, 150);
-          return true;
-        }
-
-        // ── 1. PASTE interception (capture) ──
+        // ── 1. PASTE interception: upload to R2, copy URL ──
         document.addEventListener("paste", function (e) {
           var items = e.clipboardData && e.clipboardData.items;
           if (!items) return;
           for (var i = 0; i < items.length; i++) {
             if (items[i].type.indexOf("image/") === 0) {
               e.preventDefault(); e.stopPropagation(); e.stopImmediatePropagation();
-              var file = items[i].getAsFile();
-              var input = document.activeElement;
-              if (input && (input.tagName === "INPUT" || input.tagName === "TEXTAREA")) {
-                handleImageFile(file, input);
-              } else {
-                uploadToR2(file).then(function (url) {
-                  copyToClipboard(url);
-                  showToast("success", "图片已上传！URL已复制", url);
-                }).catch(function (err) {
-                  showToast("error", "上传失败: " + err.message);
-                });
-              }
+              handleImageFile(items[i].getAsFile());
               return;
             }
           }
         }, true);
 
-        // ── 2. DROP interception (capture) ──
+        // ── 2. DROP interception: upload to R2, copy URL ──
         document.addEventListener("drop", function (e) {
           var files = e.dataTransfer && e.dataTransfer.files;
           if (!files || files.length === 0) return;
           for (var i = 0; i < files.length; i++) {
             if (files[i].type.indexOf("image/") === 0) {
               e.preventDefault(); e.stopPropagation(); e.stopImmediatePropagation();
-              handleImageFile(files[i], findNearbyInput(e.target));
+              handleImageFile(files[i]);
               return;
             }
           }
         }, true);
 
-        // ── 3. File input CHANGE — R2 upload + inject into dialog ──
+        // ── 3. File input CHANGE: upload to R2, copy URL ──
         document.addEventListener("change", function (e) {
           var t = e.target;
           if (!t || t.type !== "file" || !t.files || !t.files[0]) return;
           var file = t.files[0];
           if (file.type.indexOf("image/") !== 0) return;
-
-          e.preventDefault();
-          e.stopPropagation();
-          e.stopImmediatePropagation();
-
-          uploadToR2(file).then(function (url) {
-            copyToClipboard(url);
-            if (!injectURLViaDialog(url)) {
-              // Dialog not available — fallback: just copy to clipboard
-              showToast("success",
-                "Uploaded! URL copied — paste into the dialog's Enter URL tab.", url);
-            }
-          }).catch(function (err) {
-            showToast("error", "Upload failed: " + err.message);
-          });
+          e.preventDefault(); e.stopPropagation(); e.stopImmediatePropagation();
+          handleImageFile(file);
         }, true);
       })();
     </script>
