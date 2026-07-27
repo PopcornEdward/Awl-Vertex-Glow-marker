@@ -5,7 +5,7 @@ account_id = "8b0adeeddb1097052d05dcc7f5bc2796"
 
 [vars]
 OAUTH_REDIRECT_HOST = "awlvertexglowmarker.aviciimailsend.dpdns.org"
-OAUTH_ORIGIN = "https://popcornedward.github.io"
+OAUTH_ORIGIN = "https://vertex.aviciiedulab.dpdns.org"
 
 [[r2_buckets]]
 binding = "MY_BUCKET"
