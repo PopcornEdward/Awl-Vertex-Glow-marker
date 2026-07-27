@@ -399,8 +399,8 @@ import { CATEGORIES } from "../data/site";
 
   // ── Fetch products & initialize ──
   function initProducts() {
-    var base = document.querySelector("meta[name=\"base\"]")?.content || "";
-    fetch(base + "/api/products-all.json")
+    var base = document.querySelector("meta[name=\"base\"]")?.content || "/";
+    fetch(base + "api/products-all.json")
       .then(function(r){ return r.json(); })
       .then(function(data){
         _allProducts = data;

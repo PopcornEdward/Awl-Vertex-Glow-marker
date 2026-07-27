@@ -161,8 +161,8 @@ const moreCategories = CATEGORIES.filter(c => !["Nail Supplies", "Eyelash Suppli
       if (searchLoaded) { cb(searchIndex); return; }
       if (searchLoading) { setTimeout(function(){ loadSearchIndex(cb); }, 100); return; }
       searchLoading = true;
-      var base = document.querySelector("meta[name=\"base\"]")?.content || "";
-      fetch(base + "/api/search-index.json")
+      var base = document.querySelector("meta[name=\"base\"]")?.content || "/";
+      fetch(base + "api/search-index.json")
         .then(function(r){ return r.json(); })
         .then(function(data){
           searchIndex = data;
