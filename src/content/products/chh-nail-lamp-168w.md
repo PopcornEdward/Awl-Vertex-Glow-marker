@@ -12,7 +12,6 @@ gallery:
   - https://ownshop.usbartimgotolink.qzz.io/2026/07/26/ec085ee0d6326ac3b885a4b8c42d2a45.jpeg
   - https://ownshop.usbartimgotolink.qzz.io/2026/07/26/ec085ee0d6326ac3b885a4b8c42d2a45.jpeg
   - https://ownshop.usbartimgotolink.qzz.io/2026/07/26/9e9bed51eeba9776e78f978e34e40089.jpeg
-  - /public/images/Gemini_Generated_Image_fxf8r2fxf8r2fxf8.png
 badge: Hot Seller
 discount: 15
 specs:
