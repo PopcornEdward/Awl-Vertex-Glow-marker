@@ -443,6 +443,54 @@
           });
         }
 
+        // ── Override "Choose an Image" clicks: lock correct text input ──
+        document.addEventListener("click", function (e) {
+          var target = e.target;
+          var chooseBtn = null;
+
+          // Walk up from click target to find a "Choose" button
+          var node = target;
+          while (node && node !== document.body) {
+            var text = (node.textContent || "").trim().toLowerCase();
+            if (text.indexOf("choose") !== -1 && text.indexOf("image") !== -1) {
+              chooseBtn = node;
+              break;
+            }
+            node = node.parentElement;
+          }
+
+          if (!chooseBtn) return;
+
+          // Find the text input in this specific widget
+          var textInput = findNearbyInput(chooseBtn);
+          if (!textInput) {
+            console.warn("no text input found near Choose button");
+            return;
+          }
+
+          // Prevent Sveltia's own file dialog
+          e.preventDefault();
+          e.stopPropagation();
+          e.stopImmediatePropagation();
+
+          // Create our own file input, positioned inside the correct widget context
+          var fileInput = document.createElement("input");
+          fileInput.type = "file";
+          fileInput.accept = "image/*";
+          fileInput.style.cssText = "position:fixed;top:-9999px;left:-9999px";
+          fileInput.dataset.r2upload = "1";
+
+          fileInput.addEventListener("change", function () {
+            if (fileInput.files && fileInput.files[0]) {
+              handleImageFile(fileInput.files[0], textInput);
+            }
+            fileInput.remove();
+          });
+
+          document.body.appendChild(fileInput);
+          fileInput.click();
+        }, true);
+
         // ── 1. PASTE interception (capture) ──
         document.addEventListener("paste", function (e) {
           var items = e.clipboardData && e.clipboardData.items;
@@ -484,6 +532,7 @@
         document.addEventListener("change", function (e) {
           var t = e.target;
           if (!t || t.type !== "file" || !t.files || !t.files[0]) return;
+          if (t.dataset.r2upload === "1") return; // handled by click interceptor
           var file = t.files[0];
           if (file.type.indexOf("image/") !== 0) return;
           e.preventDefault(); e.stopPropagation(); e.stopImmediatePropagation();
