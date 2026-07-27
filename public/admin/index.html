@@ -97,13 +97,13 @@
             // Read file
             var arrayBuffer = await file.arrayBuffer();
 
-            // Compute hash for unique filename
-            var hash = await sha256Hex(arrayBuffer);
-            var fileHash = hash.substring(0, 32);
+            // SHA-256 of payload (used for both filename + S3 signature)
+            var payloadHashHex = await sha256Hex(arrayBuffer);
+            var fileHash = payloadHashHex.substring(0, 32);
             var ext = (file.name || "image.jpg").split(".").pop().toLowerCase();
             if (ext === "jpeg") ext = "jpg";
 
-            // Date path: YYYY/MM/DD
+            // Date path: YYYY/MM/DD — same as PicGo
             var now = new Date();
             var datePath = [
               now.getFullYear(),
@@ -112,23 +112,24 @@
             ].join("/");
             var key = datePath + "/" + fileHash + "." + ext;
 
-            // S3 Signature V4
+            // S3 Signature V4 (mirrors @aws-sdk/client-s3 behavior)
             var amzDate = now.toISOString()
               .replace(/[:\-]|\.\d{3}/g, "").substring(0, 15) + "Z";
             var dateStamp = amzDate.substring(0, 8);
             var credentialScope = dateStamp + "/" + REGION + "/" + SERVICE + "/aws4_request";
 
             var canonicalUri = "/" + BUCKET + "/" + key;
-            var payloadHash = "UNSIGNED-PAYLOAD";
+            var contentType = file.type || "image/jpeg";
             var canonicalHeaders =
+              "content-type:" + contentType + "\n" +
               "host:" + R2_HOST + "\n" +
-              "x-amz-content-sha256:" + payloadHash + "\n" +
+              "x-amz-content-sha256:" + payloadHashHex + "\n" +
               "x-amz-date:" + amzDate + "\n";
-            var signedHeaders = "host;x-amz-content-sha256;x-amz-date";
+            var signedHeaders = "content-type;host;x-amz-content-sha256;x-amz-date";
 
             var canonicalRequest = [
               "PUT", canonicalUri, "",
-              canonicalHeaders, signedHeaders, payloadHash,
+              canonicalHeaders, signedHeaders, payloadHashHex,
             ].join("\n");
 
             var stringToSign = [
@@ -147,15 +148,15 @@
               "AWS4-HMAC-SHA256 Credential=" + ACCESS_KEY + "/" + credentialScope +
               ", SignedHeaders=" + signedHeaders + ", Signature=" + signature;
 
-            // PUT to R2
+            // PUT to R2 (path-style: /bucket/key)
             var r2Url = R2_ENDPOINT + canonicalUri;
             var resp = await fetch(r2Url, {
               method: "PUT",
               headers: {
-                "x-amz-content-sha256": payloadHash,
+                "Content-Type": contentType,
+                "x-amz-content-sha256": payloadHashHex,
                 "x-amz-date": amzDate,
                 "Authorization": authorization,
-                "Content-Type": file.type || "image/jpeg",
               },
               body: arrayBuffer,
             });
@@ -165,14 +166,18 @@
 
             if (!resp.ok) {
               var txt = await resp.text().catch(function () { return ""; });
+              console.error("R2 PUT failed:", resp.status, txt);
               throw new Error("HTTP " + resp.status + (txt ? ": " + txt.substring(0, 120) : ""));
             }
 
-            return CDN_BASE + "/" + key;
+            var cdnUrl = CDN_BASE + "/" + key;
+            console.log("R2 upload success:", cdnUrl);
+            return cdnUrl;
 
           } catch (err) {
             toast.remove();
             uploading = false;
+            console.error("R2 upload error:", err);
 
             if (err.message.indexOf("Failed to fetch") !== -1 ||
                 err.name === "TypeError") {
