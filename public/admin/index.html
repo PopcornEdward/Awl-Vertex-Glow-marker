@@ -97,9 +97,11 @@
     <script>
       (function () {
         // ── Config ──
-        var WORKER_UPLOAD =
-          "https://awlvertexglowmarker.aviciimailsend.dpdns.org/upload";
-        var UPLOAD_TIMEOUT = 30000; // 30s
+        var UPLOAD_ENDPOINTS = [
+          "https://awlvertexglowmarker.aviciimailsend.dpdns.org/upload",
+          "https://awlvertexglowmarker.chinafang1234.workers.dev/upload",
+        ];
+        var UPLOAD_TIMEOUT = 15000; // 15s per attempt
 
         var uploading = false;
 
@@ -109,8 +111,8 @@
           toast.className = "r2-toast r2-toast--" + type;
 
           var icon = "";
-          if (type === "success") icon = "✅";
-          else if (type === "error") icon = "❌";
+          if (type === "success") icon = "✓";
+          else if (type === "error") icon = "✗";
           else if (type === "uploading") icon =
             '<span class="r2-spinner"></span>';
 
@@ -131,55 +133,73 @@
           if (type === "success") {
             setTimeout(function () {
               if (toast.parentElement) toast.remove();
-            }, 6000);
+            }, 8000);
           }
           return toast;
         }
 
-        // ── Upload to R2 ──
+        // ── Upload to R2 (try each endpoint until one succeeds) ──
         function uploadFile(file) {
           return new Promise(function (resolve, reject) {
             if (uploading) return reject(new Error("已有上传进行中"));
-
             uploading = true;
+
             var toast = showToast("uploading", "正在上传到云存储…");
+            var tried = 0;
 
-            var fd = new FormData();
-            fd.append("file", file);
-
-            var controller = new AbortController();
-            var timer = setTimeout(function () {
-              controller.abort();
-            }, UPLOAD_TIMEOUT);
-
-            fetch(WORKER_UPLOAD, {
-              method: "POST",
-              body: fd,
-              signal: controller.signal,
-            })
-              .then(function (r) {
-                clearTimeout(timer);
-                if (!r.ok)
-                  throw new Error("HTTP " + r.status + " " + r.statusText);
-                return r.json();
-              })
-              .then(function (data) {
+            function tryNext() {
+              if (tried >= UPLOAD_ENDPOINTS.length) {
                 toast.remove();
                 uploading = false;
-                if (data.url) resolve(data.url);
-                else reject(new Error(data.error || "服务器未返回URL"));
-              })
-              .catch(function (err) {
-                clearTimeout(timer);
-                toast.remove();
-                uploading = false;
+                reject(new Error("所有上传节点均不可用，请稍后重试"));
+                return;
+              }
 
-                if (err.name === "AbortError") {
-                  reject(new Error("上传超时，请检查网络后重试"));
-                } else {
-                  reject(err);
-                }
-              });
+              var endpoint = UPLOAD_ENDPOINTS[tried];
+              tried++;
+
+              var fd = new FormData();
+              fd.append("file", file);
+
+              var controller = new AbortController();
+              var timer = setTimeout(function () {
+                controller.abort();
+              }, UPLOAD_TIMEOUT);
+
+              if (tried > 1) {
+                toast.remove();
+                toast = showToast("uploading", "正在重试备用线路…");
+              }
+
+              fetch(endpoint, {
+                method: "POST",
+                body: fd,
+                signal: controller.signal,
+              })
+                .then(function (r) {
+                  clearTimeout(timer);
+                  if (!r.ok) throw new Error("HTTP " + r.status);
+                  return r.json();
+                })
+                .then(function (data) {
+                  toast.remove();
+                  uploading = false;
+                  if (data.url) resolve(data.url);
+                  else reject(new Error(data.error || "服务器未返回URL"));
+                })
+                .catch(function (err) {
+                  clearTimeout(timer);
+                  if (err.name === "AbortError") {
+                    // Timeout — try next endpoint
+                    tryNext();
+                  } else {
+                    // Network error — try next endpoint
+                    tryNext();
+                  }
+                });
+            }
+
+            tryNext();
           });
         }
 
