@@ -301,12 +301,68 @@
           } catch (e) { return false; }
         }
 
-        // ── Handle image file: upload to R2, copy URL, prompt user ──
+        // ── Auto-fill dialog: click "Enter URL" → fill input → click Insert ──
+        function autoFillDialog(url) {
+          var dialog = document.querySelector('[role="dialog"]');
+          if (!dialog) return false;
+
+          // Step 1: find "Enter URL" option by text and click it
+          var candidates = dialog.querySelectorAll(
+            'option, [role="option"], [role="tab"], button, [role="menuitem"], label');
+          var enterURL = null;
+          for (var i = 0; i < candidates.length; i++) {
+            var t = (candidates[i].textContent || "").trim();
+            if (/enter\s*url/i.test(t)) { enterURL = candidates[i]; break; }
+          }
+          if (enterURL) {
+            enterURL.click();
+            // In case it's an <option>, also change the parent <select> value
+            if (enterURL.tagName === "OPTION" && enterURL.parentElement) {
+              enterURL.parentElement.value = enterURL.value;
+              enterURL.parentElement.dispatchEvent(new Event("change", { bubbles: true }));
+            }
+          }
+
+          // Step 2: wait for the URL text input to render, then fill it
+          setTimeout(function () {
+            var input = dialog.querySelector(
+              'input[type="text"], input:not([type]), input[type="url"]');
+            if (!input) { console.warn("no URL input in dialog"); return; }
+
+            var ns = Object.getOwnPropertyDescriptor(
+              window.HTMLInputElement.prototype, "value");
+            if (ns && ns.set) ns.set.call(input, url);
+            else input.value = url;
+            input.dispatchEvent(new Event("input", { bubbles: true }));
+            input.dispatchEvent(new Event("change", { bubbles: true }));
+
+            // Step 3: wait for Svelte state to update, then click Insert
+            setTimeout(function () {
+              var buttons = dialog.querySelectorAll("button");
+              for (var j = 0; j < buttons.length; j++) {
+                var btnText = (buttons[j].textContent || "").trim();
+                if (btnText === "Insert" || btnText === "Choose") {
+                  if (!buttons[j].disabled) {
+                    buttons[j].click();
+                    return;
+                  }
+                }
+              }
+            }, 200);
+          }, 200);
+          return true;
+        }
+
+        // ── Handle image file: upload to R2 → auto-fill dialog ──
         function handleImageFile(file) {
           uploadToR2(file).then(function (url) {
-            copyToClipboard(url);
-            showToast("success",
-              "已上传到 R2！URL 已复制到剪贴板。请打开对话框的 \"Enter URL\" 标签页，Ctrl+V 粘贴后点 Insert。", url);
+            if (autoFillDialog(url)) {
+              showToast("success", "上传成功！", url);
+            } else {
+              copyToClipboard(url);
+              showToast("success",
+                "已上传！URL 已复制，请在对话框 \"Enter URL\" 中 Ctrl+V 粘贴。", url);
+            }
           }).catch(function (err) {
             showToast("error", "上传失败: " + err.message);
           });
