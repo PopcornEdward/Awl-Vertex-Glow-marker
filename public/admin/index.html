@@ -10,25 +10,34 @@
         position: fixed; bottom: 24px; right: 24px; z-index: 99999;
         padding: 14px 20px; border-radius: 8px;
         font-family: system-ui, -apple-system, sans-serif;
-        font-size: 14px; max-width: 440px;
+        font-size: 14px; max-width: 440px; min-width: 300px;
         box-shadow: 0 4px 24px rgba(0,0,0,0.35);
         animation: r2-slide-in 0.25s ease-out;
-        display: flex; align-items: flex-start; gap: 10px; line-height: 1.5;
+        line-height: 1.5;
       }
       .r2-toast--success { background:#1a3a2a; border:1px solid #2d6a4f; color:#b7e4c7; }
       .r2-toast--error   { background:#3a1a1a; border:1px solid #6a2d2d; color:#e4b7b7; }
       .r2-toast--uploading { background:#1e1e2e; border:1px solid #45475a; color:#cdd6f4; }
+      .r2-toast-row { display:flex; align-items:flex-start; gap:10px; }
       .r2-toast-icon  { flex-shrink:0; font-size:18px; width:20px; text-align:center; }
       .r2-toast-close { flex-shrink:0; cursor:pointer; opacity:0.6; font-size:16px;
                          margin-left:8px; background:none; border:none; color:inherit; padding:0; line-height:1; }
       .r2-toast-close:hover { opacity:1; }
+      .r2-toast-body { flex:1; min-width:0; }
       .r2-toast-url  { display:block; font-size:12px; opacity:0.8; word-break:break-all; margin-top:4px; }
+      .r2-toast-filename { font-size:12px; opacity:0.7; margin-bottom:6px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
       @keyframes r2-slide-in { from { transform:translateY(16px); opacity:0; }
                                to   { transform:translateY(0);    opacity:1; } }
-      .r2-spinner { display:inline-block; width:16px; height:16px;
-                    border:2px solid #45475a; border-top-color:#89b4fa;
-                    border-radius:50%; animation:r2-spin 0.7s linear infinite; }
-      @keyframes r2-spin { to { transform:rotate(360deg); } }
+      /* Progress bar */
+      .r2-progress-track {
+        width:100%; height:6px; background:#313244; border-radius:3px; overflow:hidden;
+      }
+      .r2-progress-bar {
+        height:100%; background:linear-gradient(90deg, #89b4fa, #a6e3a1);
+        border-radius:3px; transition: width 0.15s ease;
+        width:0%;
+      }
+      .r2-progress-text { font-size:12px; margin-top:4px; color:#a6adc8; }
     </style>
   </head>
   <body>
@@ -47,7 +56,6 @@
         var R2_ENDPOINT = "https://" + R2_HOST;
 
         var uploading = false;
-        var UPLOAD_TIMEOUT = 60000;
 
         // ── Crypto helpers ──
         function sha256Hex(buffer) {
@@ -70,125 +78,202 @@
           });
         }
 
-        // ── Toast ──
+        // ── Simple toast ──
         function showToast(type, msg, url) {
           var t = document.createElement("div");
           t.className = "r2-toast r2-toast--" + type;
-          var ico = type === "success" ? "✓" :
-                    type === "error"   ? "✗" :
-                                         '<span class="r2-spinner"></span>';
-          t.innerHTML = '<span class="r2-toast-icon">' + ico +
-            '</span><span>' + msg +
+          var ico = type === "success" ? "✓" : "✗";
+          t.innerHTML =
+            '<div class="r2-toast-row">' +
+            '<span class="r2-toast-icon">' + ico + '</span>' +
+            '<div class="r2-toast-body">' + msg +
             (url ? '<span class="r2-toast-url">' + url + '</span>' : '') +
-            '</span><button class="r2-toast-close" onclick="this.parentElement.remove()">×</button>';
+            '</div>' +
+            '<button class="r2-toast-close" onclick="this.parentElement.parentElement.remove()">×</button>' +
+            '</div>';
           document.body.appendChild(t);
           if (type === "success")
             setTimeout(function () { if (t.parentElement) t.remove(); }, 8000);
           return t;
         }
 
-        // ── S3 Signature V4 + PUT to R2 ──
-        async function uploadToR2(file) {
-          if (uploading) throw new Error("已有上传进行中");
-          uploading = true;
-          var toast = showToast("uploading", "正在上传到云存储 (R2) …");
+        // ── Progress toast (returns { updateProgress, remove, setError }) ──
+        function showProgressToast(filename, fileSize) {
+          var sizeStr = fileSize
+            ? (fileSize < 1048576
+                ? (fileSize / 1024).toFixed(0) + " KB"
+                : (fileSize / 1048576).toFixed(1) + " MB")
+            : "";
 
-          try {
-            // Read file
-            var arrayBuffer = await file.arrayBuffer();
+          var el = document.createElement("div");
+          el.className = "r2-toast r2-toast--uploading";
+          el.innerHTML =
+            '<div class="r2-toast-row">' +
+            '<span class="r2-toast-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#89b4fa" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></span>' +
+            '<div class="r2-toast-body">' +
+            '<div class="r2-toast-filename">' + filename + '</div>' +
+            '<div class="r2-progress-track"><div class="r2-progress-bar"></div></div>' +
+            '<div class="r2-progress-text">0%' + (sizeStr ? ' / ' + sizeStr : '') + '</div>' +
+            '</div>' +
+            '</div>';
+          document.body.appendChild(el);
 
-            // SHA-256 of payload (used for both filename + S3 signature)
-            var payloadHashHex = await sha256Hex(arrayBuffer);
-            var fileHash = payloadHashHex.substring(0, 32);
-            var ext = (file.name || "image.jpg").split(".").pop().toLowerCase();
-            if (ext === "jpeg") ext = "jpg";
+          var bar = el.querySelector(".r2-progress-bar");
+          var text = el.querySelector(".r2-progress-text");
 
-            // Date path: YYYY/MM/DD — same as PicGo
-            var now = new Date();
-            var datePath = [
-              now.getFullYear(),
-              String(now.getMonth() + 1).padStart(2, "0"),
-              String(now.getDate()).padStart(2, "0"),
-            ].join("/");
-            var key = datePath + "/" + fileHash + "." + ext;
+          return {
+            updateProgress: function (pct) {
+              var p = Math.round(pct);
+              bar.style.width = p + "%";
+              text.textContent = p + "%" + (sizeStr ? " / " + sizeStr : "");
+            },
+            remove: function () {
+              if (el.parentElement) el.remove();
+            },
+            setError: function (msg) {
+              el.className = "r2-toast r2-toast--error";
+              el.innerHTML =
+                '<div class="r2-toast-row">' +
+                '<span class="r2-toast-icon">✗</span>' +
+                '<div class="r2-toast-body">' + msg + '</div>' +
+                '<button class="r2-toast-close" onclick="this.parentElement.parentElement.remove()">×</button>' +
+                '</div>';
+            },
+          };
+        }
 
-            // S3 Signature V4 (mirrors @aws-sdk/client-s3 behavior)
-            var amzDate = now.toISOString()
-              .replace(/[:\-]|\.\d{3}/g, "").substring(0, 15) + "Z";
-            var dateStamp = amzDate.substring(0, 8);
-            var credentialScope = dateStamp + "/" + REGION + "/" + SERVICE + "/aws4_request";
+        // ── S3 Signature V4 + PUT to R2 (XHR for progress) ──
+        function uploadToR2(file) {
+          return new Promise(function (resolve, reject) {
+            if (uploading) return reject(new Error("已有上传进行中"));
+            uploading = true;
 
-            var canonicalUri = "/" + BUCKET + "/" + key;
-            var contentType = file.type || "image/jpeg";
-            var canonicalHeaders =
-              "content-type:" + contentType + "\n" +
-              "host:" + R2_HOST + "\n" +
-              "x-amz-content-sha256:" + payloadHashHex + "\n" +
-              "x-amz-date:" + amzDate + "\n";
-            var signedHeaders = "content-type;host;x-amz-content-sha256;x-amz-date";
+            var progressToast = showProgressToast(file.name, file.size);
 
-            var canonicalRequest = [
-              "PUT", canonicalUri, "",
-              canonicalHeaders, signedHeaders, payloadHashHex,
-            ].join("\n");
+            // Step 1: read file + compute hashes
+            var reader = new FileReader();
+            reader.onload = async function () {
+              var arrayBuffer = reader.result;
 
-            var stringToSign = [
-              "AWS4-HMAC-SHA256",
-              amzDate, credentialScope,
-              await sha256Hex(new TextEncoder().encode(canonicalRequest)),
-            ].join("\n");
+              try {
+                var payloadHashHex = await sha256Hex(arrayBuffer);
+                var fileHash = payloadHashHex.substring(0, 32);
+                var ext = (file.name || "image.jpg").split(".").pop().toLowerCase();
+                if (ext === "jpeg") ext = "jpg";
 
-            var kDate = await hmacRaw("AWS4" + SECRET_KEY, dateStamp);
-            var kRegion = await hmacRaw(kDate, REGION);
-            var kService = await hmacRaw(kRegion, SERVICE);
-            var kSigning = await hmacRaw(kService, "aws4_request");
-            var signature = await hmacHex(kSigning, stringToSign);
+                var now = new Date();
+                var datePath = [
+                  now.getFullYear(),
+                  String(now.getMonth() + 1).padStart(2, "0"),
+                  String(now.getDate()).padStart(2, "0"),
+                ].join("/");
+                var key = datePath + "/" + fileHash + "." + ext;
+                var canonicalUri = "/" + BUCKET + "/" + key;
+                var contentType = file.type || "image/jpeg";
 
-            var authorization =
-              "AWS4-HMAC-SHA256 Credential=" + ACCESS_KEY + "/" + credentialScope +
-              ", SignedHeaders=" + signedHeaders + ", Signature=" + signature;
+                // S3 Signature V4
+                var amzDate = now.toISOString()
+                  .replace(/[:\-]|\.\d{3}/g, "").substring(0, 15) + "Z";
+                var dateStamp = amzDate.substring(0, 8);
+                var credentialScope = dateStamp + "/" + REGION + "/" + SERVICE + "/aws4_request";
 
-            // PUT to R2 (path-style: /bucket/key)
-            var r2Url = R2_ENDPOINT + canonicalUri;
-            var resp = await fetch(r2Url, {
-              method: "PUT",
-              headers: {
-                "Content-Type": contentType,
-                "x-amz-content-sha256": payloadHashHex,
-                "x-amz-date": amzDate,
-                "Authorization": authorization,
-              },
-              body: arrayBuffer,
-            });
+                var canonicalHeaders =
+                  "content-type:" + contentType + "\n" +
+                  "host:" + R2_HOST + "\n" +
+                  "x-amz-content-sha256:" + payloadHashHex + "\n" +
+                  "x-amz-date:" + amzDate + "\n";
+                var signedHeaders = "content-type;host;x-amz-content-sha256;x-amz-date";
 
-            toast.remove();
-            uploading = false;
+                var canonicalRequest = [
+                  "PUT", canonicalUri, "",
+                  canonicalHeaders, signedHeaders, payloadHashHex,
+                ].join("\n");
 
-            if (!resp.ok) {
-              var txt = await resp.text().catch(function () { return ""; });
-              console.error("R2 PUT failed:", resp.status, txt);
-              throw new Error("HTTP " + resp.status + (txt ? ": " + txt.substring(0, 120) : ""));
-            }
+                var stringToSign = [
+                  "AWS4-HMAC-SHA256",
+                  amzDate, credentialScope,
+                  await sha256Hex(new TextEncoder().encode(canonicalRequest)),
+                ].join("\n");
 
-            var cdnUrl = CDN_BASE + "/" + key;
-            console.log("R2 upload success:", cdnUrl);
-            return cdnUrl;
+                var kDate = await hmacRaw("AWS4" + SECRET_KEY, dateStamp);
+                var kRegion = await hmacRaw(kDate, REGION);
+                var kService = await hmacRaw(kRegion, SERVICE);
+                var kSigning = await hmacRaw(kService, "aws4_request");
+                var signature = await hmacHex(kSigning, stringToSign);
 
-          } catch (err) {
-            toast.remove();
-            uploading = false;
-            console.error("R2 upload error:", err);
+                var authorization =
+                  "AWS4-HMAC-SHA256 Credential=" + ACCESS_KEY + "/" + credentialScope +
+                  ", SignedHeaders=" + signedHeaders + ", Signature=" + signature;
 
-            if (err.message.indexOf("Failed to fetch") !== -1 ||
-                err.name === "TypeError") {
-              throw new Error(
-                "直连 R2 失败——请到 Cloudflare 控制台 → R2 → " + BUCKET +
-                " → Settings → CORS 策略，添加允许源: " + window.location.origin +
-                "，允许方法: PUT"
-              );
-            }
-            throw err;
-          }
+                // Step 2: XHR PUT with progress
+                var r2Url = R2_ENDPOINT + canonicalUri;
+                var xhr = new XMLHttpRequest();
+                xhr.open("PUT", r2Url);
+                xhr.setRequestHeader("Content-Type", contentType);
+                xhr.setRequestHeader("x-amz-content-sha256", payloadHashHex);
+                xhr.setRequestHeader("x-amz-date", amzDate);
+                xhr.setRequestHeader("Authorization", authorization);
+                xhr.timeout = 120000; // 2 min
+
+                // Progress
+                xhr.upload.onprogress = function (e) {
+                  if (e.lengthComputable) {
+                    progressToast.updateProgress((e.loaded / e.total) * 100);
+                  }
+                };
+
+                // Show 50% after hash computed (file read in memory)
+                progressToast.updateProgress(5);
+
+                xhr.onload = function () {
+                  progressToast.remove();
+                  uploading = false;
+
+                  if (xhr.status >= 200 && xhr.status < 300) {
+                    var cdnUrl = CDN_BASE + "/" + key;
+                    console.log("R2 upload success:", cdnUrl);
+                    resolve(cdnUrl);
+                  } else {
+                    console.error("R2 PUT failed:", xhr.status, xhr.responseText);
+                    reject(new Error("HTTP " + xhr.status +
+                      (xhr.responseText ? ": " + xhr.responseText.substring(0, 120) : "")));
+                  }
+                };
+
+                xhr.onerror = function () {
+                  progressToast.remove();
+                  uploading = false;
+                  console.error("R2 XHR error");
+                  reject(new Error(
+                    "直连 R2 失败——请确认 Cloudflare R2 → " + BUCKET +
+                    " → Settings → CORS 已添加允许源 " + window.location.origin + "，允许方法 PUT"
+                  ));
+                };
+
+                xhr.ontimeout = function () {
+                  progressToast.remove();
+                  uploading = false;
+                  reject(new Error("上传超时"));
+                };
+
+                xhr.send(arrayBuffer);
+
+              } catch (err) {
+                progressToast.remove();
+                uploading = false;
+                console.error("R2 upload error:", err);
+                reject(err);
+              }
+            };
+
+            reader.onerror = function () {
+              progressToast.remove();
+              uploading = false;
+              reject(new Error("读取文件失败"));
+            };
+
+            reader.readAsArrayBuffer(file);
+          });
         }
 
         // ── Inject URL into text input ──
