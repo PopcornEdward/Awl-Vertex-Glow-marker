@@ -1,0 +1,7 @@
+{
+  "name": "awlvertexglowmarker-oauth",
+  "private": true,
+  "devDependencies": {
+    "wrangler": "^3.100.0"
+  }
+}

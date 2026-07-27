@@ -13,11 +13,16 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Deploy to Cloudflare Workers
-        uses: cloudflare/wrangler-action@v4
+      - uses: actions/setup-node@v4
         with:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          workingDirectory: "workers/oauth"
-          command: deploy
+          node-version: 22
+
+      - run: npm install
+        working-directory: workers/oauth
+
+      - name: Deploy Worker
+        working-directory: workers/oauth
         env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           WRANGLER_DISABLE_AUTOCONFIG: "1"
+        run: npx wrangler deploy 2>&1
