@@ -349,9 +349,16 @@
           } catch (e) { return false; }
         }
 
-        // ── Find the image-URL text input near the event ──
+        // ── Check if element is a text/url input ──
+        function isTextInput(el) {
+          if (!el || el.tagName !== "INPUT") return false;
+          var t = el.type;
+          return t === "text" || t === "url" || t === "" || !t;
+        }
+
+        // ── Find the CLOSEST image-URL text input near the event ──
         function findNearbyInput(el, evt) {
-          // Strategy A: elementsFromPoint at drop location
+          // Strategy A: elementsFromPoint at drop/paste location
           if (evt && evt.clientX !== undefined) {
             try {
               var els = document.elementsFromPoint(evt.clientX, evt.clientY);
@@ -364,29 +371,45 @@
             } catch (e) {}
           }
 
-          // Strategy B: traverse up from target, find any text input
+          // Strategy B: search siblings outward — find CLOSEST text input
           var node = el;
-          while (node && node !== document.body) {
-            if (node.querySelectorAll) {
-              var inputs = node.querySelectorAll("input");
-              for (var j = 0; j < inputs.length; j++) {
-                var t = inputs[j].type;
-                if (t === "text" || t === "url" || t === "" || !t) {
-                  console.log("found input via tree walk", inputs[j]);
-                  return inputs[j];
+          for (var depth = 0; depth < 8; depth++) {
+            if (!node || node === document.body || node === document.documentElement) break;
+            var parent = node.parentElement;
+            if (!parent) break;
+
+            // Search siblings of 'node' (and their subtrees) for text inputs
+            var children = parent.children;
+            for (var j = 0; j < children.length; j++) {
+              var child = children[j];
+              if (child === node) continue;
+
+              // Check child itself
+              if (isTextInput(child)) {
+                console.log("found input via sibling search", child);
+                return child;
+              }
+              // Check child's subtree (but only shallow — direct children first)
+              if (child.querySelectorAll) {
+                var inputs = child.querySelectorAll(
+                  'input[type="text"], input:not([type]), input[type="url"]');
+                for (var k = 0; k < inputs.length; k++) {
+                  console.log("found input via sibling subtree", inputs[k]);
+                  return inputs[k];
                 }
               }
             }
-            node = node.parentElement;
+
+            node = parent;
           }
 
           // Strategy C: any visible text input on the page (last resort)
           var all = document.querySelectorAll(
             'input[type="text"], input[type="url"], input:not([type])');
-          for (var k = 0; k < all.length; k++) {
-            if (all[k].offsetParent !== null) {
-              console.log("found input via page scan", all[k]);
-              return all[k];
+          for (var m = 0; m < all.length; m++) {
+            if (all[m].offsetParent !== null) {
+              console.log("found input via page scan", all[m]);
+              return all[m];
             }
           }
           console.warn("no text input found anywhere");
