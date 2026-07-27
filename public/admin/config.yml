@@ -8,7 +8,7 @@ backend:
   name: github
   repo: PopcornEdward/Awl-Vertex-Glow-marker
   branch: main
-  base_url: https://awlvertexglowmarker.aviciimailsend.dpdns.org
+  base_url: https://awlvertexglowmarker.chinafang1234.workers.dev
   auth_endpoint: /auth
 
 # ── Media storage path (Sveltia CMS requires this, actual uploads go to R2) ──
