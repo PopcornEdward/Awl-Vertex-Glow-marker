@@ -154,7 +154,7 @@ const moreCategories = CATEGORIES.filter(c => !["Nail Supplies", "Eyelash Suppli
     var allProducts = [];
     var tearDownFns = [];
 
-    // ── Parse products once (the JSON is inline in <script type="application/json">) ──
+    // ── Read products from hidden div (set in Layout.astro) ──
     var productsEl = document.getElementById("products-data");
     try {
       allProducts = productsEl ? JSON.parse(productsEl.textContent || "[]") : [];

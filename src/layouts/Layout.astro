@@ -9,6 +9,7 @@ import { SITE } from "../data/site";
 import { getAllProducts } from "../lib/products";
 
 const productSearchData = await getAllProducts();
+const productsJson = JSON.stringify(productSearchData.map(p => ({ slug: p.slug, name: p.name, category: p.category, price: p.price, description: p.description, images: p.images })));
 ---
 
 <!doctype html>
@@ -47,10 +48,8 @@ const productSearchData = await getAllProducts();
     <!-- Vanta.js Starfield Background -->
     <canvas id="vanta-body-bg" class="fixed inset-0 z-0 pointer-events-none"></canvas>
 
-    <!-- Product search data for NavBar (embedded as JSON for client-side access) -->
-    <script type="application/json" id="products-data">
-      {JSON.stringify(productSearchData.map(p => ({ slug: p.slug, name: p.name, category: p.category, price: p.price, description: p.description, images: p.images })))}
-    </script>
+    <!-- Product search data for NavBar -->
+    <div id="products-data" hidden>{productsJson}</div>
 
     <!-- Content Layers -->
     <div class="relative z-10">
