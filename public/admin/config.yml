@@ -148,6 +148,15 @@ collections:
                   - { label: "Blue", value: "blue" }
                   - { label: "Purple", value: "purple" }
                   - { label: "Green", value: "green" }
+          - { label: "Daily Title", name: "daily_title", widget: "string", default: "Daily Work" }
+          - { label: "▸ DW Photo 01", name: "dw_img_01", widget: "image" }
+          - { label: "▸ DW Photo 02", name: "dw_img_02", widget: "image" }
+          - { label: "▸ DW Photo 03", name: "dw_img_03", widget: "image" }
+          - { label: "▸ DW Photo 04", name: "dw_img_04", widget: "image" }
+          - { label: "▸ DW Photo 05", name: "dw_img_05", widget: "image" }
+          - { label: "▸ DW Photo 06", name: "dw_img_06", widget: "image" }
+          - { label: "▸ DW Photo 07", name: "dw_img_07", widget: "image" }
+          - { label: "▸ DW Photo 08", name: "dw_img_08", widget: "image" }
           - { label: "CTA Title", name: "cta_title", widget: "string" }
           - { label: "CTA Description", name: "cta_description", widget: "text" }
 

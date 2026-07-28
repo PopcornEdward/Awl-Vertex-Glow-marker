@@ -1,0 +1,243 @@
+---
+interface Props {
+  images: string[];
+  title?: string;
+}
+
+const { images, title } = Astro.props as Props;
+const imgs = images.filter(Boolean);
+const json = JSON.stringify(imgs);
+const dup = [...imgs, ...imgs];
+---
+
+<div class="dw-gallery">
+  {title && (
+    <h2 class="dw-title">{title}</h2>
+  )}
+
+  <div class="dw-track-wrapper" id="dw-track-wrapper">
+    <div class="dw-track" id="dw-track">
+      {dup.map((src, i) => (
+        <button class="dw-item" data-dw-idx={i % imgs.length} aria-label="View photo">
+          <img src={src} alt="" loading="lazy" class="dw-img" />
+        </button>
+      ))}
+    </div>
+  </div>
+
+  <!-- Lightbox -->
+  <div id="dw-lightbox" class="dw-lightbox hidden">
+    <div class="dw-lb-backdrop"></div>
+    <div class="dw-lb-stage">
+      <button id="dw-lb-close" class="dw-lb-close" aria-label="Close">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </button>
+      <div id="dw-lb-counter" class="dw-lb-counter">1 / 8</div>
+      <div class="dw-lb-viewer">
+        <img id="dw-lb-img" src="" alt="" />
+      </div>
+      <button id="dw-lb-prev" class="dw-lb-nav dw-lb-nav--prev" aria-label="Previous">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round"><path d="m15 18l-6-6 6-6"/></svg>
+      </button>
+      <button id="dw-lb-next" class="dw-lb-nav dw-lb-nav--next" aria-label="Next">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round"><path d="m9 18l6-6-6-6"/></svg>
+      </button>
+    </div>
+  </div>
+</div>
+
+<div id="dw-data" hidden>{json}</div>
+
+<script>
+  var DW_IMAGES = [];
+  try {
+    DW_IMAGES = JSON.parse(document.getElementById("dw-data")?.textContent || "[]");
+  } catch(e) {}
+
+  var dwIdx = 0;
+
+  function openDW(idx) {
+    dwIdx = idx;
+    var lb = document.getElementById("dw-lightbox");
+    lb.classList.remove("hidden");
+    document.body.style.overflow = "hidden";
+    document.getElementById("dw-lb-img").src = DW_IMAGES[idx];
+    document.getElementById("dw-lb-counter").textContent = (idx + 1) + " / " + DW_IMAGES.length;
+  }
+
+  function closeDW() {
+    document.getElementById("dw-lightbox").classList.add("hidden");
+    document.body.style.overflow = "";
+  }
+
+  function dwNav(dir) {
+    var n = (dwIdx + dir + DW_IMAGES.length) % DW_IMAGES.length;
+    openDW(n);
+  }
+
+  document.querySelectorAll(".dw-item").forEach(function(btn) {
+    btn.addEventListener("click", function() {
+      openDW(parseInt(this.getAttribute("data-dw-idx")));
+    });
+  });
+
+  document.getElementById("dw-lb-close").addEventListener("click", closeDW);
+  document.querySelector(".dw-lb-backdrop").addEventListener("click", closeDW);
+  document.getElementById("dw-lb-prev").addEventListener("click", function(){ dwNav(-1); });
+  document.getElementById("dw-lb-next").addEventListener("click", function(){ dwNav(1); });
+
+  document.addEventListener("keydown", function(e) {
+    var lb = document.getElementById("dw-lightbox");
+    if (lb.classList.contains("hidden")) return;
+    if (e.key === "Escape") { e.preventDefault(); closeDW(); }
+    if (e.key === "ArrowLeft") { e.preventDefault(); dwNav(-1); }
+    if (e.key === "ArrowRight") { e.preventDefault(); dwNav(1); }
+  });
+
+  var touchX = 0;
+  document.querySelector(".dw-lb-viewer").addEventListener("touchstart", function(e) {
+    touchX = e.touches[0].clientX;
+  });
+  document.querySelector(".dw-lb-viewer").addEventListener("touchend", function(e) {
+    var d = touchX - e.changedTouches[0].clientX;
+    if (Math.abs(d) > 60) dwNav(d > 0 ? 1 : -1);
+  });
+
+  // SPA re-init
+  document.addEventListener("astro:after-swap", function() {
+    try {
+      DW_IMAGES = JSON.parse(document.getElementById("dw-data")?.textContent || "[]");
+    } catch(e) {}
+    document.querySelectorAll(".dw-item").forEach(function(btn) {
+      btn.addEventListener("click", function() {
+        openDW(parseInt(this.getAttribute("data-dw-idx")));
+      });
+    });
+  });
+</script>
+
+<style is:global>
+  .dw-gallery {
+    padding: 4rem 0;
+    overflow: hidden;
+  }
+
+  .dw-title {
+    text-align: center;
+    font-size: 1.875rem;
+    font-weight: 900;
+    color: #111827;
+    margin-bottom: 0.5rem;
+    letter-spacing: -0.02em;
+  }
+  [data-theme="dark"] .dw-title { color: #f1f5f9; }
+
+  .dw-track-wrapper {
+    overflow: hidden;
+    padding: 1.5rem 0;
+  }
+
+  .dw-track {
+    display: flex;
+    gap: 12px;
+    width: max-content;
+    animation: dw-scroll 40s linear infinite;
+  }
+
+  .dw-track-wrapper:hover .dw-track {
+    animation-play-state: paused;
+  }
+
+  @keyframes dw-scroll {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+
+  .dw-item {
+    flex-shrink: 0;
+    width: 220px;
+    height: 160px;
+    border-radius: 12px;
+    overflow: hidden;
+    cursor: pointer;
+    border: none;
+    padding: 0;
+    background: #1f2937;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+  }
+
+  .dw-item:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+  }
+
+  .dw-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  /* Lightbox */
+  .dw-lightbox {
+    position: fixed; inset: 0; z-index: 9999;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .dw-lightbox.hidden { display: none; }
+
+  .dw-lb-backdrop {
+    position: absolute; inset: 0;
+    background: rgba(0,0,0,0.92);
+  }
+  .dw-lb-stage {
+    position: relative; z-index: 2;
+    display: flex; align-items: center; justify-content: center;
+    width: 100%; height: 100%; padding: 60px 20px;
+  }
+
+  .dw-lb-close {
+    position: absolute; top: 16px; right: 16px; z-index: 10;
+    background: rgba(255,255,255,0.1); border: none;
+    width: 44px; height: 44px; border-radius: 50%; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .dw-lb-close:hover { background: rgba(255,255,255,0.2); }
+
+  .dw-lb-counter {
+    position: absolute; top: 20px; left: 50%; transform: translateX(-50%);
+    color: rgba(255,255,255,0.7); font-size: 13px; font-weight: 600;
+    font-family: system-ui, sans-serif;
+  }
+
+  .dw-lb-viewer {
+    max-width: 90vw;
+    max-height: 75vh;
+    display: flex; align-items: center; justify-content: center;
+    touch-action: pan-y;
+  }
+  .dw-lb-viewer img {
+    max-width: 100%;
+    max-height: 75vh;
+    object-fit: contain;
+    border-radius: 8px;
+  }
+
+  .dw-lb-nav {
+    position: absolute; top: 50%; transform: translateY(-50%);
+    background: rgba(255,255,255,0.08); border: none;
+    width: 48px; height: 72px; border-radius: 8px; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    backdrop-filter: blur(10px);
+    z-index: 5;
+  }
+  .dw-lb-nav:hover { background: rgba(255,255,255,0.18); }
+  .dw-lb-nav--prev { left: 8px; }
+  .dw-lb-nav--next { right: 8px; }
+
+  @media (max-width: 640px) {
+    .dw-item { width: 160px; height: 120px; }
+    .dw-lb-nav { width: 40px; height: 56px; }
+    .dw-lb-nav--prev { left: 2px; }
+    .dw-lb-nav--next { right: 2px; }
+  }
+</style>

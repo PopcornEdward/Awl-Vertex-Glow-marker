@@ -24,6 +24,15 @@
     { "name": "Middle East", "count": "12+ Countries", "color": "purple" },
     { "name": "Americas & EU", "count": "15+ Countries", "color": "green" }
   ],
+  "daily_title": "Daily Work",
+  "dw_img_01": "https://images.pexels.com/photos/3997388/pexels-photo-3997388.jpeg?auto=compress&cs=tinysrgb&w=800",
+  "dw_img_02": "https://images.pexels.com/photos/5069610/pexels-photo-5069610.jpeg?auto=compress&cs=tinysrgb&w=800",
+  "dw_img_03": "https://images.pexels.com/photos/3738344/pexels-photo-3738344.jpeg?auto=compress&cs=tinysrgb&w=800",
+  "dw_img_04": "https://images.pexels.com/photos/4465124/pexels-photo-4465124.jpeg?auto=compress&cs=tinysrgb&w=800",
+  "dw_img_05": "https://images.pexels.com/photos/8864652/pexels-photo-8864652.jpeg?auto=compress&cs=tinysrgb&w=800",
+  "dw_img_06": "https://images.pexels.com/photos/3993446/pexels-photo-3993446.jpeg?auto=compress&cs=tinysrgb&w=800",
+  "dw_img_07": "https://images.pexels.com/photos/2533266/pexels-photo-2533266.jpeg?auto=compress&cs=tinysrgb&w=800",
+  "dw_img_08": "https://images.pexels.com/photos/3993449/pexels-photo-3993449.jpeg?auto=compress&cs=tinysrgb&w=800",
   "cta_title": "Let's Work Together",
   "cta_description": "Become our next long-term partner."
 }
