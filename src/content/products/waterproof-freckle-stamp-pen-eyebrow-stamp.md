@@ -1,0 +1,48 @@
+---
+title: "Waterproof Freckle Stamp Pen & Eyebrow Stamp"
+sku: "BTL-0024"
+subtitle: "Beauty Tools wholesale — high profit margin product"
+category: "beauty-tools"
+subcategory: ""
+price: 0.60
+stock: 9999
+moq: "10 pcs"
+image: "https://s.alicdn.com/@sc04/kf/Hd886c18e1baf4a028e58dd1b8ff88310D.jpg_500x500.jpg"
+gallery:
+  - image: "https://s.alicdn.com/@sc04/kf/H49d163df11d34e758a8fa5732ad71244B.jpg_500x500.jpg"
+  - image: "https://s.alicdn.com/@sc04/kf/H625a976b7edd4d8c813a3873c9da393au.jpg_500x500.jpg"
+  - image: "https://s.alicdn.com/@sc04/kf/Hd5ef0cde691b44c08f05b58313134b1cR.jpg_500x500.jpg"
+  - image: "https://s.alicdn.com/@sc04/kf/H467c2fc55bfa41d3b54f041d42dfa851N.jpg_500x500.jpg"
+badge: "Bestseller"
+specs:
+  - label: "Category"
+    value: "Beauty Tools"
+  - label: "Wholesale Price (USD)"
+    value: "$0.60"
+  - label: "Suggested Retail (USD)"
+    value: "$8.99"
+  - label: "Gross Margin"
+    value: "93%"
+  - label: "MOQ"
+    value: "10 pcs"
+  - label: "Supply Ability"
+    value: "10000 pcs per week"
+  - label: "Material"
+    value: "pp/abs"
+  - label: "Color"
+    value: "Single-Color"
+  - label: "Usage"
+    value: "Cosmetic Personal Care Packaging"
+  - label: "Packaging"
+    value: "& Printing"
+  - label: "Function"
+    value: "Eyes Makeup Beauty"
+  - label: "OEM/ODM"
+    value: "¥1.22-1.35"
+  - label: "数量 (pieces)"
+    value: "1 - 12,000"
+  - label: "美国东部时间（天）"
+    value: "35"
+---
+
+Professional beauty tools product — Retail: $8.99 — Margin: 93% — Wholesale from our Guangzhou Baiyun factory.

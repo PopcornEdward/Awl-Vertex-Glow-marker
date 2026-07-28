@@ -1,0 +1,46 @@
+---
+title: "Handmade Luxury Rhinestone Press on Nails Set"
+sku: "NAIL-0004"
+subtitle: "Nail Supplies wholesale — high profit margin product"
+category: "nails"
+subcategory: ""
+price: 1.80
+stock: 9999
+moq: "10 pcs"
+image: "https://s.alicdn.com/@sc04/kf/H014bbc2c3db7497786fae015f718b3ae1.jpg_500x500.jpg"
+gallery:
+  - image: "https://s.alicdn.com/@sc04/kf/H480c801835074fdeba7816a7490a2775f.jpg_500x500.jpg"
+  - image: "https://s.alicdn.com/@sc04/kf/He5b0047b59034a3cb3b6f73227c9dd9ee.png_500x500.jpg"
+  - image: "https://s.alicdn.com/@sc04/kf/H1ae84cf4d249441cbef5481158aba2f7O.png_500x500.jpg"
+  - image: "https://s.alicdn.com/@sc04/kf/H14b72f36dadc4efab16ad503ec856086q.png_500x500.jpg"
+badge: "Bestseller"
+specs:
+  - label: "Category"
+    value: "Nail Supplies"
+  - label: "Wholesale Price (USD)"
+    value: "$1.80"
+  - label: "Suggested Retail (USD)"
+    value: "$24.99"
+  - label: "Gross Margin"
+    value: "93%"
+  - label: "MOQ"
+    value: "10 pcs"
+  - label: "Supply Ability"
+    value: "10000 pcs per week"
+  - label: "Material"
+    value: "ABS / Eco-friendly ABS / Acrylic / Soft Gel"
+  - label: "Size"
+    value: "s / 12 Sizes"
+  - label: "Packaging"
+    value: "产品图案"
+  - label: "OEM/ODM"
+    value: "美甲供应商，我们支持美甲贴片批发生产、假指甲批量订单、自有品牌定制、定制Logo印刷以及为全球美妆品牌和美甲沙龙经销商提供个性化包装解决方案。 厂家直接制造，确保稳定的质量控制，灵活的最小起订量支持，为阿里巴巴国际买家提供快速的运输。"
+  - label: "Style"
+    value: "s + Custom Logo + Custom Packaging"
+  - label: "数量 (pieces)"
+    value: "1 - 100"
+  - label: "美国东部时间（天）"
+    value: "31"
+---
+
+Professional nail supplies product — Retail: $24.99 — Margin: 93% — Wholesale from our Guangzhou Baiyun factory.

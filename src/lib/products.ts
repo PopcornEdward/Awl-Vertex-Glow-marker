@@ -11,7 +11,7 @@ export async function getAllProducts() {
     category: e.data.category,
     subcategory: e.data.subcategory,
     stock: e.data.stock,
-    images: [e.data.image, ...(e.data.gallery || [])],
+    images: [e.data.image, ...(e.data.gallery || []).map((g) => typeof g === "string" ? g : g.image)],
     slug: e.slug,
     badge: e.data.badge,
     discount: e.data.discount,
