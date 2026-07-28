@@ -120,13 +120,10 @@ collections:
           - { label: "Profile Paragraph 1", name: "profile_p1", widget: "text" }
           - { label: "Profile Paragraph 2", name: "profile_p2", widget: "text" }
           - { label: "Profile Paragraph 3", name: "profile_p3", widget: "text" }
-          - label: "Profile Images"
-            name: "profile_images"
-            widget: "list"
-            collapsed: false
-            summary: "{{fields.url}}"
-            fields:
-              - { label: "Image URL", name: "url", widget: "string" }
+          - { label: "Profile Image 1", name: "profile_img_1", widget: "image" }
+          - { label: "Profile Image 2", name: "profile_img_2", widget: "image" }
+          - { label: "Profile Image 3", name: "profile_img_3", widget: "image" }
+          - { label: "Profile Image 4", name: "profile_img_4", widget: "image" }
           - { label: "Mission Title", name: "mission_title", widget: "string" }
           - { label: "Mission Description", name: "mission_desc", widget: "text" }
           - { label: "Vision Title", name: "vision_title", widget: "string" }
@@ -138,6 +135,7 @@ collections:
           - label: "Regions"
             name: "regions"
             widget: "list"
+            collapsed: false
             summary: "{{fields.name}}: {{fields.count}}"
             fields:
               - { label: "Region Name", name: "name", widget: "string" }

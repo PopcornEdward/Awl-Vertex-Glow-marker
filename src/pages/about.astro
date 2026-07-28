@@ -11,7 +11,8 @@ const defaults = {
   profile_images: ["https://images.pexels.com/photos/3997388/pexels-photo-3997388.jpeg?auto=compress&cs=tinysrgb&w=600", "https://images.pexels.com/photos/5069610/pexels-photo-5069610.jpeg?auto=compress&cs=tinysrgb&w=600", "https://images.pexels.com/photos/3738344/pexels-photo-3738344.jpeg?auto=compress&cs=tinysrgb&w=600", "https://images.pexels.com/photos/4465124/pexels-photo-4465124.jpeg?auto=compress&cs=tinysrgb&w=600"],
   regions: [{ name: "Africa", count: "25+ Countries", color: "pink" }, { name: "SE Asia", count: "10+ Countries", color: "blue" }, { name: "Middle East", count: "12+ Countries", color: "purple" }, { name: "Americas & EU", count: "15+ Countries", color: "green" }],
 };
-const profileImages = norm(pageData?.profile_images, "url").length ? norm(pageData.profile_images, "url") : defaults.profile_images;
+const profileImages = [1, 2, 3, 4].map(i => pageData?.[`profile_img_${i}`]).filter(Boolean);
+if (profileImages.length === 0) profileImages.push(...defaults.profile_images);
 const regions: Array<{ name: string; count: string; color: string }> = pageData?.regions || defaults.regions;
 const colorMap: Record<string, string> = { pink: "bg-pink-50", blue: "bg-blue-50", purple: "bg-purple-50", green: "bg-green-50" };
 const textColorMap: Record<string, string> = { pink: "text-pink-600", blue: "text-blue-600", purple: "text-purple-600", green: "text-green-600" };
