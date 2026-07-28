@@ -31,12 +31,12 @@ collections:
         name: "factory_page"
         file: "src/data/pages/factory.json"
         fields:
-          - { label: "Hero Image", name: "hero_image", widget: "image" }
+          - { label: "Hero Image URL", name: "hero_image", widget: "string" }
           - { label: "Hero Title", name: "hero_title", widget: "string" }
           - { label: "Hero Subtitle", name: "hero_subtitle", widget: "string" }
           - { label: "Manufacturing Section Title", name: "mfg_title", widget: "string" }
           - { label: "Manufacturing Description", name: "mfg_description", widget: "text" }
-          - { label: "Manufacturing Image", name: "mfg_image", widget: "image" }
+          - { label: "Manufacturing Image URL", name: "mfg_image", widget: "string" }
           - label: "Highlights"
             name: "highlights"
             widget: "list"
@@ -47,39 +47,39 @@ collections:
           - label: "Category 1 — Raw Materials"
             name: "pw_cat_1_name"
             widget: "string"
-          - { label: "Category 1 Cover Image", name: "pw_cat_1_cover", widget: "image" }
-          - label: "Category 1 Images (9 photos)"
+          - { label: "Cat 1 — Cover Image URL", name: "pw_cat_1_cover", widget: "string" }
+          - label: "Cat 1 — Images (9 URLs)"
             name: "pw_cat_1_images"
             widget: "list"
             summary: "{{fields.url}}"
-            field: { label: "Image", name: "url", widget: "image" }
+            field: { label: "URL", name: "url", widget: "string" }
           - label: "Category 2 — Production Line"
             name: "pw_cat_2_name"
             widget: "string"
-          - { label: "Category 2 Cover Image", name: "pw_cat_2_cover", widget: "image" }
-          - label: "Category 2 Images (9 photos)"
+          - { label: "Cat 2 — Cover Image URL", name: "pw_cat_2_cover", widget: "string" }
+          - label: "Cat 2 — Images (9 URLs)"
             name: "pw_cat_2_images"
             widget: "list"
             summary: "{{fields.url}}"
-            field: { label: "Image", name: "url", widget: "image" }
+            field: { label: "URL", name: "url", widget: "string" }
           - label: "Category 3 — Quality Control"
             name: "pw_cat_3_name"
             widget: "string"
-          - { label: "Category 3 Cover Image", name: "pw_cat_3_cover", widget: "image" }
-          - label: "Category 3 Images (9 photos)"
+          - { label: "Cat 3 — Cover Image URL", name: "pw_cat_3_cover", widget: "string" }
+          - label: "Cat 3 — Images (9 URLs)"
             name: "pw_cat_3_images"
             widget: "list"
             summary: "{{fields.url}}"
-            field: { label: "Image", name: "url", widget: "image" }
+            field: { label: "URL", name: "url", widget: "string" }
           - label: "Category 4 — Packing & Loading"
             name: "pw_cat_4_name"
             widget: "string"
-          - { label: "Category 4 Cover Image", name: "pw_cat_4_cover", widget: "image" }
-          - label: "Category 4 Images (9 photos)"
+          - { label: "Cat 4 — Cover Image URL", name: "pw_cat_4_cover", widget: "string" }
+          - label: "Cat 4 — Images (9 URLs)"
             name: "pw_cat_4_images"
             widget: "list"
             summary: "{{fields.url}}"
-            field: { label: "Image", name: "url", widget: "image" }
+            field: { label: "URL", name: "url", widget: "string" }
           - { label: "QC Section Title", name: "qc_title", widget: "string" }
           - label: "QC Stages"
             name: "qc_stages"
@@ -93,7 +93,7 @@ collections:
         name: "about_page"
         file: "src/data/pages/about.json"
         fields:
-          - { label: "Hero Image", name: "hero_image", widget: "image" }
+          - { label: "Hero Image URL", name: "hero_image", widget: "string" }
           - { label: "Hero Title", name: "hero_title", widget: "string" }
           - { label: "Hero Subtitle", name: "hero_subtitle", widget: "string" }
           - { label: "Company Profile Title", name: "profile_title", widget: "string" }
@@ -104,7 +104,7 @@ collections:
             name: "profile_images"
             widget: "list"
             summary: "{{fields.url}}"
-            field: { label: "Image", name: "url", widget: "image" }
+            field: { label: "Image URL", name: "url", widget: "string" }
           - { label: "Mission Title", name: "mission_title", widget: "string" }
           - { label: "Mission Description", name: "mission_desc", widget: "text" }
           - { label: "Vision Title", name: "vision_title", widget: "string" }
