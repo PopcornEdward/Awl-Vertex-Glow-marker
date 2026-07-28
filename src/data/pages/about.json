@@ -1,5 +1,5 @@
 {
-  "hero_image": "https://images.pexels.com/photos/3997388/pexels-photo-3997388.jpeg?auto=compress&cs=tinysrgb&w=1920",
+  "hero_image": "https://ownshop.usbartimgotolink.qzz.io/2026/07/28/ee3ecae91066cc0b62181d3fcbfbe9b1.png",
   "hero_title": "About Us",
   "hero_subtitle": "Your trusted beauty tools source factory since 2015",
   "profile_title": "Company Profile",
@@ -19,10 +19,26 @@
   "global_title": "Global Reach",
   "global_desc": "Our products reach 60+ countries across 4 continents.",
   "regions": [
-    { "name": "Africa", "count": "25+ Countries", "color": "pink" },
-    { "name": "SE Asia", "count": "10+ Countries", "color": "blue" },
-    { "name": "Middle East", "count": "12+ Countries", "color": "purple" },
-    { "name": "Americas & EU", "count": "15+ Countries", "color": "green" }
+    {
+      "name": "Africa",
+      "count": "25+ Countries",
+      "color": "pink"
+    },
+    {
+      "name": "SE Asia",
+      "count": "10+ Countries",
+      "color": "blue"
+    },
+    {
+      "name": "Middle East",
+      "count": "12+ Countries",
+      "color": "purple"
+    },
+    {
+      "name": "Americas & EU",
+      "count": "15+ Countries",
+      "color": "green"
+    }
   ],
   "daily_title": "Daily Work",
   "dw_img_01": "https://images.pexels.com/photos/3997388/pexels-photo-3997388.jpeg?auto=compress&cs=tinysrgb&w=800",
