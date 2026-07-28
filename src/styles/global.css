@@ -318,6 +318,8 @@
 
 /* ===== Button Flowing Border Animation (Chasing Light) ===== */
 /* Add .btn-glow to any button — a bright spot travels along the border */
+/* Uses mask-composite to clip the gradient to the border area only, */
+/* preserving the button's own background (solid or transparent). */
 
 @property --border-angle {
   syntax: '<angle>';
@@ -328,39 +330,33 @@
 .btn-glow {
   position: relative;
   z-index: 0;
-  border: 1.5px solid transparent;
-  overflow: hidden;
 }
 
-/* Rotating conic gradient — bright spot chases the perimeter */
+/* ::before fills border area via mask — conic gradient rotates around */
 .btn-glow::before {
   content: '';
   position: absolute;
-  z-index: -2;
+  z-index: -1;
   inset: -1.5px;
+  padding: 1.5px;
   border-radius: inherit;
   background: conic-gradient(
     from var(--border-angle),
     transparent 0deg,
     transparent 240deg,
-    #ec4899 260deg,
-    #8b5cf6 275deg,
-    #22d3ee 290deg,
-    #ec4899 310deg,
+    #ec4899 256deg,
+    #8b5cf6 270deg,
+    #22d3ee 285deg,
+    #ec4899 300deg,
     #f472b6 330deg,
+    transparent 345deg,
     transparent 360deg
   );
+  mask: linear-gradient(#fff 0 0) content-box,
+        linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  -webkit-mask-composite: xor;
   animation: border-chase 3s linear infinite;
-}
-
-/* Cover the center — only border edge shows the gradient */
-.btn-glow::after {
-  content: '';
-  position: absolute;
-  z-index: -1;
-  inset: 1.5px;
-  border-radius: inherit;
-  background: inherit;
 }
 
 .btn-glow:hover::before {
@@ -372,26 +368,16 @@
 }
 
 /* Variant: thicker border, brighter chase */
-.btn-glow-strong {
-  border-width: 2.5px;
-}
 .btn-glow-strong::before {
   inset: -2.5px;
-}
-.btn-glow-strong::after {
-  inset: 2.5px;
+  padding: 2.5px;
 }
 
 /* Variant: thinner, slower chase */
-.btn-glow-subtle {
-  border-width: 1px;
-}
 .btn-glow-subtle::before {
   inset: -1px;
+  padding: 1px;
   animation-duration: 5s;
-}
-.btn-glow-subtle::after {
-  inset: 1px;
 }
 .btn-glow-subtle:hover::before {
   animation-duration: 1.8s;
