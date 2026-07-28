@@ -40,8 +40,10 @@ collections:
           - label: "Highlights"
             name: "highlights"
             widget: "list"
+            collapsed: false
             summary: "{{fields.text}}"
-            field: { label: "Text", name: "text", widget: "string" }
+            fields:
+              - { label: "Text", name: "text", widget: "string" }
           - { label: "Photo Wall Title", name: "photo_wall_title", widget: "string" }
           - { label: "Photo Wall Subtitle", name: "photo_wall_subtitle", widget: "string" }
           - label: "▸ Cat 1 — Raw Materials"
@@ -100,8 +102,10 @@ collections:
           - label: "QC Stages"
             name: "qc_stages"
             widget: "list"
+            collapsed: false
             summary: "{{fields.text}}"
-            field: { label: "Text", name: "text", widget: "string" }
+            fields:
+              - { label: "Stage", name: "text", widget: "string" }
           - { label: "CTA Title", name: "cta_title", widget: "string" }
           - { label: "CTA Description", name: "cta_description", widget: "text" }
 
@@ -119,8 +123,10 @@ collections:
           - label: "Profile Images"
             name: "profile_images"
             widget: "list"
+            collapsed: false
             summary: "{{fields.url}}"
-            field: { label: "Image URL", name: "url", widget: "string" }
+            fields:
+              - { label: "Image URL", name: "url", widget: "string" }
           - { label: "Mission Title", name: "mission_title", widget: "string" }
           - { label: "Mission Description", name: "mission_desc", widget: "text" }
           - { label: "Vision Title", name: "vision_title", widget: "string" }
