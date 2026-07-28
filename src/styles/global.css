@@ -89,6 +89,9 @@
 [data-theme="dark"] .hover\:bg-gray-50:hover {
   background-color: #1f2937;
 }
+[data-theme="dark"] .hover\:bg-gray-100:hover {
+  background-color: #1f2937;
+}
 
 /* ===== Glass Section Utilities ===== */
 .glass-light {
@@ -146,6 +149,9 @@
   backdrop-filter: blur(12px);
 }
 [data-theme="dark"] section .hover\:bg-gray-50:hover {
+  background-color: rgba(30, 41, 59, 0.6);
+}
+[data-theme="dark"] section .hover\:bg-gray-100:hover {
   background-color: rgba(30, 41, 59, 0.6);
 }
 
