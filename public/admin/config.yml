@@ -124,6 +124,7 @@ collections:
           - { label: "Profile Image 2", name: "profile_img_2", widget: "image" }
           - { label: "Profile Image 3", name: "profile_img_3", widget: "image" }
           - { label: "Profile Image 4", name: "profile_img_4", widget: "image" }
+          - { label: "Profile Banner", name: "profile_banner", widget: "image", hint: "Full-width banner between profile and mission sections" }
           - { label: "Mission Title", name: "mission_title", widget: "string" }
           - { label: "Mission Description", name: "mission_desc", widget: "text" }
           - { label: "Vision Title", name: "vision_title", widget: "string" }
