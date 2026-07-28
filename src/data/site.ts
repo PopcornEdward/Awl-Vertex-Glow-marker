@@ -30,6 +30,7 @@ export const NAV_LINKS = [
       { label: "Beauty Tools", path: "/category/beauty-tools" },
       { label: "Daily Chemical", path: "/category/daily-chemical" },
       { label: "Makeup Tools", path: "/category/makeup-tools" },
+      { label: "Hair Tools", path: "/category/hair-tools" },
     ],
   },
   { label: "About Us", path: "/about" },
@@ -86,6 +87,14 @@ export const CATEGORIES = [
     description: "Brushes, sponges, mirrors, makeup organizers, applicators",
     image:
       "https://images.pexels.com/photos/2533266/pexels-photo-2533266.jpeg?auto=compress&cs=tinysrgb&w=600",
+  },
+  {
+    name: "Hair Tools",
+    slug: "hair-tools",
+    icon: "lucide:scissors",
+    description: "Hair dryers, flat irons, curling wands, clippers, salon accessories",
+    image:
+      "https://images.pexels.com/photos/3993446/pexels-photo-3993446.jpeg?auto=compress&cs=tinysrgb&w=600",
   },
 ];
 
