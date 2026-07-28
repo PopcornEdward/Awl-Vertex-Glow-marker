@@ -38,4 +38,21 @@ const blog = defineCollection({
   }),
 });
 
-export const collections = { products, blog };
+const gallery = defineCollection({
+  schema: z.object({
+    title: z.string(),
+    description: z.string().optional(),
+    image: z.string(),
+    category: z.enum([
+      "nail-kits",
+      "lash-kits",
+      "pmu-kits",
+      "hair-kits",
+      "makeup-kits",
+      "daily-kits",
+      "other-kits",
+    ]),
+  }),
+});
+
+export const collections = { products, blog, gallery };

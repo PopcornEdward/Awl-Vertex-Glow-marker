@@ -51,6 +51,9 @@ const moreCategories = CATEGORIES.filter(c => !["Nail Supplies", "Eyelash Suppli
                 <a href="/products" class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-pink-50 hover:text-pink-600 transition-colors font-medium">
                   All Products
                 </a>
+                <a href="/gallery" class="block px-4 py-2.5 text-sm text-gray-700 hover:bg-pink-50 hover:text-pink-600 transition-colors font-medium">
+                  Product Gallery
+                </a>
               </div>
             </div>
 
@@ -110,6 +113,7 @@ const moreCategories = CATEGORIES.filter(c => !["Nail Supplies", "Eyelash Suppli
               <a href={`/category/${cat.slug}`} class="block py-2 px-3 text-sm rounded hover:bg-pink-50 text-gray-600">{cat.name}</a>
             ))}
             <a href="/products" class="block py-2 px-3 text-sm rounded hover:bg-pink-50 font-medium text-pink-600">All Products →</a>
+            <a href="/gallery" class="block py-2 px-3 text-sm rounded hover:bg-pink-50 font-medium text-pink-600">Product Gallery →</a>
           </div>
         </details>
         <a href="/factory" class="block py-2.5 px-3 rounded-lg hover:bg-pink-50 text-sm font-medium">Factory Tour</a>

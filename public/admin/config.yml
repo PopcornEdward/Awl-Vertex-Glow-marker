@@ -242,6 +242,34 @@ collections:
       - { label: "Content Body", name: "body", widget: "markdown", hint: "Full article content in Markdown format" }
 
   # ═══════════════════════════════════════════
+  # Product Gallery (Pinterest-style)
+  # ═══════════════════════════════════════════
+  - name: "gallery"
+    label: "Product Gallery"
+    label_singular: "Gallery Item"
+    folder: "src/content/gallery"
+    create: true
+    delete: false
+    slug: "{{slug}}"
+    editor:
+      preview: false
+    fields:
+      - { label: "Product Title", name: "title", widget: "string", hint: "Display name shown on the card" }
+      - { label: "Product Image", name: "image", widget: "image", hint: "Main product photo" }
+      - label: "Category"
+        name: "category"
+        widget: "select"
+        options:
+          - { label: "Nail Kits", value: "nail-kits" }
+          - { label: "Lash Kits", value: "lash-kits" }
+          - { label: "PMU Kits", value: "pmu-kits" }
+          - { label: "Hair Kits", value: "hair-kits" }
+          - { label: "Makeup Kits", value: "makeup-kits" }
+          - { label: "Daily Kits", value: "daily-kits" }
+          - { label: "Other Kits", value: "other-kits" }
+      - { label: "Description", name: "description", widget: "text", required: false, hint: "Short description shown below the title" }
+
+  # ═══════════════════════════════════════════
   # SEO Settings
   # ═══════════════════════════════════════════
   - name: "seo_settings"
