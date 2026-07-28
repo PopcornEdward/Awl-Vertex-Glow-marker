@@ -23,8 +23,8 @@ const featuredProducts = await getFeaturedProducts();
               </h1>
               <p class="text-white/80 text-lg md:text-xl mb-8">6 product lines · 1000+ SKUs · OEM/ODM · Wholesale B2B</p>
               <div class="flex flex-wrap justify-center gap-4">
-                <a href="/products" class="btn btn-primary btn-lg rounded-full px-10 text-lg shadow-lg hover:shadow-xl hover:scale-105 transition-transform">Explore Products</a>
-                <a href="/contact" class="btn bg-white/10 border-2 border-white text-white btn-lg rounded-full px-10 text-lg hover:bg-white/20 transition-colors backdrop-blur-sm">Get a Quote</a>
+                <a href="/products" class="btn btn-primary btn-lg rounded-full px-10 text-lg shadow-lg hover:shadow-xl hover:scale-105 transition-transform btn-glow">Explore Products</a>
+                <a href="/contact" class="btn bg-white/10 border-2 border-white text-white btn-lg rounded-full px-10 text-lg hover:bg-white/20 transition-colors backdrop-blur-sm btn-glow">Get a Quote</a>
               </div>
             </div>
           </div>
@@ -39,7 +39,7 @@ const featuredProducts = await getFeaturedProducts();
                 Nail <span class="text-pink-400">Supplies</span>
               </h2>
               <p class="text-white/80 text-lg md:text-xl mb-8">Gel Polish · Nail Tips · Files · UV Lamps · Nail Art</p>
-              <a href="/category/nails" class="btn btn-primary btn-lg rounded-full px-10 text-lg shadow-lg hover:shadow-xl hover:scale-105 transition-transform">Explore Nail Supplies</a>
+              <a href="/category/nails" class="btn btn-primary btn-lg rounded-full px-10 text-lg shadow-lg hover:shadow-xl hover:scale-105 transition-transform btn-glow">Explore Nail Supplies</a>
             </div>
           </div>
         </div>
@@ -53,7 +53,7 @@ const featuredProducts = await getFeaturedProducts();
                 Eyelash <span class="text-pink-400">Supplies</span>
               </h2>
               <p class="text-white/80 text-lg md:text-xl mb-8">Extensions · Adhesives · Tweezers · Trays · Training Heads</p>
-              <a href="/category/eyelashes" class="btn btn-primary btn-lg rounded-full px-10 text-lg shadow-lg hover:shadow-xl hover:scale-105 transition-transform">Explore Eyelash Supplies</a>
+              <a href="/category/eyelashes" class="btn btn-primary btn-lg rounded-full px-10 text-lg shadow-lg hover:shadow-xl hover:scale-105 transition-transform btn-glow">Explore Eyelash Supplies</a>
             </div>
           </div>
         </div>
@@ -67,7 +67,7 @@ const featuredProducts = await getFeaturedProducts();
                 Permanent <span class="text-pink-400">Makeup</span>
               </h2>
               <p class="text-white/80 text-lg md:text-xl mb-8">PMU Machines · Pigments · Needles · Microblading</p>
-              <a href="/category/permanent-makeup" class="btn btn-primary btn-lg rounded-full px-10 text-lg shadow-lg hover:shadow-xl hover:scale-105 transition-transform">Explore PMU Supplies</a>
+              <a href="/category/permanent-makeup" class="btn btn-primary btn-lg rounded-full px-10 text-lg shadow-lg hover:shadow-xl hover:scale-105 transition-transform btn-glow">Explore PMU Supplies</a>
             </div>
           </div>
         </div>
@@ -120,7 +120,7 @@ const featuredProducts = await getFeaturedProducts();
       <div class="flex flex-wrap justify-center gap-2 mb-12">
         {CATEGORIES.map((cat) => (
           <a href={`/category/${cat.slug}`}
-            class="inline-flex items-center gap-2 px-4 py-2.5 rounded-full text-sm font-medium text-white/80 hover:text-pink-300 bg-white/10 hover:bg-white/20 shadow-sm hover:shadow-md transition-all duration-200 border border-white/10 hover:border-pink-400/40">
+            class="inline-flex items-center gap-2 px-4 py-2.5 rounded-full text-sm font-medium text-white/80 hover:text-pink-300 bg-white/10 hover:bg-white/20 shadow-sm hover:shadow-md transition-all duration-200 border border-white/10 hover:border-pink-400/40 btn-glow">
             <Icon name={cat.icon} class="w-4 h-4 text-pink-400" />
             {cat.name}
           </a>
