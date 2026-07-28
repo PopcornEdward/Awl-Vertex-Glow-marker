@@ -31,12 +31,12 @@ collections:
         name: "factory_page"
         file: "src/data/pages/factory.json"
         fields:
-          - { label: "Hero Image URL", name: "hero_image", widget: "string" }
+          - { label: "Hero Image", name: "hero_image", widget: "image" }
           - { label: "Hero Title", name: "hero_title", widget: "string" }
           - { label: "Hero Subtitle", name: "hero_subtitle", widget: "string" }
           - { label: "Manufacturing Section Title", name: "mfg_title", widget: "string" }
           - { label: "Manufacturing Description", name: "mfg_description", widget: "text" }
-          - { label: "Manufacturing Image URL", name: "mfg_image", widget: "string" }
+          - { label: "Manufacturing Image", name: "mfg_image", widget: "image" }
           - label: "Highlights"
             name: "highlights"
             widget: "list"
@@ -44,42 +44,58 @@ collections:
             field: { label: "Text", name: "text", widget: "string" }
           - { label: "Photo Wall Title", name: "photo_wall_title", widget: "string" }
           - { label: "Photo Wall Subtitle", name: "photo_wall_subtitle", widget: "string" }
-          - label: "Category 1 — Raw Materials"
+          - label: "▸ Cat 1 — Raw Materials"
             name: "pw_cat_1_name"
             widget: "string"
-          - { label: "Cat 1 — Cover Image URL", name: "pw_cat_1_cover", widget: "string" }
-          - label: "Cat 1 — Images (9 URLs)"
-            name: "pw_cat_1_images"
-            widget: "list"
-            summary: "{{fields.url}}"
-            field: { label: "URL", name: "url", widget: "string" }
-          - label: "Category 2 — Production Line"
+          - { label: "Cat 1 Cover Image", name: "pw_cat_1_cover", widget: "image" }
+          - { label: "Cat 1 — Photo 01", name: "pw_cat_1_img_01", widget: "image" }
+          - { label: "Cat 1 — Photo 02", name: "pw_cat_1_img_02", widget: "image" }
+          - { label: "Cat 1 — Photo 03", name: "pw_cat_1_img_03", widget: "image" }
+          - { label: "Cat 1 — Photo 04", name: "pw_cat_1_img_04", widget: "image" }
+          - { label: "Cat 1 — Photo 05", name: "pw_cat_1_img_05", widget: "image" }
+          - { label: "Cat 1 — Photo 06", name: "pw_cat_1_img_06", widget: "image" }
+          - { label: "Cat 1 — Photo 07", name: "pw_cat_1_img_07", widget: "image" }
+          - { label: "Cat 1 — Photo 08", name: "pw_cat_1_img_08", widget: "image" }
+          - { label: "Cat 1 — Photo 09", name: "pw_cat_1_img_09", widget: "image" }
+          - label: "▸ Cat 2 — Production Line"
             name: "pw_cat_2_name"
             widget: "string"
-          - { label: "Cat 2 — Cover Image URL", name: "pw_cat_2_cover", widget: "string" }
-          - label: "Cat 2 — Images (9 URLs)"
-            name: "pw_cat_2_images"
-            widget: "list"
-            summary: "{{fields.url}}"
-            field: { label: "URL", name: "url", widget: "string" }
-          - label: "Category 3 — Quality Control"
+          - { label: "Cat 2 Cover Image", name: "pw_cat_2_cover", widget: "image" }
+          - { label: "Cat 2 — Photo 01", name: "pw_cat_2_img_01", widget: "image" }
+          - { label: "Cat 2 — Photo 02", name: "pw_cat_2_img_02", widget: "image" }
+          - { label: "Cat 2 — Photo 03", name: "pw_cat_2_img_03", widget: "image" }
+          - { label: "Cat 2 — Photo 04", name: "pw_cat_2_img_04", widget: "image" }
+          - { label: "Cat 2 — Photo 05", name: "pw_cat_2_img_05", widget: "image" }
+          - { label: "Cat 2 — Photo 06", name: "pw_cat_2_img_06", widget: "image" }
+          - { label: "Cat 2 — Photo 07", name: "pw_cat_2_img_07", widget: "image" }
+          - { label: "Cat 2 — Photo 08", name: "pw_cat_2_img_08", widget: "image" }
+          - { label: "Cat 2 — Photo 09", name: "pw_cat_2_img_09", widget: "image" }
+          - label: "▸ Cat 3 — Quality Control"
             name: "pw_cat_3_name"
             widget: "string"
-          - { label: "Cat 3 — Cover Image URL", name: "pw_cat_3_cover", widget: "string" }
-          - label: "Cat 3 — Images (9 URLs)"
-            name: "pw_cat_3_images"
-            widget: "list"
-            summary: "{{fields.url}}"
-            field: { label: "URL", name: "url", widget: "string" }
-          - label: "Category 4 — Packing & Loading"
+          - { label: "Cat 3 Cover Image", name: "pw_cat_3_cover", widget: "image" }
+          - { label: "Cat 3 — Photo 01", name: "pw_cat_3_img_01", widget: "image" }
+          - { label: "Cat 3 — Photo 02", name: "pw_cat_3_img_02", widget: "image" }
+          - { label: "Cat 3 — Photo 03", name: "pw_cat_3_img_03", widget: "image" }
+          - { label: "Cat 3 — Photo 04", name: "pw_cat_3_img_04", widget: "image" }
+          - { label: "Cat 3 — Photo 05", name: "pw_cat_3_img_05", widget: "image" }
+          - { label: "Cat 3 — Photo 06", name: "pw_cat_3_img_06", widget: "image" }
+          - { label: "Cat 3 — Photo 07", name: "pw_cat_3_img_07", widget: "image" }
+          - { label: "Cat 3 — Photo 08", name: "pw_cat_3_img_08", widget: "image" }
+          - { label: "Cat 3 — Photo 09", name: "pw_cat_3_img_09", widget: "image" }
+          - label: "▸ Cat 4 — Packing & Loading"
             name: "pw_cat_4_name"
             widget: "string"
-          - { label: "Cat 4 — Cover Image URL", name: "pw_cat_4_cover", widget: "string" }
-          - label: "Cat 4 — Images (9 URLs)"
-            name: "pw_cat_4_images"
-            widget: "list"
-            summary: "{{fields.url}}"
-            field: { label: "URL", name: "url", widget: "string" }
+          - { label: "Cat 4 Cover Image", name: "pw_cat_4_cover", widget: "image" }
+          - { label: "Cat 4 — Photo 01", name: "pw_cat_4_img_01", widget: "image" }
+          - { label: "Cat 4 — Photo 02", name: "pw_cat_4_img_02", widget: "image" }
+          - { label: "Cat 4 — Photo 03", name: "pw_cat_4_img_03", widget: "image" }
+          - { label: "Cat 4 — Photo 04", name: "pw_cat_4_img_04", widget: "image" }
+          - { label: "Cat 4 — Photo 05", name: "pw_cat_4_img_05", widget: "image" }
+          - { label: "Cat 4 — Photo 06", name: "pw_cat_4_img_06", widget: "image" }
+          - { label: "Cat 4 — Photo 07", name: "pw_cat_4_img_07", widget: "image" }
+          - { label: "Cat 4 — Photo 08", name: "pw_cat_4_img_08", widget: "image" }
+          - { label: "Cat 4 — Photo 09", name: "pw_cat_4_img_09", widget: "image" }
           - { label: "QC Section Title", name: "qc_title", widget: "string" }
           - label: "QC Stages"
             name: "qc_stages"
@@ -93,7 +109,7 @@ collections:
         name: "about_page"
         file: "src/data/pages/about.json"
         fields:
-          - { label: "Hero Image URL", name: "hero_image", widget: "string" }
+          - { label: "Hero Image", name: "hero_image", widget: "image" }
           - { label: "Hero Title", name: "hero_title", widget: "string" }
           - { label: "Hero Subtitle", name: "hero_subtitle", widget: "string" }
           - { label: "Company Profile Title", name: "profile_title", widget: "string" }
