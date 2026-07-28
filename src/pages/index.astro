@@ -151,7 +151,7 @@ const featuredProducts = await getFeaturedProducts();
       </div>
 
       <div class="text-center">
-        <a href="/products" class="btn bg-pink-500 hover:bg-pink-600 text-white border-none rounded-full px-10 py-3 font-semibold shadow-lg hover:shadow-xl transition-all duration-200">
+        <a href="/products" class="btn bg-pink-500 hover:bg-pink-600 text-white border-none rounded-full px-10 py-3 font-semibold shadow-lg hover:shadow-xl transition-all duration-200 btn-glow">
           View All Products <Icon name="lucide:arrow-right" class="w-4 h-4 ml-1" />
         </a>
       </div>
@@ -227,12 +227,12 @@ const featuredProducts = await getFeaturedProducts();
       <h2 class="text-3xl md:text-5xl font-black text-white mb-4" data-parallax="0.4">Ready to Start Your Order?</h2>
       <p class="text-gray-300 mb-8 text-lg" data-parallax="0.3">Contact our sales team today. We respond within 24 hours with pricing and product details.</p>
       <div class="flex flex-wrap justify-center gap-4">
-        <a href="/contact" class="btn btn-primary btn-lg rounded-full px-12 py-4 text-lg font-bold shadow-xl hover:shadow-2xl hover:scale-105 transition-transform">
+        <a href="/contact" class="btn btn-primary btn-lg rounded-full px-12 py-4 text-lg font-bold shadow-xl hover:shadow-2xl hover:scale-105 transition-transform btn-glow-strong">
           <Icon name="lucide:send" class="w-5 h-5" /> Send Inquiry
         </a>
         <a href={`https://api.whatsapp.com/send?phone=${SITE.whatsapp}&text=Hello`}
            target="_blank" rel="noopener noreferrer"
-           class="btn bg-green-500 text-white border-none rounded-full px-10 py-3.5 font-semibold hover:bg-green-600 hover:scale-105 transition-transform">
+           class="btn bg-green-500 text-white border-none rounded-full px-10 py-3.5 font-semibold hover:bg-green-600 hover:scale-105 transition-transform btn-glow-subtle">
           <Icon name="lucide:message-circle" class="w-5 h-5" /> Chat on WhatsApp
         </a>
       </div>
