@@ -7,15 +7,15 @@ export const SITE = {
   description:
     "China source factory for nail, eyelash, permanent makeup, beauty tools, daily chemical & makeup accessories. Wholesale B2B supplier exporting to 60+ countries.",
   url: "https://awlvertexglowmarket.com",
-  location: "Zhejiang, China",
+  location: "Guangzhou Baiyun, China",
   founded: 2015,
   experience: "10+ Years",
   exportCountries: 60,
   factoryCount: 2,
-  whatsapp: "+8618898634001",
-  email: "info@awlvertexglowmarket.com",
-  phone: "+8618898634001",
-  address: "Yiwu, Zhejiang, China",
+  whatsapp: "+8615258887529",
+  email: "biz-trade@aviciimailsend.dpdns.org",
+  phone: "+86 15258887529",
+  address: "Guangzhou Baiyun, China",
 };
 
 export const NAV_LINKS = [
@@ -100,7 +100,7 @@ export const TRUST_PILLARS = [
     icon: "lucide:factory",
     title: "Source Factory",
     description:
-      "Own 2 factories in Zhejiang. No middlemen. Direct factory pricing for all wholesale orders.",
+      "Own 2 factories in Guangzhou Baiyun. No middlemen. Direct factory pricing for all wholesale orders.",
   },
   {
     icon: "lucide:truck",
