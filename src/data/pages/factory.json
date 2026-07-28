@@ -6,17 +6,25 @@
   "mfg_description": "Our main factory is located in Zhejiang Province — the heart of China's manufacturing hub. Spanning 5,000+ sqm, our facility houses dedicated production lines for each product category: nail supplies, eyelash tools, PMU equipment, beauty devices, and daily chemical products.",
   "mfg_image": "https://images.pexels.com/photos/5069610/pexels-photo-5069610.jpeg?auto=compress&cs=tinysrgb&w=800",
   "highlights": [
-    { "text": "R&D Center: In-house product development team that tracks global beauty trends and creates new products monthly." },
-    { "text": "Production Lines: 6 dedicated assembly lines with modern equipment for consistent quality at scale." },
-    { "text": "QC Stations: 6-stage quality inspection integrated into every production batch." },
-    { "text": "Warehouse: 2000+ sqm storage capacity for fast order fulfillment." }
+    {
+      "text": "R&D Center: In-house product development team that tracks global beauty trends and creates new products monthly."
+    },
+    {
+      "text": "Production Lines: 6 dedicated assembly lines with modern equipment for consistent quality at scale."
+    },
+    {
+      "text": "QC Stations: 6-stage quality inspection integrated into every production batch."
+    },
+    {
+      "text": "Warehouse: 2000+ sqm storage capacity for fast order fulfillment."
+    }
   ],
   "photo_wall_title": "Inside Our Factory",
   "photo_wall_subtitle": "A transparent look at our production environment",
   "pw_cat_1_name": "Raw Materials",
   "pw_cat_1_cover": "https://images.pexels.com/photos/27967281/pexels-photo-27967281.jpeg?auto=compress&cs=tinysrgb&w=600",
   "pw_cat_1_img_01": "https://images.pexels.com/photos/27967281/pexels-photo-27967281.jpeg?auto=compress&cs=tinysrgb&w=1200",
-  "pw_cat_1_img_02": "https://images.pexels.com/photos/37598393/pexels-photo-37598393.jpeg?auto=compress&cs=tinysrgb&w=1200",
+  "pw_cat_1_img_02": "https://picsum.photos/id/674/1920/1280.webp",
   "pw_cat_1_img_03": "https://images.pexels.com/photos/36397980/pexels-photo-36397980.jpeg?auto=compress&cs=tinysrgb&w=1200",
   "pw_cat_1_img_04": "https://images.pexels.com/photos/17315564/pexels-photo-17315564.jpeg?auto=compress&cs=tinysrgb&w=1200",
   "pw_cat_1_img_05": "https://images.pexels.com/photos/36878025/pexels-photo-36878025.jpeg?auto=compress&cs=tinysrgb&w=1200",
@@ -59,12 +67,24 @@
   "pw_cat_4_img_09": "https://images.pexels.com/photos/31112188/pexels-photo-31112188.jpeg?auto=compress&cs=tinysrgb&w=1200",
   "qc_title": "6-Stage Quality Control",
   "qc_stages": [
-    { "text": "Material Inspection" },
-    { "text": "Production QC" },
-    { "text": "Function Test" },
-    { "text": "Appearance Check" },
-    { "text": "Packaging QC" },
-    { "text": "Final Audit" }
+    {
+      "text": "Material Inspection"
+    },
+    {
+      "text": "Production QC"
+    },
+    {
+      "text": "Function Test"
+    },
+    {
+      "text": "Appearance Check"
+    },
+    {
+      "text": "Packaging QC"
+    },
+    {
+      "text": "Final Audit"
+    }
   ],
   "cta_title": "Want a Live Video Tour?",
   "cta_description": "Contact us to schedule a live video walkthrough of our factory. We're proud to show you where your products come from."
