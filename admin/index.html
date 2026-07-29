@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>独立站后台管理系统</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <style>
+      .r2-toast {
+        position: fixed; bottom: 24px; right: 24px; z-index: 99999;
+        padding: 14px 20px; border-radius: 8px;
+        font-family: system-ui, -apple-system, sans-serif;
+        font-size: 14px; max-width: 440px; min-width: 300px;
+        box-shadow: 0 4px 24px rgba(0,0,0,0.35);
+        animation: r2-slide-in 0.25s ease-out;
+        line-height: 1.5;
+      }
+      .r2-toast--success { background:#1a3a2a; border:1px solid #2d6a4f; color:#b7e4c7; }
+      .r2-toast--error   { background:#3a1a1a; border:1px solid #6a2d2d; color:#e4b7b7; }
+      .r2-toast--uploading { background:#1e1e2e; border:1px solid #45475a; color:#cdd6f4; }
+      .r2-toast-row { display:flex; align-items:flex-start; gap:10px; }
+      .r2-toast-icon  { flex-shrink:0; font-size:18px; width:20px; text-align:center; }
+      .r2-toast-close { flex-shrink:0; cursor:pointer; opacity:0.6; font-size:16px;
+                         margin-left:8px; background:none; border:none; color:inherit; padding:0; line-height:1; }
+      .r2-toast-close:hover { opacity:1; }
+      .r2-toast-body { flex:1; min-width:0; }
+      .r2-toast-url  { display:block; font-size:12px; opacity:0.8; word-break:break-all; margin-top:4px; }
+      .r2-toast-filename { font-size:12px; opacity:0.7; margin-bottom:6px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+      @keyframes r2-slide-in { from { transform:translateY(16px); opacity:0; }
+                               to   { transform:translateY(0);    opacity:1; } }
+      /* Progress bar */
+      .r2-progress-track {
+        width:100%; height:6px; background:#313244; border-radius:3px; overflow:hidden;
+      }
+      .r2-progress-bar {
+        height:100%; background:linear-gradient(90deg, #89b4fa, #a6e3a1);
+        border-radius:3px; transition: width 0.15s ease;
+        width:0%;
+      }
+      .r2-progress-text { font-size:12px; margin-top:4px; color:#a6adc8; }
+
+    </style>
+  </head>
+  <body>
+    <script src="https://unpkg.com/@sveltia/cms/dist/sveltia-cms.js"></script>
+    <script>
+      (function () {
+        // ── R2 S3 credentials ──
+        var ACCOUNT_ID = "8b0adeeddb1097052d05dcc7f5bc2796";
+        var BUCKET = "my-astro-avgm";
+        var ACCESS_KEY = "7f13798ec35c9e861d1bba8ce28b9705";
+        var SECRET_KEY = "17c76e70dc68b76e20830e96a239d901149efa5009e09dcfaf11e47d2fac4710";
+        var REGION = "auto";
+        var SERVICE = "s3";
+        var CDN_BASE = "https://ownshop.usbartimgotolink.qzz.io";
+        var R2_HOST = ACCOUNT_ID + ".r2.cloudflarestorage.com";
+        var R2_ENDPOINT = "https://" + R2_HOST;
+
+        var uploading = false;
+
+        // ── Crypto helpers ──
+        function sha256Hex(buffer) {
+          return crypto.subtle.digest("SHA-256", buffer).then(function (h) {
+            return Array.from(new Uint8Array(h),
+              function (b) { return b.toString(16).padStart(2, "0"); }).join("");
+          });
+        }
+        function hmacRaw(key, data) {
+          var k = typeof key === "string" ? new TextEncoder().encode(key) : key;
+          return crypto.subtle.importKey("raw", k, { name: "HMAC", hash: "SHA-256" },
+            false, ["sign"]).then(function (ck) {
+            return crypto.subtle.sign("HMAC", ck, new TextEncoder().encode(data));
+          }).then(function (s) { return new Uint8Array(s); });
+        }
+        function hmacHex(key, data) {
+          return hmacRaw(key, data).then(function (s) {
+            return Array.from(s,
+              function (b) { return b.toString(16).padStart(2, "0"); }).join("");
+          });
+        }
+
+        // ── Simple toast ──
+        function showToast(type, msg, url) {
+          var t = document.createElement("div");
+          t.className = "r2-toast r2-toast--" + type;
+          var ico = type === "success" ? "✓" : "✗";
+          t.innerHTML =
+            '<div class="r2-toast-row">' +
+            '<span class="r2-toast-icon">' + ico + '</span>' +
+            '<div class="r2-toast-body">' + msg +
+            (url ? '<span class="r2-toast-url">' + url + '</span>' : '') +
+            '</div>' +
+            '<button class="r2-toast-close" onclick="this.parentElement.parentElement.remove()">×</button>' +
+            '</div>';
+          document.body.appendChild(t);
+          if (type === "success")
+            setTimeout(function () { if (t.parentElement) t.remove(); }, 8000);
+          return t;
+        }
+
+        // ── Progress toast (returns { updateProgress, remove, setError }) ──
+        function showProgressToast(filename, fileSize) {
+          var sizeStr = fileSize
+            ? (fileSize < 1048576
+                ? (fileSize / 1024).toFixed(0) + " KB"
+                : (fileSize / 1048576).toFixed(1) + " MB")
+            : "";
+
+          var el = document.createElement("div");
+          el.className = "r2-toast r2-toast--uploading";
+          el.innerHTML =
+            '<div class="r2-toast-row">' +
+            '<span class="r2-toast-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#89b4fa" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></span>' +
+            '<div class="r2-toast-body">' +
+            '<div class="r2-toast-filename">' + filename + '</div>' +
+            '<div class="r2-progress-track"><div class="r2-progress-bar"></div></div>' +
+            '<div class="r2-progress-text">0%' + (sizeStr ? ' / ' + sizeStr : '') + '</div>' +
+            '</div>' +
+            '</div>';
+          document.body.appendChild(el);
+
+          var bar = el.querySelector(".r2-progress-bar");
+          var text = el.querySelector(".r2-progress-text");
+
+          return {
+            updateProgress: function (pct) {
+              var p = Math.round(pct);
+              bar.style.width = p + "%";
+              text.textContent = p + "%" + (sizeStr ? " / " + sizeStr : "");
+            },
+            remove: function () {
+              if (el.parentElement) el.remove();
+            },
+            setError: function (msg) {
+              el.className = "r2-toast r2-toast--error";
+              el.innerHTML =
+                '<div class="r2-toast-row">' +
+                '<span class="r2-toast-icon">✗</span>' +
+                '<div class="r2-toast-body">' + msg + '</div>' +
+                '<button class="r2-toast-close" onclick="this.parentElement.parentElement.remove()">×</button>' +
+                '</div>';
+            },
+          };
+        }
+
+        // ── S3 Signature V4 + PUT to R2 (fetch + tracking stream for progress) ──
+        function uploadToR2(file) {
+          return new Promise(function (resolve, reject) {
+            if (uploading) return reject(new Error("已有上传进行中"));
+            uploading = true;
+
+            var progressToast = showProgressToast(file.name, file.size);
+
+            // Read file
+            var reader = new FileReader();
+            reader.onload = async function () {
+              var arrayBuffer = reader.result;
+              try {
+                // Compute hashes
+                var payloadHashHex = await sha256Hex(arrayBuffer);
+                var fileHash = payloadHashHex.substring(0, 32);
+                var ext = (file.name || "image.jpg").split(".").pop().toLowerCase();
+                if (ext === "jpeg") ext = "jpg";
+
+                var now = new Date();
+                var datePath = [
+                  now.getFullYear(),
+                  String(now.getMonth() + 1).padStart(2, "0"),
+                  String(now.getDate()).padStart(2, "0"),
+                ].join("/");
+                var key = datePath + "/" + fileHash + "." + ext;
+                var canonicalUri = "/" + BUCKET + "/" + key;
+                var contentType = file.type || "image/jpeg";
+
+                // S3 Signature V4
+                var amzDate = now.toISOString()
+                  .replace(/[:\-]|\.\d{3}/g, "").substring(0, 15) + "Z";
+                var dateStamp = amzDate.substring(0, 8);
+                var credentialScope = dateStamp + "/" + REGION + "/" + SERVICE + "/aws4_request";
+
+                var canonicalHeaders =
+                  "content-type:" + contentType + "\n" +
+                  "host:" + R2_HOST + "\n" +
+                  "x-amz-content-sha256:" + payloadHashHex + "\n" +
+                  "x-amz-date:" + amzDate + "\n";
+                var signedHeaders = "content-type;host;x-amz-content-sha256;x-amz-date";
+
+                var canonicalRequest = [
+                  "PUT", canonicalUri, "",
+                  canonicalHeaders, signedHeaders, payloadHashHex,
+                ].join("\n");
+
+                var stringToSign = [
+                  "AWS4-HMAC-SHA256",
+                  amzDate, credentialScope,
+                  await sha256Hex(new TextEncoder().encode(canonicalRequest)),
+                ].join("\n");
+
+                var kDate = await hmacRaw("AWS4" + SECRET_KEY, dateStamp);
+                var kRegion = await hmacRaw(kDate, REGION);
+                var kService = await hmacRaw(kRegion, SERVICE);
+                var kSigning = await hmacRaw(kService, "aws4_request");
+                var signature = await hmacHex(kSigning, stringToSign);
+
+                var authorization =
+                  "AWS4-HMAC-SHA256 Credential=" + ACCESS_KEY + "/" + credentialScope +
+                  ", SignedHeaders=" + signedHeaders + ", Signature=" + signature;
+
+                // PUT to R2 via XHR (sends raw ArrayBuffer with Content-Length, + progress)
+                var r2Url = R2_ENDPOINT + canonicalUri;
+                var xhr = new XMLHttpRequest();
+                xhr.open("PUT", r2Url);
+                xhr.setRequestHeader("Content-Type", contentType);
+                xhr.setRequestHeader("x-amz-content-sha256", payloadHashHex);
+                xhr.setRequestHeader("x-amz-date", amzDate);
+                xhr.setRequestHeader("Authorization", authorization);
+                xhr.timeout = 120000;
+
+                xhr.upload.onprogress = function (e) {
+                  if (e.lengthComputable) {
+                    progressToast.updateProgress(
+                      Math.round((e.loaded / e.total) * 100));
+                  }
+                };
+                progressToast.updateProgress(0);
+
+                xhr.onload = function () {
+                  progressToast.remove();
+                  uploading = false;
+                  if (xhr.status >= 200 && xhr.status < 300) {
+                    var cdnUrl = CDN_BASE + "/" + key;
+                    console.log("R2 upload success:", cdnUrl);
+                    resolve(cdnUrl);
+                  } else {
+                    console.error("R2 PUT failed:", xhr.status, xhr.responseText);
+                    reject(new Error("HTTP " + xhr.status +
+                      (xhr.responseText ? ": " + xhr.responseText.substring(0, 120) : "")));
+                  }
+                };
+
+                xhr.onerror = function () {
+                  progressToast.remove();
+                  uploading = false;
+                  reject(new Error(
+                    "上传被阻止——请检查浏览器 F12 Console 中的 CORS 错误。" +
+                    "需要 Cloudflare R2 → " + BUCKET +
+                    " → CORS 添加允许源 " + window.location.origin + "，方法 PUT"
+                  ));
+                };
+
+                xhr.ontimeout = function () {
+                  progressToast.remove();
+                  uploading = false;
+                  reject(new Error("上传超时"));
+                };
+
+                xhr.send(arrayBuffer);
+              } catch (err) {
+                progressToast.remove();
+                uploading = false;
+                console.error("R2 upload error:", err);
+
+                if (err.message.indexOf("Failed to fetch") !== -1 ||
+                    err.name === "TypeError") {
+                  reject(new Error(
+                    "直连 R2 被阻止——请检查 F12 Console 中的 CORS 错误信息。" +
+                    "需要在 Cloudflare R2 → " + BUCKET +
+                    " → Settings → CORS 添加: 允许源 " + window.location.origin +
+                    "，允许方法 PUT，允许头 Content-Type, Authorization, x-amz-date, x-amz-content-sha256"
+                  ));
+                } else {
+                  reject(err);
+                }
+              }
+            };
+
+            reader.onerror = function () {
+              progressToast.remove();
+              uploading = false;
+              reject(new Error("读取文件失败"));
+            };
+
+            reader.readAsArrayBuffer(file);
+          });
+        }
+
+        // ── Copy to clipboard ──
+        function copyToClipboard(url) {
+          try {
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+              navigator.clipboard.writeText(url);
+              return true;
+            }
+          } catch (e) {}
+          try {
+            var ta = document.createElement("textarea");
+            ta.value = url; ta.style.cssText = "position:fixed;opacity:0";
+            document.body.appendChild(ta);
+            ta.select(); document.execCommand("copy");
+            document.body.removeChild(ta);
+            return true;
+          } catch (e) { return false; }
+        }
+
+        // ── Find the open asset dialog (try multiple selectors) ──
+        function findDialog() {
+          var selectors = [
+            '[role="dialog"]',
+            '[aria-modal="true"]',
+            '.sui-dialog',
+            '.sui-modal',
+          ];
+          for (var i = 0; i < selectors.length; i++) {
+            var el = document.querySelector(selectors[i]);
+            if (el) return el;
+          }
+          // Heuristic: find a visible overlay/backdrop that contains "Insert" button
+          var all = document.querySelectorAll("button");
+          for (var j = 0; j < all.length; j++) {
+            if ((all[j].textContent || "").trim() === "Insert") {
+              var ancestor = all[j].parentElement;
+              while (ancestor && ancestor !== document.body) {
+                if (ancestor.offsetHeight > 300 && ancestor.offsetWidth > 300) return ancestor;
+                ancestor = ancestor.parentElement;
+              }
+            }
+          }
+          return null;
+        }
+
+        // ── Auto-fill dialog: click "Enter URL" → fill input → click Insert ──
+        function autoFillDialog(url) {
+          var dialog = findDialog();
+          if (!dialog) return false;
+
+          // Step 1: search ALL elements for "Enter URL" text and click it
+          var allEls = dialog.querySelectorAll("*");
+          var enterURL = null;
+          for (var i = 0; i < allEls.length; i++) {
+            // Only check leaf elements (no children) for exact text match
+            if (allEls[i].children.length > 0) continue;
+            var t = (allEls[i].textContent || "").trim();
+            if (t === "Enter URL" || t === "Enter URL of the image" ||
+                t === "输入 URL" || /^enter\s*url/i.test(t)) {
+              // Click the nearest interactive ancestor
+              enterURL = allEls[i].closest(
+                'button, [role="option"], [role="tab"], option, label, [role="button"]');
+              if (enterURL) break;
+            }
+          }
+          // Fallback: find by option/select containing "enter-url" value
+          if (!enterURL) {
+            var opts = dialog.querySelectorAll('option[value*="enter-url"], option[value*="enter_url"]');
+            if (opts.length > 0) enterURL = opts[0];
+          }
+
+          if (enterURL) {
+            enterURL.click();
+            if (enterURL.tagName === "OPTION" && enterURL.parentElement) {
+              enterURL.parentElement.value = enterURL.value;
+              enterURL.parentElement.dispatchEvent(new Event("change", { bubbles: true }));
+            }
+          }
+
+          // Step 2: wait for URL input, fill it
+          setTimeout(function () {
+            var input = dialog.querySelector(
+              'input[type="text"], input:not([type]), input[type="url"]');
+            if (!input) { return; }
+
+            var ns = Object.getOwnPropertyDescriptor(
+              window.HTMLInputElement.prototype, "value");
+            if (ns && ns.set) ns.set.call(input, url);
+            else input.value = url;
+            input.dispatchEvent(new Event("input", { bubbles: true }));
+            input.dispatchEvent(new Event("change", { bubbles: true }));
+
+            // Step 3: wait for Svelte, then click Insert
+            setTimeout(function () {
+              var buttons = dialog.querySelectorAll("button");
+              for (var j = 0; j < buttons.length; j++) {
+                var btnText = (buttons[j].textContent || "").trim();
+                if (btnText === "Insert" || btnText === "Choose") {
+                  if (!buttons[j].disabled) { buttons[j].click(); return; }
+                }
+              }
+            }, 250);
+          }, 250);
+          return true;
+        }
+
+        // ── Handle image file: upload to R2 → auto-fill dialog ──
+        function handleImageFile(file, evt) {
+          uploadToR2(file).then(function (url) {
+            // Try auto-fill if dialog is already open
+            if (autoFillDialog(url)) {
+              showToast("success", "上传成功！", url);
+              return;
+            }
+            // No dialog open — try to open the widget's dialog, then auto-fill
+            if (evt) {
+              var browseBtn = findBrowseButton(evt);
+              if (browseBtn) {
+                browseBtn.click();
+                setTimeout(function () {
+                  if (autoFillDialog(url)) {
+                    showToast("success", "上传成功！", url);
+                  } else {
+                    copyToClipboard(url);
+                    showToast("success", "已上传！URL 已复制，请在 \"Enter URL\" 中粘贴。", url);
+                  }
+                }, 600);
+                return;
+              }
+            }
+            // Fallback
+            copyToClipboard(url);
+            showToast("success",
+              "已上传！URL 已复制。点击 Browse 打开对话框 → \"Enter URL\" → Ctrl+V → Insert", url);
+          }).catch(function (err) {
+            showToast("error", "上传失败: " + err.message);
+          });
+        }
+
+        // ── Find the nearest "Browse" button from a drop/paste event ──
+        function findBrowseButton(evt) {
+          var node = evt.target;
+          for (var d = 0; d < 10; d++) {
+            if (!node || node === document.body) break;
+            if (node.querySelectorAll) {
+              var buttons = node.querySelectorAll("button");
+              for (var i = 0; i < buttons.length; i++) {
+                var text = (buttons[i].textContent || "").trim().toLowerCase();
+                if (text === "browse" || text.indexOf("browse") !== -1) {
+                  return buttons[i];
+                }
+              }
+            }
+            node = node.parentElement;
+          }
+          // Fallback: find any visible "Browse" button on the page
+          var all = document.querySelectorAll("button");
+          for (var j = 0; j < all.length; j++) {
+            var t = (all[j].textContent || "").trim().toLowerCase();
+            if (t === "browse") return all[j];
+          }
+          return null;
+        }
+
+        // ── 1. PASTE interception: upload to R2, copy URL ──
+        document.addEventListener("paste", function (e) {
+          var items = e.clipboardData && e.clipboardData.items;
+          if (!items) return;
+          for (var i = 0; i < items.length; i++) {
+            if (items[i].type.indexOf("image/") === 0) {
+              e.preventDefault(); e.stopPropagation(); e.stopImmediatePropagation();
+              handleImageFile(items[i].getAsFile());
+              return;
+            }
+          }
+        }, true);
+
+        // ── 2. DROP interception: upload to R2, copy URL ──
+        document.addEventListener("drop", function (e) {
+          var files = e.dataTransfer && e.dataTransfer.files;
+          if (!files || files.length === 0) return;
+          for (var i = 0; i < files.length; i++) {
+            if (files[i].type.indexOf("image/") === 0) {
+              e.preventDefault(); e.stopPropagation(); e.stopImmediatePropagation();
+              handleImageFile(files[i]);
+              return;
+            }
+          }
+        }, true);
+
+        // ── 3. File input CHANGE: upload to R2, copy URL ──
+        document.addEventListener("change", function (e) {
+          var t = e.target;
+          if (!t || t.type !== "file" || !t.files || !t.files[0]) return;
+          var file = t.files[0];
+          if (file.type.indexOf("image/") !== 0) return;
+          e.preventDefault(); e.stopPropagation(); e.stopImmediatePropagation();
+          handleImageFile(file);
+        }, true);
+      })();
+    </script>
+
+    <!-- Multi-column editor layout: watch for form render → apply grid -->
+    <script>
+      (function () {
+        var GRID_COLS = "1fr 1fr"; // 2-column default
+        var FULL_SPAN = "1 / -1";
+        var applied = false;
+
+        // Fields that MUST span full width (by label text match)
+        var FULL_WIDTH_LABELS = [
+          "Product Name", "Main Product Image", "Additional Images",
+          "Product Specifications", "Product Description",
+        ];
+
+        function applyGrid() {
+          // Find all form field groups — look for label + input patterns
+          // Sveltia renders each config field as a container with a <label> inside
+          var labels = document.querySelectorAll("label");
+          if (labels.length < 3) return; // not ready yet
+
+          // Walk up from labels to find the form/editor container
+          var formParent = null;
+          var fieldContainers = [];
+
+          // Find the main scrollable editor area
+          var panels = document.querySelectorAll('[class*="pane"], [class*="panel"], [class*="editor"], main, [role="main"]');
+          for (var pi = 0; pi < panels.length; pi++) {
+            var p = panels[pi];
+            if (p.querySelectorAll("label").length >= 3) {
+              formParent = p;
+              break;
+            }
+          }
+          if (!formParent) return;
+
+          // Find direct field containers (immediate children with labels)
+          var children = formParent.children;
+          var fieldEls = [];
+          for (var i = 0; i < children.length; i++) {
+            var c = children[i];
+            if (c.querySelector("label")) {
+              fieldEls.push(c);
+            }
+          }
+          if (fieldEls.length < 2) {
+            // Try deeper: fields might be nested one level
+            for (var i = 0; i < children.length; i++) {
+              var grandchildren = children[i].children;
+              for (var j = 0; j < grandchildren.length; j++) {
+                if (grandchildren[j].querySelector && grandchildren[j].querySelector("label")) {
+                  fieldEls.push(grandchildren[j]);
+                }
+              }
+            }
+          }
+
+          if (fieldEls.length < 3) return;
+
+          // Ensure the parent is a grid
+          var container = fieldEls[0].parentElement;
+          if (!container) return;
+
+          container.style.display = "grid";
+          container.style.gridTemplateColumns = GRID_COLS;
+          container.style.gap = "8px 20px";
+          container.style.alignItems = "start";
+
+          // Style each field
+          for (var i = 0; i < fieldEls.length; i++) {
+            var el = fieldEls[i];
+            el.style.marginBottom = "4px";
+
+            var label = el.querySelector("label");
+            var labelText = label ? (label.textContent || "").trim() : "";
+
+            // Check if this field should span full width
+            var isFull = false;
+            if (i === 0) isFull = true; // first field = title, always full
+            if (i === fieldEls.length - 1) isFull = true; // last field = body, always full
+
+            for (var j = 0; j < FULL_WIDTH_LABELS.length; j++) {
+              if (labelText === FULL_WIDTH_LABELS[j]) isFull = true;
+            }
+
+            // Image widgets and large textareas: detect by content
+            if (el.querySelector("textarea")) isFull = true;
+            if (el.querySelector('[class*="image"]') || el.querySelector('input[type="file"]')) isFull = true;
+
+            // List/object widgets: detect by having "Add" button
+            var buttons = el.querySelectorAll("button");
+            for (var b = 0; b < buttons.length; b++) {
+              var btnText = (buttons[b].textContent || "").trim();
+              if (btnText === "Add" || btnText.indexOf("Add ") === 0) {
+                isFull = true;
+                break;
+              }
+            }
+
+            if (isFull) {
+              el.style.gridColumn = FULL_SPAN;
+            }
+          }
+
+          applied = true;
+        }
+
+        // Try immediately, then retry until form renders
+        var attempts = 0;
+        var maxAttempts = 30;
+        function tryApply() {
+          if (applied) return;
+          applyGrid();
+          attempts++;
+          if (!applied && attempts < maxAttempts) {
+            setTimeout(tryApply, 600);
+          }
+        }
+
+        // Start observing after CMS boot
+        setTimeout(tryApply, 2000);
+
+        // Re-apply on navigation (when user switches entries)
+        var observer = new MutationObserver(function () {
+          applied = false;
+          attempts = 0;
+          tryApply();
+        });
+        setTimeout(function () {
+          var root = document.querySelector('[class*="app"], #app, #root, body');
+          if (root) {
+            observer.observe(root, { childList: true, subtree: true });
+          }
+        }, 3000);
+      })();
+    </script>
+  </body>
+</html>

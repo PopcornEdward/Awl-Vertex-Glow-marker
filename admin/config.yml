@@ -1,0 +1,296 @@
+# ======================================================
+# Sveltia CMS (Decap CMS compatible) Configuration
+# Awl Vertex Glow Market — Beauty Tools B2B Wholesale
+# ======================================================
+
+# ── Backend: Git-based via GitHub ──
+backend:
+  name: github
+  repo: PopcornEdward/Awl-Vertex-Glow-marker
+  branch: main
+  base_url: https://awlvertexglowmarker.aviciimailsend.dpdns.org
+  auth_endpoint: /auth
+
+# ── Media storage path (Sveltia CMS requires this, actual uploads go to R2) ──
+media_folder: "public/images"
+
+# ── Editorial Workflow: Draft → Review → Publish ──
+publish_mode: editorial_workflow
+
+# ── Content Collections ──
+collections:
+  # ═══════════════════════════════════════════
+  # Page Content — Factory & About
+  # ═══════════════════════════════════════════
+  - name: "pages"
+    label: "Page Content"
+    editor:
+      preview: false
+    files:
+      - label: "Factory Page"
+        name: "factory_page"
+        file: "src/data/pages/factory.json"
+        fields:
+          - { label: "Hero Image", name: "hero_image", widget: "image" }
+          - { label: "Hero Title", name: "hero_title", widget: "string" }
+          - { label: "Hero Subtitle", name: "hero_subtitle", widget: "string" }
+          - { label: "Manufacturing Section Title", name: "mfg_title", widget: "string" }
+          - { label: "Manufacturing Description", name: "mfg_description", widget: "text" }
+          - { label: "Manufacturing Image", name: "mfg_image", widget: "image" }
+          - label: "Highlights"
+            name: "highlights"
+            widget: "list"
+            collapsed: false
+            summary: "{{fields.text}}"
+            fields:
+              - { label: "Text", name: "text", widget: "string" }
+          - { label: "Photo Wall Title", name: "photo_wall_title", widget: "string" }
+          - { label: "Photo Wall Subtitle", name: "photo_wall_subtitle", widget: "string" }
+          - label: "▸ Cat 1 — Raw Materials"
+            name: "pw_cat_1_name"
+            widget: "string"
+          - { label: "Cat 1 Cover Image", name: "pw_cat_1_cover", widget: "image" }
+          - { label: "Cat 1 — Photo 01", name: "pw_cat_1_img_01", widget: "image" }
+          - { label: "Cat 1 — Photo 02", name: "pw_cat_1_img_02", widget: "image" }
+          - { label: "Cat 1 — Photo 03", name: "pw_cat_1_img_03", widget: "image" }
+          - { label: "Cat 1 — Photo 04", name: "pw_cat_1_img_04", widget: "image" }
+          - { label: "Cat 1 — Photo 05", name: "pw_cat_1_img_05", widget: "image" }
+          - { label: "Cat 1 — Photo 06", name: "pw_cat_1_img_06", widget: "image" }
+          - { label: "Cat 1 — Photo 07", name: "pw_cat_1_img_07", widget: "image" }
+          - { label: "Cat 1 — Photo 08", name: "pw_cat_1_img_08", widget: "image" }
+          - { label: "Cat 1 — Photo 09", name: "pw_cat_1_img_09", widget: "image" }
+          - label: "▸ Cat 2 — Production Line"
+            name: "pw_cat_2_name"
+            widget: "string"
+          - { label: "Cat 2 Cover Image", name: "pw_cat_2_cover", widget: "image" }
+          - { label: "Cat 2 — Photo 01", name: "pw_cat_2_img_01", widget: "image" }
+          - { label: "Cat 2 — Photo 02", name: "pw_cat_2_img_02", widget: "image" }
+          - { label: "Cat 2 — Photo 03", name: "pw_cat_2_img_03", widget: "image" }
+          - { label: "Cat 2 — Photo 04", name: "pw_cat_2_img_04", widget: "image" }
+          - { label: "Cat 2 — Photo 05", name: "pw_cat_2_img_05", widget: "image" }
+          - { label: "Cat 2 — Photo 06", name: "pw_cat_2_img_06", widget: "image" }
+          - { label: "Cat 2 — Photo 07", name: "pw_cat_2_img_07", widget: "image" }
+          - { label: "Cat 2 — Photo 08", name: "pw_cat_2_img_08", widget: "image" }
+          - { label: "Cat 2 — Photo 09", name: "pw_cat_2_img_09", widget: "image" }
+          - label: "▸ Cat 3 — Quality Control"
+            name: "pw_cat_3_name"
+            widget: "string"
+          - { label: "Cat 3 Cover Image", name: "pw_cat_3_cover", widget: "image" }
+          - { label: "Cat 3 — Photo 01", name: "pw_cat_3_img_01", widget: "image" }
+          - { label: "Cat 3 — Photo 02", name: "pw_cat_3_img_02", widget: "image" }
+          - { label: "Cat 3 — Photo 03", name: "pw_cat_3_img_03", widget: "image" }
+          - { label: "Cat 3 — Photo 04", name: "pw_cat_3_img_04", widget: "image" }
+          - { label: "Cat 3 — Photo 05", name: "pw_cat_3_img_05", widget: "image" }
+          - { label: "Cat 3 — Photo 06", name: "pw_cat_3_img_06", widget: "image" }
+          - { label: "Cat 3 — Photo 07", name: "pw_cat_3_img_07", widget: "image" }
+          - { label: "Cat 3 — Photo 08", name: "pw_cat_3_img_08", widget: "image" }
+          - { label: "Cat 3 — Photo 09", name: "pw_cat_3_img_09", widget: "image" }
+          - label: "▸ Cat 4 — Packing & Loading"
+            name: "pw_cat_4_name"
+            widget: "string"
+          - { label: "Cat 4 Cover Image", name: "pw_cat_4_cover", widget: "image" }
+          - { label: "Cat 4 — Photo 01", name: "pw_cat_4_img_01", widget: "image" }
+          - { label: "Cat 4 — Photo 02", name: "pw_cat_4_img_02", widget: "image" }
+          - { label: "Cat 4 — Photo 03", name: "pw_cat_4_img_03", widget: "image" }
+          - { label: "Cat 4 — Photo 04", name: "pw_cat_4_img_04", widget: "image" }
+          - { label: "Cat 4 — Photo 05", name: "pw_cat_4_img_05", widget: "image" }
+          - { label: "Cat 4 — Photo 06", name: "pw_cat_4_img_06", widget: "image" }
+          - { label: "Cat 4 — Photo 07", name: "pw_cat_4_img_07", widget: "image" }
+          - { label: "Cat 4 — Photo 08", name: "pw_cat_4_img_08", widget: "image" }
+          - { label: "Cat 4 — Photo 09", name: "pw_cat_4_img_09", widget: "image" }
+          - { label: "QC Section Title", name: "qc_title", widget: "string" }
+          - label: "QC Stages"
+            name: "qc_stages"
+            widget: "list"
+            collapsed: false
+            summary: "{{fields.text}}"
+            fields:
+              - { label: "Stage", name: "text", widget: "string" }
+          - { label: "CTA Title", name: "cta_title", widget: "string" }
+          - { label: "CTA Description", name: "cta_description", widget: "text" }
+
+      - label: "About Page"
+        name: "about_page"
+        file: "src/data/pages/about.json"
+        fields:
+          - { label: "Hero Image", name: "hero_image", widget: "image" }
+          - { label: "Hero Title", name: "hero_title", widget: "string" }
+          - { label: "Hero Subtitle", name: "hero_subtitle", widget: "string" }
+          - { label: "Company Profile Title", name: "profile_title", widget: "string" }
+          - { label: "Profile Paragraph 1", name: "profile_p1", widget: "text" }
+          - { label: "Profile Paragraph 2", name: "profile_p2", widget: "text" }
+          - { label: "Profile Paragraph 3", name: "profile_p3", widget: "text" }
+          - { label: "Profile Image 1", name: "profile_img_1", widget: "image" }
+          - { label: "Profile Image 2", name: "profile_img_2", widget: "image" }
+          - { label: "Profile Image 3", name: "profile_img_3", widget: "image" }
+          - { label: "Profile Image 4", name: "profile_img_4", widget: "image" }
+          - { label: "Profile Banner", name: "profile_banner", widget: "image", hint: "Full-width banner between profile and mission sections" }
+          - { label: "Mission Title", name: "mission_title", widget: "string" }
+          - { label: "Mission Description", name: "mission_desc", widget: "text" }
+          - { label: "Vision Title", name: "vision_title", widget: "string" }
+          - { label: "Vision Description", name: "vision_desc", widget: "text" }
+          - { label: "Values Title", name: "values_title", widget: "string" }
+          - { label: "Values Description", name: "values_desc", widget: "text" }
+          - { label: "Global Reach Title", name: "global_title", widget: "string" }
+          - { label: "Global Reach Description", name: "global_desc", widget: "text" }
+          - label: "Regions"
+            name: "regions"
+            widget: "list"
+            collapsed: false
+            summary: "{{fields.name}}: {{fields.count}}"
+            fields:
+              - { label: "Region Name", name: "name", widget: "string" }
+              - { label: "Country Count", name: "count", widget: "string" }
+              - label: "Color"
+                name: "color"
+                widget: "select"
+                options:
+                  - { label: "Pink", value: "pink" }
+                  - { label: "Blue", value: "blue" }
+                  - { label: "Purple", value: "purple" }
+                  - { label: "Green", value: "green" }
+          - { label: "Daily Title", name: "daily_title", widget: "string", default: "Daily Work" }
+          - { label: "▸ DW Photo 01", name: "dw_img_01", widget: "image" }
+          - { label: "▸ DW Photo 02", name: "dw_img_02", widget: "image" }
+          - { label: "▸ DW Photo 03", name: "dw_img_03", widget: "image" }
+          - { label: "▸ DW Photo 04", name: "dw_img_04", widget: "image" }
+          - { label: "▸ DW Photo 05", name: "dw_img_05", widget: "image" }
+          - { label: "▸ DW Photo 06", name: "dw_img_06", widget: "image" }
+          - { label: "▸ DW Photo 07", name: "dw_img_07", widget: "image" }
+          - { label: "▸ DW Photo 08", name: "dw_img_08", widget: "image" }
+          - { label: "CTA Title", name: "cta_title", widget: "string" }
+          - { label: "CTA Description", name: "cta_description", widget: "text" }
+
+  # ═══════════════════════════════════════════
+  # Products Management
+  # ═══════════════════════════════════════════
+  - name: "products"
+    label: "Product Management"
+    label_singular: "Product"
+    folder: "src/content/products"
+    create: true
+    delete: false
+    slug: "{{slug}}"
+    editor:
+      preview: false
+    fields:
+      - { label: "Product Name", name: "title", widget: "string", hint: "Short display name shown on cards and listings" }
+      - { label: "SKU Code", name: "sku", widget: "string", hint: "Internal product code (e.g. n0001, e001)" }
+      - { label: "Marketing Subtitle", name: "subtitle", widget: "string", required: false, hint: "Longer marketing tagline for featured cards" }
+      - label: "Category"
+        name: "category"
+        widget: "select"
+        options:
+          - { label: "Nail Supplies", value: "nails" }
+          - { label: "Eyelash Supplies", value: "eyelashes" }
+          - { label: "Permanent Makeup", value: "permanent-makeup" }
+          - { label: "Beauty Tools", value: "beauty-tools" }
+          - { label: "Daily Chemical", value: "daily-chemical" }
+          - { label: "Makeup Tools", value: "makeup-tools" }
+          - { label: "Hair Tools", value: "hair-tools" }
+      - { label: "Subcategory", name: "subcategory", widget: "string", required: false, hint: "e.g. equipment, consumables, lashes" }
+      - { label: "Wholesale Price (USD)", name: "price", widget: "number", value_type: "float", min: 0, step: 0.1 }
+      - { label: "Stock Quantity", name: "stock", widget: "number", value_type: "int", min: 0, default: 0 }
+      - { label: "MOQ (text)", name: "moq", widget: "string", required: false, hint: "e.g. '50 pcs', '20 sets'" }
+      - { label: "Main Product Image", name: "image", widget: "image", hint: "Primary product photo — shown on cards and listings" }
+      - label: "Additional Images (Gallery)"
+        name: "gallery"
+        widget: "image"
+        multiple: true
+        required: false
+        hint: "Upload additional product images for the gallery carousel"
+      - label: "Badge"
+        name: "badge"
+        widget: "select"
+        required: false
+        options:
+          - { label: "Hot Seller", value: "Hot Seller" }
+          - { label: "Bestseller", value: "Bestseller" }
+          - { label: "New Arrival", value: "New Arrival" }
+          - { label: "Trending", value: "Trending" }
+          - { label: "Premium", value: "Premium" }
+          - { label: "Value Set", value: "Value Set" }
+          - { label: "Value Deal", value: "Value Deal" }
+      - { label: "Discount (%)", name: "discount", widget: "number", value_type: "int", min: 0, max: 99, required: false }
+      - label: "Product Specifications"
+        name: "specs"
+        widget: "list"
+        required: false
+        summary: "{{fields.label}}: {{fields.value}}"
+        fields:
+          - { label: "Label", name: "label", widget: "string" }
+          - { label: "Value", name: "value", widget: "string" }
+      - { label: "Product Description", name: "body", widget: "markdown", hint: "Full product description with features and details" }
+
+  # ═══════════════════════════════════════════
+  # Blog Management
+  # ═══════════════════════════════════════════
+  - name: "blog"
+    label: "Blog Management"
+    label_singular: "Blog Post"
+    folder: "src/content/blog"
+    create: true
+    delete: false
+    slug: "{{slug}}"
+    editor:
+      preview: false
+    fields:
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Publish Date", name: "date", widget: "datetime", format: "YYYY-MM-DD", date_format: "YYYY-MM-DD", time_format: false }
+      - { label: "Author", name: "author", widget: "string", default: "AVGM Team" }
+      - { label: "Cover Image", name: "cover", widget: "image", required: false }
+      - { label: "Description / Excerpt", name: "description", widget: "text", hint: "Short summary shown on blog listing cards" }
+      - { label: "Content Body", name: "body", widget: "markdown", hint: "Full article content in Markdown format" }
+
+  # ═══════════════════════════════════════════
+  # Product Gallery (Pinterest-style)
+  # ═══════════════════════════════════════════
+  - name: "gallery"
+    label: "Product Gallery"
+    label_singular: "Gallery Item"
+    folder: "src/content/gallery"
+    create: true
+    delete: false
+    slug: "{{slug}}"
+    editor:
+      preview: false
+    fields:
+      - { label: "Product Title", name: "title", widget: "string", hint: "Display name shown on the card" }
+      - { label: "Product Image", name: "image", widget: "image", hint: "Main product photo" }
+      - label: "Category"
+        name: "category"
+        widget: "select"
+        options:
+          - { label: "Nail Kits", value: "nail-kits" }
+          - { label: "Lash Kits", value: "lash-kits" }
+          - { label: "PMU Kits", value: "pmu-kits" }
+          - { label: "Hair Kits", value: "hair-kits" }
+          - { label: "Makeup Kits", value: "makeup-kits" }
+          - { label: "Daily Kits", value: "daily-kits" }
+          - { label: "Other Kits", value: "other-kits" }
+      - { label: "Description", name: "description", widget: "text", required: false, hint: "Short description shown below the title" }
+
+  # ═══════════════════════════════════════════
+  # SEO Settings
+  # ═══════════════════════════════════════════
+  - name: "seo_settings"
+    label: "SEO Settings"
+    editor:
+      preview: false
+    files:
+      - label: "Homepage SEO"
+        name: "home_seo"
+        file: "src/data/seo/home.json"
+        fields:
+          - { label: "SEO Title", name: "seo_title", widget: "string" }
+          - { label: "Meta Description", name: "seo_description", widget: "text" }
+          - { label: "OG Image URL", name: "og_image", widget: "string", required: false }
+          - { label: "No Index (hide from search engines)", name: "noindex", widget: "boolean", default: false }
+
+      - label: "Products Page SEO"
+        name: "products_seo"
+        file: "src/data/seo/products.json"
+        fields:
+          - { label: "SEO Title", name: "seo_title", widget: "string" }
+          - { label: "Meta Description", name: "seo_description", widget: "text" }
+          - { label: "OG Image URL", name: "og_image", widget: "string", required: false }
