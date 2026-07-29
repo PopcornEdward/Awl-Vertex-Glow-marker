@@ -15,12 +15,11 @@ const defaults = {
 const highlights = norm(pageData?.highlights, "text").length ? norm(pageData.highlights, "text") : defaults.highlights;
 const qcStages = norm(pageData?.qc_stages, "text").length ? norm(pageData.qc_stages, "text") : defaults.qc_stages;
 const photoWallCategories = [1, 2, 3, 4].map(i => {
-  const images: string[] = [];
-  for (let j = 1; j <= 9; j++) {
-    const v = pageData?.[`pw_cat_${i}_img_${String(j).padStart(2, "0")}`];
-    if (v) images.push(v);
-  }
-  return { name: pageData?.[`pw_cat_${i}_name`] || "", cover: pageData?.[`pw_cat_${i}_cover`] || "", images };
+  return {
+    name: pageData?.[`pw_cat_${i}_name`] || "",
+    cover: pageData?.[`pw_cat_${i}_cover`] || "",
+    images: (pageData?.[`pw_cat_${i}_images`] || []) as string[]
+  };
 }).filter((c: any) => c.name && c.images.length > 0);
 ---
 

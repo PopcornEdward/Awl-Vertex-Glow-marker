@@ -40,7 +40,6 @@ const itemsJson = JSON.stringify(allItems);
         {categories.map((cat) => (
           <button
             data-cat={cat.slug}
-            onclick="switchGalleryTab(this)"
             class={`cat-tab flex-shrink-0 px-4 py-2 rounded-full text-xs font-semibold transition-colors whitespace-nowrap
               ${cat.slug === "all" ? "bg-pink-500 text-white" : "text-gray-600 hover:bg-gray-100"}`}
           >
@@ -371,18 +370,20 @@ const itemsJson = JSON.stringify(allItems);
     if (e.key === "-") { e.preventDefault(); lbScale = Math.max(lbScale - 0.2, 0.3); applyLbTransform(); }
   });
 
-  // ── Category tabs (global for onclick) ──
-  window.switchGalleryTab = function(btn) {
-    currentCat = btn.getAttribute("data-cat");
-    document.querySelectorAll(".cat-tab").forEach(function(b) {
-      b.classList.toggle("bg-pink-500", b.getAttribute("data-cat") === currentCat);
-      b.classList.toggle("text-white", b.getAttribute("data-cat") === currentCat);
-      b.classList.toggle("text-gray-600", b.getAttribute("data-cat") !== currentCat);
-      b.classList.toggle("hover:bg-gray-100", b.getAttribute("data-cat") !== currentCat);
+  // ── Category tabs ──
+  document.querySelectorAll(".cat-tab").forEach(function(btn) {
+    btn.addEventListener("click", function() {
+      currentCat = this.getAttribute("data-cat");
+      document.querySelectorAll(".cat-tab").forEach(function(b) {
+        b.classList.toggle("bg-pink-500", b.getAttribute("data-cat") === currentCat);
+        b.classList.toggle("text-white", b.getAttribute("data-cat") === currentCat);
+        b.classList.toggle("text-gray-600", b.getAttribute("data-cat") !== currentCat);
+        b.classList.toggle("hover:bg-gray-100", b.getAttribute("data-cat") !== currentCat);
+      });
+      filterItems();
+      setupObserver();
     });
-    filterItems();
-    setupObserver();
-  };
+  });
 
   // ── Init ──
   filterItems();

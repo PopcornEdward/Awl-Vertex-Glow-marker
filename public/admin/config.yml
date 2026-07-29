@@ -50,54 +50,38 @@ collections:
             name: "pw_cat_1_name"
             widget: "string"
           - { label: "Cat 1 Cover Image", name: "pw_cat_1_cover", widget: "image" }
-          - { label: "Cat 1 — Photo 01", name: "pw_cat_1_img_01", widget: "image" }
-          - { label: "Cat 1 — Photo 02", name: "pw_cat_1_img_02", widget: "image" }
-          - { label: "Cat 1 — Photo 03", name: "pw_cat_1_img_03", widget: "image" }
-          - { label: "Cat 1 — Photo 04", name: "pw_cat_1_img_04", widget: "image" }
-          - { label: "Cat 1 — Photo 05", name: "pw_cat_1_img_05", widget: "image" }
-          - { label: "Cat 1 — Photo 06", name: "pw_cat_1_img_06", widget: "image" }
-          - { label: "Cat 1 — Photo 07", name: "pw_cat_1_img_07", widget: "image" }
-          - { label: "Cat 1 — Photo 08", name: "pw_cat_1_img_08", widget: "image" }
-          - { label: "Cat 1 — Photo 09", name: "pw_cat_1_img_09", widget: "image" }
+          - label: "Cat 1 — Images"
+            name: "pw_cat_1_images"
+            widget: "image"
+            multiple: true
+            required: false
           - label: "▸ Cat 2 — Production Line"
             name: "pw_cat_2_name"
             widget: "string"
           - { label: "Cat 2 Cover Image", name: "pw_cat_2_cover", widget: "image" }
-          - { label: "Cat 2 — Photo 01", name: "pw_cat_2_img_01", widget: "image" }
-          - { label: "Cat 2 — Photo 02", name: "pw_cat_2_img_02", widget: "image" }
-          - { label: "Cat 2 — Photo 03", name: "pw_cat_2_img_03", widget: "image" }
-          - { label: "Cat 2 — Photo 04", name: "pw_cat_2_img_04", widget: "image" }
-          - { label: "Cat 2 — Photo 05", name: "pw_cat_2_img_05", widget: "image" }
-          - { label: "Cat 2 — Photo 06", name: "pw_cat_2_img_06", widget: "image" }
-          - { label: "Cat 2 — Photo 07", name: "pw_cat_2_img_07", widget: "image" }
-          - { label: "Cat 2 — Photo 08", name: "pw_cat_2_img_08", widget: "image" }
-          - { label: "Cat 2 — Photo 09", name: "pw_cat_2_img_09", widget: "image" }
+          - label: "Cat 2 — Images"
+            name: "pw_cat_2_images"
+            widget: "image"
+            multiple: true
+            required: false
           - label: "▸ Cat 3 — Quality Control"
             name: "pw_cat_3_name"
             widget: "string"
           - { label: "Cat 3 Cover Image", name: "pw_cat_3_cover", widget: "image" }
-          - { label: "Cat 3 — Photo 01", name: "pw_cat_3_img_01", widget: "image" }
-          - { label: "Cat 3 — Photo 02", name: "pw_cat_3_img_02", widget: "image" }
-          - { label: "Cat 3 — Photo 03", name: "pw_cat_3_img_03", widget: "image" }
-          - { label: "Cat 3 — Photo 04", name: "pw_cat_3_img_04", widget: "image" }
-          - { label: "Cat 3 — Photo 05", name: "pw_cat_3_img_05", widget: "image" }
-          - { label: "Cat 3 — Photo 06", name: "pw_cat_3_img_06", widget: "image" }
-          - { label: "Cat 3 — Photo 07", name: "pw_cat_3_img_07", widget: "image" }
-          - { label: "Cat 3 — Photo 08", name: "pw_cat_3_img_08", widget: "image" }
-          - { label: "Cat 3 — Photo 09", name: "pw_cat_3_img_09", widget: "image" }
+          - label: "Cat 3 — Images"
+            name: "pw_cat_3_images"
+            widget: "image"
+            multiple: true
+            required: false
           - label: "▸ Cat 4 — Packing & Loading"
             name: "pw_cat_4_name"
             widget: "string"
           - { label: "Cat 4 Cover Image", name: "pw_cat_4_cover", widget: "image" }
-          - { label: "Cat 4 — Photo 01", name: "pw_cat_4_img_01", widget: "image" }
-          - { label: "Cat 4 — Photo 02", name: "pw_cat_4_img_02", widget: "image" }
-          - { label: "Cat 4 — Photo 03", name: "pw_cat_4_img_03", widget: "image" }
-          - { label: "Cat 4 — Photo 04", name: "pw_cat_4_img_04", widget: "image" }
-          - { label: "Cat 4 — Photo 05", name: "pw_cat_4_img_05", widget: "image" }
-          - { label: "Cat 4 — Photo 06", name: "pw_cat_4_img_06", widget: "image" }
-          - { label: "Cat 4 — Photo 07", name: "pw_cat_4_img_07", widget: "image" }
-          - { label: "Cat 4 — Photo 08", name: "pw_cat_4_img_08", widget: "image" }
-          - { label: "Cat 4 — Photo 09", name: "pw_cat_4_img_09", widget: "image" }
+          - label: "Cat 4 — Images"
+            name: "pw_cat_4_images"
+            widget: "image"
+            multiple: true
+            required: false
           - { label: "QC Section Title", name: "qc_title", widget: "string" }
           - label: "QC Stages"
             name: "qc_stages"
@@ -120,10 +104,11 @@ collections:
           - { label: "Profile Paragraph 1", name: "profile_p1", widget: "text" }
           - { label: "Profile Paragraph 2", name: "profile_p2", widget: "text" }
           - { label: "Profile Paragraph 3", name: "profile_p3", widget: "text" }
-          - { label: "Profile Image 1", name: "profile_img_1", widget: "image" }
-          - { label: "Profile Image 2", name: "profile_img_2", widget: "image" }
-          - { label: "Profile Image 3", name: "profile_img_3", widget: "image" }
-          - { label: "Profile Image 4", name: "profile_img_4", widget: "image" }
+          - label: "Profile Images"
+            name: "profile_images"
+            widget: "image"
+            multiple: true
+            required: false
           - { label: "Profile Banner", name: "profile_banner", widget: "image", hint: "Full-width banner between profile and mission sections" }
           - { label: "Mission Title", name: "mission_title", widget: "string" }
           - { label: "Mission Description", name: "mission_desc", widget: "text" }
@@ -150,14 +135,11 @@ collections:
                   - { label: "Purple", value: "purple" }
                   - { label: "Green", value: "green" }
           - { label: "Daily Title", name: "daily_title", widget: "string", default: "Daily Work" }
-          - { label: "▸ DW Photo 01", name: "dw_img_01", widget: "image" }
-          - { label: "▸ DW Photo 02", name: "dw_img_02", widget: "image" }
-          - { label: "▸ DW Photo 03", name: "dw_img_03", widget: "image" }
-          - { label: "▸ DW Photo 04", name: "dw_img_04", widget: "image" }
-          - { label: "▸ DW Photo 05", name: "dw_img_05", widget: "image" }
-          - { label: "▸ DW Photo 06", name: "dw_img_06", widget: "image" }
-          - { label: "▸ DW Photo 07", name: "dw_img_07", widget: "image" }
-          - { label: "▸ DW Photo 08", name: "dw_img_08", widget: "image" }
+          - label: "Daily Work Images"
+            name: "dw_images"
+            widget: "image"
+            multiple: true
+            required: false
           - { label: "CTA Title", name: "cta_title", widget: "string" }
           - { label: "CTA Description", name: "cta_description", widget: "text" }
 

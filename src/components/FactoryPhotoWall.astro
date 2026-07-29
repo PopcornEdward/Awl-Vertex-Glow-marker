@@ -35,156 +35,350 @@ const categories: Cat[] = (rawCategories && rawCategories.length > 0)
   : defaultCategories;
 
 const catJson = JSON.stringify(categories);
-const firstImages = [categories[0].cover, ...categories[0].images];
 ---
 
-<div class="factory-gallery space-y-6">
-  <!-- Category Tabs -->
-  <div id="factory-cat-tabs" class="flex gap-2 py-3 overflow-x-auto no-scrollbar">
-    {categories.map((cat, i) => (
-      <button
-        data-cat={i}
-        onclick="switchFactoryCat(this)"
-        class={`factory-cat-tab flex-shrink-0 px-5 py-2.5 rounded-full text-sm font-semibold transition-colors whitespace-nowrap
-          ${i === 0 ? "bg-pink-500 text-white" : "text-gray-600 hover:bg-gray-100 bg-gray-50"}`}
-      >
-        {cat.name}
+<div class="photo-wall-section">
+  <!-- ====== Card Stack ====== -->
+  <div class="card-stack" id="card-stack">
+    {categories.map((cat, i) => {
+      const rotations = [-4, -1.5, 1.5, 4];
+      const offsets = [0, 8, 16, 24];
+      return (
+        <div
+          class="photo-card"
+          data-cat={i}
+          style={`--rot: ${rotations[i]}deg; --y: ${offsets[i]}px;`}
+        >
+          <div class="card-inner" data-cat={i}>
+            <img src={cat.cover} alt={cat.name} loading="lazy" class="card-img" />
+            <div class="card-overlay">
+              <span class="card-name">{cat.name}</span>
+              <span class="card-count">{cat.images.length} photos</span>
+            </div>
+          </div>
+        </div>
+      );
+    })}
+  </div>
+
+  <!-- ====== 3D Flip Lightbox ====== -->
+  <div id="flip-lightbox" class="flip-lightbox hidden">
+    <div class="flip-backdrop"></div>
+    <div class="flip-stage">
+      <button id="flip-close" class="flip-close-btn" aria-label="Close">
+        <Icon name="lucide:x" class="w-6 h-6" />
       </button>
-    ))}
-  </div>
+      <div id="flip-counter" class="flip-counter">1 / 9</div>
+      <div id="flip-title" class="flip-title"></div>
 
-  <!-- Main Swiper -->
-  <div class="relative">
-    <div class="swiper factory-main-swiper aspect-[16/10] md:aspect-[21/9] rounded-2xl overflow-hidden bg-gray-100 border border-gray-200">
-      <div class="swiper-wrapper">
-        {firstImages.map((img, i) => (
-          <div class="swiper-slide">
-            <img src={img} alt={`${categories[0].name} ${i + 1}`} class="w-full h-full object-cover" />
+      <div class="flip-viewport" id="flip-viewport">
+        <div class="flip-card" id="flip-card">
+          <div class="flip-face flip-front">
+            <img id="flip-img-front" src="" alt="" />
           </div>
-        ))}
+          <div class="flip-face flip-back">
+            <img id="flip-img-back" src="" alt="" />
+          </div>
+        </div>
       </div>
-    </div>
-    <div class="factory-swiper-prev absolute left-3 top-1/2 -translate-y-1/2 z-10 w-10 h-10 bg-white/80 backdrop-blur rounded-full flex items-center justify-center cursor-pointer shadow-md hover:bg-white transition-colors">
-      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18l-6-6l6-6"/></svg>
-    </div>
-    <div class="factory-swiper-next absolute right-3 top-1/2 -translate-y-1/2 z-10 w-10 h-10 bg-white/80 backdrop-blur rounded-full flex items-center justify-center cursor-pointer shadow-md hover:bg-white transition-colors">
-      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18l6-6l-6-6"/></svg>
-    </div>
-  </div>
 
-  <!-- Thumbnails -->
-  {firstImages.length > 1 && (
-    <div class="swiper factory-thumb-swiper !h-20">
-      <div class="swiper-wrapper">
-        {firstImages.map((img, i) => (
-          <div class="swiper-slide !w-20 rounded-xl overflow-hidden cursor-pointer opacity-50 transition-opacity">
-            <img src={img} alt="" class="w-full h-full object-cover" />
-          </div>
-        ))}
-      </div>
+      <button id="flip-prev" class="flip-nav flip-nav--prev" aria-label="Previous">
+        <Icon name="lucide:chevron-left" class="w-7 h-7" />
+      </button>
+      <button id="flip-next" class="flip-nav flip-nav--next" aria-label="Next">
+        <Icon name="lucide:chevron-right" class="w-7 h-7" />
+      </button>
     </div>
-  )}
+
+    <div id="flip-thumbs" class="flip-thumbs"></div>
+  </div>
 </div>
 
-<div id="factory-photo-data" hidden>{catJson}</div>
+<!-- Data bridge: Astro → client JS -->
+<div id="photo-wall-data" hidden>{catJson}</div>
 
 <script>
-  import Swiper from "swiper";
-  import { Navigation, Thumbs } from "swiper/modules";
-
-  var FACTORY_CATS = [];
+  // ── Read category data from DOM ──
+  var CATEGORIES = [];
   try {
-    FACTORY_CATS = JSON.parse(document.getElementById("factory-photo-data").textContent || "[]");
-  } catch(e) { FACTORY_CATS = []; }
+    var dataEl = document.getElementById("photo-wall-data");
+    CATEGORIES = dataEl ? JSON.parse(dataEl.textContent || "[]") : [];
+  } catch(e) { CATEGORIES = []; }
 
-  var factoryCurrentCat = 0;
-  var factoryThumbSwiper = null;
+  var _catIdx = 0;
+  var _imgIdx = 0;
+  var _images = [];
+  var _flipping = false;
+  var _showingFront = true;
 
-  function factoryImages(catIdx) {
-    var c = FACTORY_CATS[catIdx];
-    return c ? [c.cover, ...c.images] : [];
+  function openLightbox(catIdx) {
+    _catIdx = catIdx;
+    _imgIdx = 0;
+    _images = CATEGORIES[catIdx].images;
+    _showingFront = true;
+
+    var lb = document.getElementById("flip-lightbox");
+    lb.classList.remove("hidden");
+    document.body.style.overflow = "hidden";
+
+    var flipCard = document.getElementById("flip-card");
+    flipCard.classList.remove("flipped");
+    document.getElementById("flip-img-front").src = _images[0];
+    document.getElementById("flip-counter").textContent = "1 / " + _images.length;
+    document.getElementById("flip-title").textContent = CATEGORIES[catIdx].name;
+
+    buildThumbs();
+    highlightThumb(0);
   }
 
-  window.switchFactoryCat = function(btn) {
-    factoryCurrentCat = parseInt(btn.getAttribute("data-cat"));
-    document.querySelectorAll(".factory-cat-tab").forEach(function(b) {
-      var active = parseInt(b.getAttribute("data-cat")) === factoryCurrentCat;
-      b.classList.toggle("bg-pink-500", active);
-      b.classList.toggle("text-white", active);
-      b.classList.toggle("text-gray-600", !active);
-      b.classList.toggle("hover:bg-gray-100", !active);
-      b.classList.toggle("bg-gray-50", !active);
-    });
-    buildFactorySlides();
-    initFactorySwiper();
-  };
-
-  function buildFactorySlides() {
-    var images = factoryImages(factoryCurrentCat);
-    var cat = FACTORY_CATS[factoryCurrentCat];
-    var mainW = document.querySelector(".factory-main-swiper .swiper-wrapper");
-    var thumbW = document.querySelector(".factory-thumb-swiper .swiper-wrapper");
-    if (!mainW) return;
-
-    var mainH = "", thumbH = "";
-    for (var i = 0; i < images.length; i++) {
-      mainH += '<div class="swiper-slide"><img src="' + images[i] + '" alt="' + cat.name + ' ' + (i+1) + '" class="w-full h-full object-cover" /></div>';
-      thumbH += '<div class="swiper-slide !w-20 rounded-xl overflow-hidden cursor-pointer opacity-50 transition-opacity"><img src="' + images[i] + '" alt="" class="w-full h-full object-cover" /></div>';
-    }
-    mainW.innerHTML = mainH;
-    if (thumbW) thumbW.innerHTML = thumbH;
+  function closeLightbox() {
+    document.getElementById("flip-lightbox").classList.add("hidden");
+    document.body.style.overflow = "";
   }
 
-  function initFactorySwiper() {
-    var mainEl = document.querySelector(".factory-main-swiper");
-    var thumbEl = document.querySelector(".factory-thumb-swiper");
-    if (!mainEl) return;
+  function flip(dir) {
+    if (_flipping) return;
+    var newIdx = _imgIdx + dir;
+    if (newIdx < 0 || newIdx >= _images.length) return;
+    _flipping = true;
 
-    if (mainEl.swiper) mainEl.swiper.destroy(true, true);
-    if (thumbEl && thumbEl.swiper) thumbEl.swiper.destroy(true, true);
-
-    if (thumbEl) {
-      factoryThumbSwiper = new Swiper(thumbEl, {
-        modules: [Navigation],
-        spaceBetween: 8,
-        slidesPerView: "auto",
-        watchSlidesProgress: true,
-      });
-      new Swiper(mainEl, {
-        modules: [Navigation, Thumbs],
-        navigation: { prevEl: ".factory-swiper-prev", nextEl: ".factory-swiper-next" },
-        thumbs: { swiper: factoryThumbSwiper },
-        loop: false,
-      });
+    if (_showingFront) {
+      document.getElementById("flip-img-back").src = _images[newIdx];
     } else {
-      new Swiper(mainEl, {
-        modules: [Navigation],
-        navigation: { prevEl: ".factory-swiper-prev", nextEl: ".factory-swiper-next" },
-        loop: false,
-      });
+      document.getElementById("flip-img-front").src = _images[newIdx];
     }
+
+    document.getElementById("flip-card").classList.toggle("flipped");
+    _showingFront = !_showingFront;
+    _imgIdx = newIdx;
+
+    setTimeout(function(){
+      document.getElementById("flip-counter").textContent = (_imgIdx + 1) + " / " + _images.length;
+      highlightThumb(_imgIdx);
+      _flipping = false;
+    }, 500);
   }
 
-  initFactorySwiper();
-  document.addEventListener("astro:after-swap", function() {
-    try { FACTORY_CATS = JSON.parse(document.getElementById("factory-photo-data").textContent || "[]"); } catch(e) { FACTORY_CATS = []; }
-    factoryCurrentCat = 0;
-    document.querySelectorAll(".factory-cat-tab").forEach(function(b) {
-      var active = b.getAttribute("data-cat") === "0";
-      b.classList.toggle("bg-pink-500", active);
-      b.classList.toggle("text-white", active);
-      b.classList.toggle("text-gray-600", !active);
-      b.classList.toggle("hover:bg-gray-100", !active);
-      b.classList.toggle("bg-gray-50", !active);
+  function buildThumbs() {
+    var html = "";
+    for (var i = 0; i < _images.length; i++) {
+      html += '<button class="flip-thumb" data-ti="' + i + '">' +
+        '<img src="' + (_images[i].indexOf("pexels") !== -1 ? _images[i].replace("w=1200", "w=150") : _images[i]) + '" alt="" loading="lazy" />' +
+        '</button>';
+    }
+    var thumbs = document.getElementById("flip-thumbs");
+    thumbs.innerHTML = html;
+
+    thumbs.querySelectorAll(".flip-thumb").forEach(function(btn){
+      btn.addEventListener("click", function(){
+        var ti = parseInt(this.getAttribute("data-ti"));
+        if (ti === _imgIdx || _flipping) return;
+        _flipping = true;
+        if (_showingFront) {
+          document.getElementById("flip-img-back").src = _images[ti];
+        } else {
+          document.getElementById("flip-img-front").src = _images[ti];
+        }
+        document.getElementById("flip-card").classList.toggle("flipped");
+        _showingFront = !_showingFront;
+        _imgIdx = ti;
+        setTimeout(function(){
+          document.getElementById("flip-counter").textContent = (_imgIdx + 1) + " / " + _images.length;
+          highlightThumb(_imgIdx);
+          _flipping = false;
+        }, 500);
+      });
     });
-    buildFactorySlides();
-    setTimeout(initFactorySwiper, 50);
+  }
+
+  function highlightThumb(idx) {
+    var thumbs = document.getElementById("flip-thumbs");
+    thumbs.querySelectorAll(".flip-thumb").forEach(function(t, i){
+      t.classList.toggle("active", i === idx);
+    });
+    var active = thumbs.querySelector(".flip-thumb.active");
+    if (active) active.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
+  }
+
+  // ── Event bindings ──
+  document.querySelectorAll(".card-inner").forEach(function(card){
+    card.addEventListener("click", function(){
+      openLightbox(parseInt(this.getAttribute("data-cat")));
+    });
+  });
+
+  document.getElementById("flip-close").addEventListener("click", closeLightbox);
+  document.querySelector(".flip-backdrop").addEventListener("click", closeLightbox);
+  document.getElementById("flip-prev").addEventListener("click", function(){ flip(-1); });
+  document.getElementById("flip-next").addEventListener("click", function(){ flip(1); });
+
+  document.addEventListener("keydown", function(e){
+    var lb = document.getElementById("flip-lightbox");
+    if (lb.classList.contains("hidden")) return;
+    if (e.key === "Escape") { e.preventDefault(); closeLightbox(); }
+    if (e.key === "ArrowLeft") { e.preventDefault(); flip(-1); }
+    if (e.key === "ArrowRight"){ e.preventDefault(); flip(1); }
+  });
+
+  var touchStartX = 0;
+  document.getElementById("flip-viewport").addEventListener("touchstart", function(e){
+    touchStartX = e.touches[0].clientX;
+  });
+  document.getElementById("flip-viewport").addEventListener("touchend", function(e){
+    var diff = touchStartX - e.changedTouches[0].clientX;
+    if (Math.abs(diff) > 60) flip(diff > 0 ? 1 : -1);
   });
 </script>
 
 <style is:global>
-  .no-scrollbar::-webkit-scrollbar { display: none; }
-  .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-  .factory-main-swiper { position: relative; }
-  .factory-thumb-swiper .swiper-slide-thumb-active { opacity: 1 !important; }
+  .photo-wall-section { padding: 4rem 0; }
+
+  /* ── Card Stack ── */
+  .card-stack {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0;
+    padding: 3rem 2rem;
+    perspective: 1000px;
+    flex-wrap: wrap;
+  }
+
+  .photo-card {
+    width: 220px;
+    margin: 0 -16px;
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), z-index 0s step-end;
+    cursor: pointer;
+    transform: rotate(var(--rot)) translateY(var(--y));
+  }
+
+  .photo-card:hover {
+    transform: rotate(0deg) translateY(-16px) scale(1.08);
+    z-index: 10 !important;
+    transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), z-index 0s step-start;
+  }
+
+  .photo-card:nth-child(1) { z-index: 4; }
+  .photo-card:nth-child(2) { z-index: 3; }
+  .photo-card:nth-child(3) { z-index: 2; }
+  .photo-card:nth-child(4) { z-index: 1; }
+
+  .card-inner {
+    background: white;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.12), 0 1px 3px rgba(0,0,0,0.08);
+    transition: box-shadow 0.35s ease;
+  }
+
+  .photo-card:hover .card-inner {
+    box-shadow: 0 20px 50px rgba(0,0,0,0.2), 0 4px 12px rgba(0,0,0,0.1);
+  }
+
+  .card-img { width: 100%; height: 260px; object-fit: cover; display: block; }
+
+  .card-overlay { padding: 14px 16px; text-align: center; background: white; }
+
+  .card-name { display: block; font-weight: 700; font-size: 14px; color: #111; letter-spacing: -0.01em; }
+  .card-count { display: block; font-size: 12px; color: #999; margin-top: 2px; }
+
+  /* ── Lightbox ── */
+  .flip-lightbox { position: fixed; inset: 0; z-index: 9999; display: flex; flex-direction: column; }
+  .flip-lightbox.hidden { display: none; }
+
+  .flip-backdrop { position: absolute; inset: 0; background: rgba(0,0,0,0.92); }
+
+  .flip-stage {
+    position: relative; z-index: 2; flex: 1;
+    display: flex; align-items: center; justify-content: center;
+    padding: 60px 20px 20px;
+  }
+
+  .flip-close-btn {
+    position: absolute; top: 16px; right: 16px; z-index: 10;
+    background: rgba(255,255,255,0.1); border: none; color: white;
+    width: 44px; height: 44px; border-radius: 50%; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: background 0.2s;
+  }
+  .flip-close-btn:hover { background: rgba(255,255,255,0.2); }
+
+  .flip-counter {
+    position: absolute; top: 20px; left: 50%; transform: translateX(-50%);
+    color: rgba(255,255,255,0.7); font-size: 13px; font-weight: 600;
+    font-family: system-ui, sans-serif; letter-spacing: 0.05em;
+  }
+
+  .flip-title {
+    position: absolute; top: 48px; left: 50%; transform: translateX(-50%);
+    color: rgba(255,255,255,0.5); font-size: 12px; font-family: system-ui, sans-serif;
+    text-transform: uppercase; letter-spacing: 0.1em;
+  }
+
+  /* 3D Flip */
+  .flip-viewport { perspective: 1400px; width: min(85vw, 900px); height: min(70vh, 600px); touch-action: pan-y; }
+
+  .flip-card {
+    width: 100%; height: 100%; position: relative;
+    transform-style: preserve-3d;
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .flip-card.flipped { transform: rotateY(-180deg); }
+
+  .flip-face {
+    position: absolute; inset: 0;
+    backface-visibility: hidden; -webkit-backface-visibility: hidden;
+    border-radius: 12px; overflow: hidden;
+    display: flex; align-items: center; justify-content: center;
+    background: #1a1a1a;
+  }
+
+  .flip-face img { max-width: 100%; max-height: 100%; object-fit: contain; }
+  .flip-back { transform: rotateY(180deg); }
+
+  /* Nav */
+  .flip-nav {
+    position: absolute; top: 50%; transform: translateY(-50%); z-index: 5;
+    background: rgba(255,255,255,0.08); border: none; color: white;
+    width: 48px; height: 72px; border-radius: 8px; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: background 0.2s; backdrop-filter: blur(10px);
+  }
+  .flip-nav:hover { background: rgba(255,255,255,0.18); }
+  .flip-nav--prev { left: 8px; }
+  .flip-nav--next { right: 8px; }
+
+  /* Thumbs */
+  .flip-thumbs {
+    position: relative; z-index: 2;
+    display: flex; gap: 6px;
+    justify-content: center; padding: 12px 20px 20px;
+  }
+
+  .flip-thumb {
+    flex-shrink: 0; width: 150px; height: 60px; border-radius: 6px;
+    overflow: hidden; border: 2px solid transparent; cursor: pointer;
+    padding: 0; background: #1a1a1a; opacity: 0.45;
+    transition: opacity 0.2s, border-color 0.2s;
+  }
+  .flip-thumb img { width: 150px; height: 60px; object-fit: cover; display: block; }
+  .flip-thumb.active { border-color: white; opacity: 1; }
+  .flip-thumb:hover { opacity: 0.8; }
+
+  @media (max-width: 768px) {
+    .card-stack {
+      flex-direction: column; gap: 20px;
+      padding: 2rem 1rem; perspective: none;
+    }
+    .photo-card { width: 260px; margin: 0; transform: none; }
+    .photo-card:hover { transform: translateY(-6px) scale(1.04); }
+    .card-img { height: 200px; }
+    .flip-viewport { width: 95vw; height: 55vh; }
+    .flip-nav { width: 40px; height: 56px; border-radius: 6px; }
+    .flip-nav--prev { left: 2px; }
+    .flip-nav--next { right: 2px; }
+    .flip-thumb { width: 72px; height: 44px; }
+    .flip-thumb img { min-width: 72px; height: 44px; }
+  }
 </style>
