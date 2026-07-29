@@ -10,3 +10,7 @@ OAUTH_ORIGIN = "https://vertex.aviciiedulab.dpdns.org"
 [[r2_buckets]]
 binding = "MY_BUCKET"
 bucket_name = "my-astro-avgm"
+
+[[routes]]
+pattern = "awlvertexglowmarker.aviciimailsend.dpdns.org/*"
+zone_name = "aviciimailsend.dpdns.org"
