@@ -28,7 +28,7 @@ const products = defineCollection({
     stock: z.number().default(0),
     moq: z.string().optional(),
     image: z.string(),
-    gallery: z.array(z.object({ image: z.string() })).optional().default([]),
+    gallery: z.array(z.string()).optional().default([]),
     badge: z.string().optional(),
     discount: z.number().optional(),
     specs: z

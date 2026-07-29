@@ -18,10 +18,10 @@ pricing:
     price: 0.19
 image: "https://s.alicdn.com/@sc04/kf/Heeb3d1875ad048c589a4461935156605j.jpg_500x500.jpg"
 gallery:
-  - image: "https://s.alicdn.com/@sc04/kf/Hcce3654a1b08488aaafcedb1f87c54128.jpg_500x500.jpg"
-  - image: "https://s.alicdn.com/@sc04/kf/Hcc5623778be84f22ba468be0a770034e9.jpg_500x500.jpg"
-  - image: "https://s.alicdn.com/@sc04/kf/H56c61514242f45f9b5d362bdc5538489J.jpg_500x500.jpg"
-  - image: "https://s.alicdn.com/@sc04/kf/Hd2ae7f6fa11449bdb609453db2e57bdau.jpg_500x500.jpg"
+  - "https://s.alicdn.com/@sc04/kf/Hcce3654a1b08488aaafcedb1f87c54128.jpg_500x500.jpg"
+  - "https://s.alicdn.com/@sc04/kf/Hcc5623778be84f22ba468be0a770034e9.jpg_500x500.jpg"
+  - "https://s.alicdn.com/@sc04/kf/H56c61514242f45f9b5d362bdc5538489J.jpg_500x500.jpg"
+  - "https://s.alicdn.com/@sc04/kf/Hd2ae7f6fa11449bdb609453db2e57bdau.jpg_500x500.jpg"
 badge: "Bestseller"
 specs:
   - label: "Category"

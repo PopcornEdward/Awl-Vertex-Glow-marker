@@ -195,10 +195,10 @@ collections:
       - { label: "Main Product Image", name: "image", widget: "image", hint: "Primary product photo — shown on cards and listings" }
       - label: "Additional Images (Gallery)"
         name: "gallery"
-        widget: "list"
+        widget: "image"
+        multiple: true
         required: false
-        summary: "{{fields.image}}"
-        field: { label: "Image", name: "image", widget: "image" }
+        hint: "Upload additional product images for the gallery carousel"
       - label: "Badge"
         name: "badge"
         widget: "select"

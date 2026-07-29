@@ -12,10 +12,10 @@ pricing:
     price: 25.00
 image: "https://s.alicdn.com/@sc04/kf/Hc593a20dd3d544178eb4c592c7fc4716y.jpg_500x500.jpg"
 gallery:
-  - image: "https://s.alicdn.com/@sc04/kf/H4fb337e662cf40cc902f679cad218e08H.png_500x500.jpg"
-  - image: "https://s.alicdn.com/@sc04/kf/H9182aa4728f346aaa975247625ff3582J.png_500x500.jpg"
-  - image: "https://s.alicdn.com/@sc04/kf/H65454287b4934c849541ff0fa15d88cfi.png_500x500.jpg"
-  - image: "https://s.alicdn.com/@sc04/kf/H062851616ca946db85492293a0e7b862v.png_500x500.jpg"
+  - "https://s.alicdn.com/@sc04/kf/H4fb337e662cf40cc902f679cad218e08H.png_500x500.jpg"
+  - "https://s.alicdn.com/@sc04/kf/H9182aa4728f346aaa975247625ff3582J.png_500x500.jpg"
+  - "https://s.alicdn.com/@sc04/kf/H65454287b4934c849541ff0fa15d88cfi.png_500x500.jpg"
+  - "https://s.alicdn.com/@sc04/kf/H062851616ca946db85492293a0e7b862v.png_500x500.jpg"
 badge: "Trending"
 specs:
   - label: "Category"
