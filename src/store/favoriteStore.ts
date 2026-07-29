@@ -1,5 +1,6 @@
 import { atom, computed } from 'nanostores';
 import { persistentAtom } from '@nanostores/persistent';
+import type { PricingTier } from '../lib/products';
 
 export interface FavoriteItem {
     id: string;
@@ -8,6 +9,7 @@ export interface FavoriteItem {
     image: string;
     stock: number;
     slug: string;
+    pricing?: PricingTier[];
 }
 
 export const favoriteItems = persistentAtom<FavoriteItem[]>('favorite_items', [], {

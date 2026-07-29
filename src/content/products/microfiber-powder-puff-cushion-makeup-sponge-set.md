@@ -7,12 +7,17 @@ subcategory: ""
 price: 0.50
 stock: 9999
 moq: "10 pcs"
-image: "https://s.alicdn.com/@sc04/kf/Hdf36c3cb6431474c970fba0947a95854N.jpg_500x500.jpg"
+pricing:
+  - qty: 100
+    price: 2.36
+  - qty: 500
+    price: 2.03
+image: "https://s.alicdn.com/@sc04/kf/H2070afa7ec66415db23b7ed71da07a0ad.jpg_500x500.jpg"
 gallery:
-  - image: "https://s.alicdn.com/@sc04/kf/H688e446fd70d4f51a52daa47559ffdb7k.jpg_500x500.jpg"
-  - image: "https://s.alicdn.com/@sc04/kf/Hbfc8a229e5fa4157a39ea7653a9cc57c0.jpg_500x500.jpg"
-  - image: "https://s.alicdn.com/@sc04/kf/H0383ef526fa7421ba56f47505a050ba6a.jpg_500x500.jpg"
-  - image: "https://s.alicdn.com/@sc04/kf/Hf038200f1e814d2293a256f103eddeac0.jpg_500x500.jpg"
+  - image: "https://s.alicdn.com/@sc04/kf/H81156dbcf136440a8c2d3d3b3df45d1bV.jpg_500x500.jpg"
+  - image: "https://s.alicdn.com/@sc04/kf/Hb03d1e99c2fb40c5bea3e840f0ce3edf0.jpg_500x500.jpg"
+  - image: "https://s.alicdn.com/@sc04/kf/Hdfc5a951d9b84c95a083889f07501b552.jpg_500x500.jpg"
+  - image: "https://s.alicdn.com/@sc04/kf/Ha044a9c5282540759c03045669b3683eo.jpg_500x500.jpg"
 badge: "Bestseller"
 specs:
   - label: "Category"
@@ -27,14 +32,10 @@ specs:
     value: "10 pcs"
   - label: "Supply Ability"
     value: "10000 pcs per week"
-  - label: "Color"
-    value: "：Customized"
-  - label: "Port"
-    value: ", we will keep supply you quality brushes and service"
   - label: "数量 (pieces)"
-    value: "1 - 100,000"
+    value: "1 - 100"
   - label: "美国东部时间（天）"
-    value: "30"
+    value: "7"
 ---
 
 Professional beauty tools product — Retail: $7.99 — Margin: 94% — Wholesale from our Guangzhou Baiyun factory.

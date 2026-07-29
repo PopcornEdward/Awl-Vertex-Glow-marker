@@ -7,12 +7,19 @@ subcategory: ""
 price: 0.25
 stock: 9999
 moq: "10 pcs"
-image: "https://s.alicdn.com/@sc04/kf/H6778b81acd564eb19acbba90b10f66ca9.jpg_500x500.jpg"
+pricing:
+  - qty: 10
+    price: 0.25
+  - qty: 100
+    price: 0.21
+  - qty: 1000
+    price: 0.17
+image: "https://s.alicdn.com/@sc04/kf/H81d6ebac86a44e29a05c28f83ac83599a.jpg_500x500.jpg"
 gallery:
-  - image: "https://s.alicdn.com/@sc04/kf/H6ba70024b2a94419ab03ff98adb513c9S.jpg_500x500.jpg"
-  - image: "https://s.alicdn.com/@sc04/kf/H319d767c73834494a7d4f3402dfb9c9aO.jpg_500x500.jpg"
-  - image: "https://s.alicdn.com/@sc04/kf/H4d22bd4b7096486fa192c5f628fb92f4q.jpg_500x500.jpg"
-  - image: "https://s.alicdn.com/@sc04/kf/H12bbd55f6a47460285edf524d9988b6fW.jpg_500x500.jpg"
+  - image: "https://s.alicdn.com/@sc04/kf/H034d4d54441f4f31a55215aaa46729517.jpg_500x500.jpg"
+  - image: "https://s.alicdn.com/@sc04/kf/Hca6d238e92ec420fa61c8ba773fd37c5K.jpg_500x500.jpg"
+  - image: "https://s.alicdn.com/@sc04/kf/Hdbb1f0b71da34c71b1e26a967e03d1c7u.jpg_500x500.jpg"
+  - image: "https://s.alicdn.com/@sc04/kf/Hfb8451a89c3a496bb6e6dba22522138ef.jpg_500x500.jpg"
 badge: "Bestseller"
 specs:
   - label: "Category"
@@ -27,12 +34,14 @@ specs:
     value: "10 pcs"
   - label: "Supply Ability"
     value: "10000 pcs per week"
+  - label: "Color"
+    value: "：Champagne Gold"
   - label: "OEM/ODM"
-    value: "接受自定义"
-  - label: "数量 (pieces)"
+    value: "功能/特性"
+  - label: "数量 (boxes)"
     value: "1 - 1,000"
   - label: "美国东部时间（天）"
-    value: "15"
+    value: "35"
 ---
 
 Professional permanent makeup product — Retail: $2.50 — Margin: 90% — Wholesale from our Guangzhou Baiyun factory.

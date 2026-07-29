@@ -4,21 +4,30 @@ sku: "HAIR-0038"
 subtitle: "Hair Tools wholesale — high profit margin product"
 category: "hair-tools"
 subcategory: ""
-price: 6.50
+price: 1.05
 stock: 9999
 moq: "10 pcs"
-image: "https://s.alicdn.com/@sc04/kf/H7fa97533d49f489182e8d3abb7a9e701L.jpg_500x500.jpg"
+pricing:
+  - qty: 500
+    price: 14.08
+  - qty: 2000
+    price: 11.92
+  - qty: 5000
+    price: 9.75
+  - qty: 50000
+    price: 6.50
+image: "https://s.alicdn.com/@sc04/kf/Hc1d396dbc3004e11b8361f4447f15c99p.jpg_500x500.jpg"
 gallery:
-  - image: "https://s.alicdn.com/@sc04/kf/H9aff04dff35e42c3a0da21d9dfc827a2f.jpg_500x500.jpg"
-  - image: "https://s.alicdn.com/@sc04/kf/He5c428a0ea804897a0d0c8f526bb7ba50.jpg_500x500.jpg"
-  - image: "https://s.alicdn.com/@sc04/kf/Hd29d1a68b015407a8b2a823af7cdd46bM.jpg_500x500.jpg"
-  - image: "https://s.alicdn.com/@sc04/kf/H0f8ce56a199947ce9b8da6f9ee5ffacfp.jpg_500x500.jpg"
+  - image: "https://s.alicdn.com/@sc04/kf/Hc622b13e3e204955b018b72a13486e8dV.jpg_500x500.jpg"
+  - image: "https://s.alicdn.com/@sc04/kf/Hd7acc04acdf5448d813a3ca2b48a8784B.jpg_500x500.jpg"
+  - image: "https://s.alicdn.com/@sc04/kf/H4dedeec944a446ba9adbe97e628284f7Y.jpg_500x500.jpg"
+  - image: "https://s.alicdn.com/@sc04/kf/H612b851a9dc74ebba5b00609e8c6600dS.jpg_500x500.jpg"
 badge: "Value Deal"
 specs:
   - label: "Category"
     value: "Hair Tools"
   - label: "Wholesale Price (USD)"
-    value: "$6.50"
+    value: "$1.05"
   - label: "Suggested Retail (USD)"
     value: "$39.99"
   - label: "Gross Margin"
@@ -27,32 +36,14 @@ specs:
     value: "10 pcs"
   - label: "Supply Ability"
     value: "10000 pcs per week"
-  - label: "Material"
-    value: "ABS Plastic; Customisable"
-  - label: "Color"
-    value: "：Grey"
-  - label: "Type"
-    value: "锂电池"
-  - label: "Power"
-    value: "supply mode：Rechargeable"
-  - label: "Weight"
-    value: "110g"
-  - label: "Certification"
-    value: "s"
-  - label: "Product name"
-    value: "Electric Scalp Massager"
-  - label: "Function"
-    value: "Soothes the Scalp, Stimulates Hair Follicle Growth and Reduces Frizz"
-  - label: "Battery"
-    value: "_type"
-  - label: "Capacity"
-    value: "3.7v 500mah; Customisable"
-  - label: "OEM/ODM"
-    value: "Services"
+  - label: "Feature"
+    value: "经久耐用"
+  - label: "Style"
+    value: "Bags"
   - label: "数量 (pieces)"
-    value: "1 - 1,000"
+    value: "1 - 499"
   - label: "美国东部时间（天）"
-    value: "20"
+    value: "30"
 ---
 
 Professional hair tools product — Retail: $39.99 — Margin: 84% — Wholesale from our Guangzhou Baiyun factory.

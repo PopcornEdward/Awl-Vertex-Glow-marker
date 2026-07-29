@@ -7,12 +7,21 @@ subcategory: ""
 price: 35.00
 stock: 9999
 moq: "10 pcs"
-image: "https://s.alicdn.com/@sc04/kf/A94816f155ec54ada986ba6b2304bbacax.jpg_500x500.jpg"
+pricing:
+  - qty: 10
+    price: 32.33
+  - qty: 100
+    price: 30.31
+  - qty: 500
+    price: 25.59
+  - qty: 3000
+    price: 20.07
+image: "https://s.alicdn.com/@sc04/kf/H72385ac8e56a427a9893f28df0190893x.png_500x500.jpg"
 gallery:
-  - image: "https://s.alicdn.com/@sc04/kf/Sde3f0beba0db44ed8915f0c8ba3c2345i.jpg_500x500.jpg"
-  - image: "https://s.alicdn.com/@sc04/kf/S700e8891129c4f4fb2f915fd01f7cf43t.jpg_500x500.jpg"
-  - image: "https://s.alicdn.com/@sc04/kf/S5a0cf843814d4ae6b2edc70fcf0ccbc3T.jpg_500x500.jpg"
-  - image: "https://s.alicdn.com/@sc04/kf/S7fc63de990cd4b66b34b32edb88b8a7bZ.jpg_500x500.jpg"
+  - image: "https://s.alicdn.com/@sc04/kf/Habfee883315e4732ad19cb6767a823009.png_500x500.jpg"
+  - image: "https://s.alicdn.com/@sc04/kf/H8aad9a95bf324a7d9d268fb8fe1bf8ffu.png_500x500.jpg"
+  - image: "https://s.alicdn.com/@sc04/kf/H6304514b956643ab97e2ecb3c75b4b3d8.png_500x500.jpg"
+  - image: "https://s.alicdn.com/@sc04/kf/H29b03d75bc9a4bffaef8b975173797cd4.png_500x500.jpg"
 badge: "Value Deal"
 specs:
   - label: "Category"
@@ -27,18 +36,10 @@ specs:
     value: "10 pcs"
   - label: "Supply Ability"
     value: "10000 pcs per week"
-  - label: "Type"
-    value: "UV glue"
-  - label: "Place of Origin"
-    value: "Taiwan"
-  - label: "Port"
-    value: "定制Logo"
-  - label: "Function"
-    value: "Long Bonding"
   - label: "数量 (pieces)"
     value: "1 - 10"
   - label: "美国东部时间（天）"
-    value: "3"
+    value: "30"
 ---
 
 Professional eyelash supplies product — Retail: $199.00 — Margin: 82% — Wholesale from our Guangzhou Baiyun factory.

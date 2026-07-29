@@ -7,12 +7,21 @@ subcategory: ""
 price: 0.80
 stock: 9999
 moq: "10 pcs"
-image: "https://s.alicdn.com/@sc04/kf/He35cdd1c3f7f40b38d8a7c8941954161m.jpg_500x500.jpg"
+pricing:
+  - qty: 100
+    price: 3.37
+  - qty: 500
+    price: 3.24
+  - qty: 1000
+    price: 3.10
+  - qty: 5000
+    price: 2.97
+image: "https://s.alicdn.com/@sc04/kf/Hf9f9534630564a9bba5268e6ef8a081bs.jpg_500x500.jpg"
 gallery:
-  - image: "https://s.alicdn.com/@sc04/kf/H29b12beebad64bc2865a5af3630d7b3bH.jpg_500x500.jpg"
-  - image: "https://s.alicdn.com/@sc04/kf/H5f213385269048e5972e2c2861a9e920L.jpg_500x500.jpg"
-  - image: "https://s.alicdn.com/@sc04/kf/H0b4857a3a5d444f6b88418993ca8b1633.jpg_500x500.jpg"
-  - image: "https://s.alicdn.com/@sc04/kf/Hf0be4d8ac9bd49a2ac9213674fd6be9d9.jpg_500x500.jpg"
+  - image: "https://s.alicdn.com/@sc04/kf/H7e3aea1243e94f7db9ef6f3a8c3b49dcx.jpg_500x500.jpg"
+  - image: "https://s.alicdn.com/@sc04/kf/Hf7f0edb163794e078b4d4c338ad1bcf4M.jpg_500x500.jpg"
+  - image: "https://s.alicdn.com/@sc04/kf/H84b868670c234376897453a6d02e5c5bo.jpg_500x500.jpg"
+  - image: "https://s.alicdn.com/@sc04/kf/H75107d25bbb848aa8b073ee69561e3b3a.jpg_500x500.jpg"
 badge: "Bestseller"
 specs:
   - label: "Category"
@@ -28,13 +37,13 @@ specs:
   - label: "Supply Ability"
     value: "10000 pcs per week"
   - label: "Color"
-    value: "：Pink"
-  - label: "OEM/ODM"
-    value: "Welocme"
+    value: "：Purple"
+  - label: "Type"
+    value: "T/T,L/C,D/P D/A,MoneyGram,Western Union;"
   - label: "数量 (pieces)"
-    value: "1 - 500"
+    value: "1 - 10,000"
   - label: "美国东部时间（天）"
-    value: "10"
+    value: "9"
 ---
 
 Professional beauty tools product — Retail: $9.99 — Margin: 92% — Wholesale from our Guangzhou Baiyun factory.

@@ -69,10 +69,25 @@ const relatedProducts = await getRelatedProducts(product.category, product.slug)
 
           <h1 class="text-2xl md:text-3xl font-black text-gray-900 mb-4">{product.name}</h1>
 
-          <div class="flex items-baseline gap-3 mb-6">
-            <span class="text-3xl font-black text-pink-600">${product.price.toFixed(2)}</span>
-            <span class="text-sm text-gray-400">/ unit (wholesale)</span>
-          </div>
+          {/* Tiered wholesale pricing */}
+          {product.pricing && product.pricing.length > 0 ? (
+            <div class="mb-6 p-4 bg-gray-50 rounded-xl border border-gray-100">
+              <h3 class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-3">Wholesale Pricing (USD)</h3>
+              <div class="space-y-2">
+                {product.pricing.map((tier, i) => (
+                  <div class="flex justify-between items-center py-2 px-3 bg-white rounded-lg border border-gray-100">
+                    <span class="text-sm text-gray-600 font-medium">{tier.qty}+ pcs</span>
+                    <span class="font-bold text-pink-600 text-lg">${tier.price.toFixed(2)}<span class="text-xs text-gray-400 font-normal"> /pc</span></span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ) : (
+            <div class="flex items-baseline gap-3 mb-6">
+              <span class="text-3xl font-black text-pink-600">${product.price.toFixed(2)}</span>
+              <span class="text-sm text-gray-400">/ unit (wholesale)</span>
+            </div>
+          )}
 
           <p class="text-gray-600 leading-relaxed mb-6">{product.description}</p>
 
@@ -134,7 +149,7 @@ const relatedProducts = await getRelatedProducts(product.category, product.slug)
                 </div>
                 <div class="p-3">
                   <h3 class="font-semibold text-gray-900 group-hover:text-pink-600 text-sm line-clamp-2">{rp.name}</h3>
-                  <span class="text-pink-600 font-bold text-sm">${rp.price.toFixed(2)}</span>
+                  <span class="text-pink-600 font-bold text-sm">{rp.pricing && rp.pricing.length > 0 ? `$${rp.price.toFixed(2)}+` : `$${rp.price.toFixed(2)}`}</span>
                 </div>
               </a>
             ))}

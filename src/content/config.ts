@@ -15,7 +15,16 @@ const products = defineCollection({
       "hair-tools",
     ]),
     subcategory: z.string().optional(),
-    price: z.number(),
+    price: z.number().optional(),
+    pricing: z
+      .array(
+        z.object({
+          qty: z.number(),
+          price: z.number(),
+        })
+      )
+      .optional()
+      .default([]),
     stock: z.number().default(0),
     moq: z.string().optional(),
     image: z.string(),

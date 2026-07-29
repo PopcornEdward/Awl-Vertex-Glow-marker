@@ -7,12 +7,21 @@ subcategory: ""
 price: 8.50
 stock: 9999
 moq: "10 pcs"
-image: "https://s.alicdn.com/@sc04/kf/Hae4021aedd9e47ce9d349e4a7933dd6br.jpg_500x500.jpg"
+pricing:
+  - qty: 50
+    price: 7.88
+  - qty: 200
+    price: 7.55
+  - qty: 500
+    price: 7.28
+  - qty: 2000
+    price: 6.94
+image: "https://s.alicdn.com/@sc04/kf/H498fe985562b4dc1b43e23da3c3858b7s.jpg_500x500.jpg"
 gallery:
-  - image: "https://s.alicdn.com/@sc04/kf/H0e798f49932f4548a504d9d56e151c6dj.jpg_500x500.jpg"
-  - image: "https://s.alicdn.com/@sc04/kf/H48e1285c69464e4f982269b4a98909135.jpg_500x500.jpg"
-  - image: "https://s.alicdn.com/@sc04/kf/H9253228afcb945f78c24a89497dbe68bY.jpg_500x500.jpg"
-  - image: "https://s.alicdn.com/@sc04/kf/Hcc885aae027843efb1fab14640eeae87x.jpg_500x500.jpg"
+  - image: "https://s.alicdn.com/@sc04/kf/H9c93c480a9ed4948af2625c9a446e354Q.jpg_500x500.jpg"
+  - image: "https://s.alicdn.com/@sc04/kf/H9676254d36fa43d595f533aa0946cb85F.jpg_500x500.jpg"
+  - image: "https://s.alicdn.com/@sc04/kf/H77617b1eedf141e8bff0f871e2894dddT.jpg_500x500.jpg"
+  - image: "https://s.alicdn.com/@sc04/kf/H3732ea03dbc14ccaa046b7c5f53abc804.jpg_500x500.jpg"
 badge: "Value Deal"
 specs:
   - label: "Category"
@@ -27,8 +36,6 @@ specs:
     value: "10 pcs"
   - label: "Supply Ability"
     value: "10000 pcs per week"
-  - label: "OEM/ODM"
-    value: "服务指甲凝胶批发价UV猫眼凝胶指甲油"
   - label: "数量 (pieces)"
     value: "1 - 1,000"
   - label: "美国东部时间（天）"

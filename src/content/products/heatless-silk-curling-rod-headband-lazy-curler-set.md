@@ -4,21 +4,24 @@ sku: "HAIR-0042"
 subtitle: "Hair Tools wholesale — high profit margin product"
 category: "hair-tools"
 subcategory: ""
-price: 0.80
+price: 0.00
 stock: 9999
 moq: "10 pcs"
-image: "https://s.alicdn.com/@sc04/kf/H07ffff89bd184b998ba9f785a56410afa.png_500x500.jpg"
+pricing:
+  - qty: 2000
+    price: 0.80
+image: "https://s.alicdn.com/@sc04/kf/Hc593a20dd3d544178eb4c592c7fc4716y.jpg_500x500.jpg"
 gallery:
-  - image: "https://s.alicdn.com/@sc04/kf/H9c6a1cf5ed454d868a997ba9067cb2de4.png_500x500.jpg"
-  - image: "https://s.alicdn.com/@sc04/kf/Hafe31b57f5164bc7b6fc5d82ca5f3d60y.png_500x500.jpg"
-  - image: "https://s.alicdn.com/@sc04/kf/Hb61a0ac97efc434f84407447a13d658cu.png_500x500.jpg"
-  - image: "https://s.alicdn.com/@sc04/kf/H68d876b863014e4a9689439d0e35de80z.png_500x500.jpg"
+  - image: "https://s.alicdn.com/@sc04/kf/H4fb337e662cf40cc902f679cad218e08H.png_500x500.jpg"
+  - image: "https://s.alicdn.com/@sc04/kf/H9182aa4728f346aaa975247625ff3582J.png_500x500.jpg"
+  - image: "https://s.alicdn.com/@sc04/kf/H65454287b4934c849541ff0fa15d88cfi.png_500x500.jpg"
+  - image: "https://s.alicdn.com/@sc04/kf/H062851616ca946db85492293a0e7b862v.png_500x500.jpg"
 badge: "Bestseller"
 specs:
   - label: "Category"
     value: "Hair Tools"
   - label: "Wholesale Price (USD)"
-    value: "$0.80"
+    value: "$0.00"
   - label: "Suggested Retail (USD)"
     value: "$12.99"
   - label: "Gross Margin"
@@ -27,14 +30,24 @@ specs:
     value: "10 pcs"
   - label: "Supply Ability"
     value: "10000 pcs per week"
+  - label: "Color"
+    value: "box"
   - label: "Type"
-    value: "-C 可充电伸缩齿梳，适用于发油使用"
+    value: "：US PLUG"
+  - label: "Voltage"
+    value: "(V)：110-120V"
+  - label: "Packaging"
+    value: "types：Gift Box"
+  - label: "Product name"
+    value: "BLDC Curling iron Hair Dryer"
   - label: "OEM/ODM"
-    value: "订单。"
+    value: "Accepted OEM ODM"
+  - label: "Style"
+    value: "r 220-240V 50hz专业长寿命BLDC电机液晶指示灯离子功能"
   - label: "数量 (pieces)"
-    value: "1 - 1,000"
+    value: "1 - 10,000"
   - label: "美国东部时间（天）"
-    value: "45"
+    value: "30"
 ---
 
 Professional hair tools product — Retail: $12.99 — Margin: 94% — Wholesale from our Guangzhou Baiyun factory.

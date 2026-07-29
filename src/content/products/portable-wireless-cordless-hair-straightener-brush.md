@@ -4,21 +4,28 @@ sku: "HAIR-0039"
 subtitle: "Hair Tools wholesale — high profit margin product"
 category: "hair-tools"
 subcategory: ""
-price: 8.50
+price: 0.45
 stock: 9999
 moq: "10 pcs"
-image: "https://s.alicdn.com/@sc04/kf/Hb2f9576e6662428589ea9e54b6751b04y.jpg_500x500.jpg"
+pricing:
+  - qty: 1000
+    price: 9.25
+  - qty: 5000
+    price: 8.71
+  - qty: 10000
+    price: 8.50
+image: "https://s.alicdn.com/@sc04/kf/Haab1a1a79194418c974652053ecbb932z.png_500x500.jpg"
 gallery:
-  - image: "https://s.alicdn.com/@sc04/kf/H7db1d39d69d743f79bd92e17c6cbe986x.jpg_500x500.jpg"
-  - image: "https://s.alicdn.com/@sc04/kf/H37ff6f3012e24697bf8659bcad14855cB.jpg_500x500.jpg"
-  - image: "https://s.alicdn.com/@sc04/kf/Hcc8a92aa8b5748ba919ac387d41bb06cW.jpg_500x500.jpg"
-  - image: "https://s.alicdn.com/@sc04/kf/Hb475a6c4bc6b4305a158a10736edac801.jpg_500x500.jpg"
+  - image: "https://s.alicdn.com/@sc04/kf/H88bc8a0123f948b5b966366985245ebek.png_500x500.jpg"
+  - image: "https://s.alicdn.com/@sc04/kf/H9552568d63cc45f4a268e62cc82a7562F.png_500x500.jpg"
+  - image: "https://s.alicdn.com/@sc04/kf/Hc6193e5e4c4545689cf74387743b2a4ae.png_500x500.jpg"
+  - image: "https://s.alicdn.com/@sc04/kf/H0105bbdb57714276857672aabc641643Q.png_500x500.jpg"
 badge: "Value Deal"
 specs:
   - label: "Category"
     value: "Hair Tools"
   - label: "Wholesale Price (USD)"
-    value: "$8.50"
+    value: "$0.45"
   - label: "Suggested Retail (USD)"
     value: "$49.99"
   - label: "Gross Margin"
@@ -27,18 +34,24 @@ specs:
     value: "10 pcs"
   - label: "Supply Ability"
     value: "10000 pcs per week"
-  - label: "Type"
-    value: "-C 可充电可拆卸电池无线直发器 便携式迷你直发器 旅行用直发器"
-  - label: "Power"
-    value: "ed, 可调热设置, 多功能, Hair Straightener, 安全, 便携式"
-  - label: "Battery"
-    value: "Powered, 可调热设置, 多功能, Hair Straightener, 安全, 便携式"
+  - label: "Material"
+    value: "PC"
+  - label: "Color"
+    value: "yellow, purple, custom color"
+  - label: "Usage"
+    value: "Hair Styling"
+  - label: "Product name"
+    value: "Multifunctional 4 in 1 High Speed Hair Dryer"
+  - label: "Function"
+    value: "al 4 in 1 High Speed Hair Dryer"
   - label: "OEM/ODM"
-    value: "强大的可折叠Secadora De Cabello电动吹风机旅行吹风机定制标志DC电机60hz"
+    value: "特殊类型"
+  - label: "Style"
+    value: "Modern"
   - label: "数量 (pieces)"
-    value: "1 - 5,000"
+    value: "1 - 1,000"
   - label: "美国东部时间（天）"
-    value: "60"
+    value: "35"
 ---
 
 Professional hair tools product — Retail: $49.99 — Margin: 83% — Wholesale from our Guangzhou Baiyun factory.

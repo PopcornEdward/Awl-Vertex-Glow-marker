@@ -7,12 +7,19 @@ subcategory: ""
 price: 3.20
 stock: 9999
 moq: "10 pcs"
-image: "https://s.alicdn.com/@sc04/kf/Hd04497cd33fb4f2093609a3ce2c11ba7S.jpg_500x500.jpg"
+pricing:
+  - qty: 300
+    price: 8.76
+  - qty: 2000
+    price: 5.39
+  - qty: 30000
+    price: 3.37
+image: "https://s.alicdn.com/@sc04/kf/H05485dfe6de14318ac610ed528872ab5a.jpg_500x500.jpg"
 gallery:
-  - image: "https://s.alicdn.com/@sc04/kf/H1c338f504dda4e6a983287fe691bdc2b4.jpg_500x500.jpg"
-  - image: "https://s.alicdn.com/@sc04/kf/H67279a46804343ceb42fcc9c38f23b8cn.jpg_500x500.jpg"
-  - image: "https://s.alicdn.com/@sc04/kf/Hb0d28818d19b49fd94744cc0bd1ed1d95.jpg_500x500.jpg"
-  - image: "https://s.alicdn.com/@sc04/kf/Hf580593a44b2496e83ee30a7159f764de.jpg_500x500.jpg"
+  - image: "https://s.alicdn.com/@sc04/kf/H1e436e772a72431ba8b8c9fd5c3e7520v.jpg_500x500.jpg"
+  - image: "https://s.alicdn.com/@sc04/kf/Hd598e693e922459e959a8957dc93388fU.jpg_500x500.jpg"
+  - image: "https://s.alicdn.com/@sc04/kf/Hfc0fc6e1dbbb4ee78555b31c3e1e76dd3.jpg_500x500.jpg"
+  - image: "https://s.alicdn.com/@sc04/kf/H2ddd2fa10e7a4b91bfd1beead0255827T.jpg_500x500.jpg"
 badge: "Trending"
 specs:
   - label: "Category"
@@ -30,9 +37,9 @@ specs:
   - label: "OEM/ODM"
     value: "指甲凝胶欧盟版Hema免费TPO免费15毫升高低粘度底涂层凝胶抛光剂，适用于专业美甲沙龙"
   - label: "数量 (pieces)"
-    value: "1 - 3,000,000"
+    value: "1 - 12"
   - label: "美国东部时间（天）"
-    value: "30"
+    value: "7"
 ---
 
 Professional nail supplies product — Retail: $22.00 — Margin: 85% — Wholesale from our Guangzhou Baiyun factory.

@@ -4,21 +4,28 @@ sku: "LASH-0010"
 subtitle: "Eyelash Supplies wholesale — high profit margin product"
 category: "eyelashes"
 subcategory: ""
-price: 0.90
+price: 0.07
 stock: 9999
 moq: "10 pcs"
-image: "https://s.alicdn.com/@sc04/kf/H2116191dc903492a8e3ed8e6dcb2255d8.jpg_500x500.jpg"
+pricing:
+  - qty: 100
+    price: 1.32
+  - qty: 500
+    price: 1.18
+  - qty: 1000
+    price: 0.90
+image: "https://s.alicdn.com/@sc04/kf/H8ce8d93c6f46444a8ed97f4ef9b8e3e58.jpg_500x500.jpg"
 gallery:
-  - image: "https://s.alicdn.com/@sc04/kf/He26b8bf82e744a1eaff42d041e295b49T.jpg_500x500.jpg"
-  - image: "https://s.alicdn.com/@sc04/kf/H3281e9a8530141629d4e5ad9588cc224g.png_500x500.jpg"
-  - image: "https://s.alicdn.com/@sc04/kf/Hbe3d5b38dc6a4e02a4c53648a4da244cy.png_500x500.jpg"
-  - image: "https://s.alicdn.com/@sc04/kf/H648c469bfef44099b4514e91743a3c06D.png_500x500.jpg"
+  - image: "https://s.alicdn.com/@sc04/kf/H56a2fc895d414a6daffc03399f479a2aF.png_500x500.jpg"
+  - image: "https://s.alicdn.com/@sc04/kf/Hc52ac91149c9409c9d76d5e502abd2b6h.jpg_500x500.jpg"
+  - image: "https://s.alicdn.com/@sc04/kf/Hbfc53806b2864429a5121ff253ccfd2eF.png_500x500.jpg"
+  - image: "https://s.alicdn.com/@sc04/kf/Hcc7b0302264c47afbf332103a6f384e4E.png_500x500.jpg"
 badge: "Bestseller"
 specs:
   - label: "Category"
     value: "Eyelash Supplies"
   - label: "Wholesale Price (USD)"
-    value: "$0.90"
+    value: "$0.07"
   - label: "Suggested Retail (USD)"
     value: "$14.99"
   - label: "Gross Margin"

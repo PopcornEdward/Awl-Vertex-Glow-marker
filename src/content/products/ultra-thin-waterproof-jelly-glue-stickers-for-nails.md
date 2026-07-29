@@ -4,9 +4,18 @@ sku: "NAIL-0006"
 subtitle: "Nail Supplies wholesale — high profit margin product"
 category: "nails"
 subcategory: ""
-price: 0.15
+price: 0.00
 stock: 9999
 moq: "10 pcs"
+pricing:
+  - qty: 100
+    price: 0.17
+  - qty: 1000
+    price: 0.16
+  - qty: 6000
+    price: 0.15
+  - qty: 10000
+    price: 0.15
 image: "https://s.alicdn.com/@sc04/kf/Aabe85ccb4e7349d6aff9e4e4fe3e41c1E.jpg_500x500.jpg"
 gallery:
   - image: "https://s.alicdn.com/@sc04/kf/Hde022ede7e8a47aa9d5e4f87d8192f2cK.jpg_500x500.jpg"
@@ -18,7 +27,7 @@ specs:
   - label: "Category"
     value: "Nail Supplies"
   - label: "Wholesale Price (USD)"
-    value: "$0.15"
+    value: "$0.00"
   - label: "Suggested Retail (USD)"
     value: "$3.99"
   - label: "Gross Margin"

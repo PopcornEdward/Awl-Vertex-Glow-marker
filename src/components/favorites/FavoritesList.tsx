@@ -11,6 +11,7 @@ export default function FavoritesList() {
             id: product.id,
             name: product.name,
             price: product.price,
+            pricing: product.pricing || [],
             image: product.image,
             stock: product.stock
         };
@@ -76,7 +77,7 @@ export default function FavoritesList() {
 
                         <div className="flex items-center justify-between mt-4">
                             <span className="text-xl font-bold text-primary">
-                                ${product.price.toLocaleString("en-US")}
+                                {product.pricing && product.pricing.length > 0 ? `From $${product.price.toLocaleString("en-US")}` : `$${product.price.toLocaleString("en-US")}`}
                             </span>
                             <button
                                 onClick={() => handleAddToCart(product)}

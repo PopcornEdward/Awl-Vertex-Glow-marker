@@ -7,12 +7,17 @@ subcategory: ""
 price: 28.00
 stock: 9999
 moq: "10 pcs"
-image: "https://s.alicdn.com/@sc04/kf/H0b36a8801a0541b48d3a12084dac1e06F.jpg_500x500.jpg"
+pricing:
+  - qty: 100
+    price: 2.36
+  - qty: 500
+    price: 2.03
+image: "https://s.alicdn.com/@sc04/kf/H2070afa7ec66415db23b7ed71da07a0ad.jpg_500x500.jpg"
 gallery:
-  - image: "https://s.alicdn.com/@sc04/kf/H548a37b5a1da470e86472b929345e562i.jpg_500x500.jpg"
-  - image: "https://s.alicdn.com/@sc04/kf/H593f12e151fd4ee7a292cb1d18b24ac77.jpg_500x500.jpg"
-  - image: "https://s.alicdn.com/@sc04/kf/H3a9842df4b3148b4b95a0e0f59222fc0J.jpg_500x500.jpg"
-  - image: "https://s.alicdn.com/@sc04/kf/Hc5564cb53d4a491cabf9c0ffad513a95u.jpg_500x500.jpg"
+  - image: "https://s.alicdn.com/@sc04/kf/H81156dbcf136440a8c2d3d3b3df45d1bV.jpg_500x500.jpg"
+  - image: "https://s.alicdn.com/@sc04/kf/Hb03d1e99c2fb40c5bea3e840f0ce3edf0.jpg_500x500.jpg"
+  - image: "https://s.alicdn.com/@sc04/kf/Hdfc5a951d9b84c95a083889f07501b552.jpg_500x500.jpg"
+  - image: "https://s.alicdn.com/@sc04/kf/Ha044a9c5282540759c03045669b3683eo.jpg_500x500.jpg"
 badge: "Value Deal"
 specs:
   - label: "Category"
@@ -27,10 +32,8 @@ specs:
     value: "10 pcs"
   - label: "Supply Ability"
     value: "10000 pcs per week"
-  - label: "Color"
-    value: "：Silver"
   - label: "数量 (pieces)"
-    value: "1 - 2"
+    value: "1 - 100"
   - label: "美国东部时间（天）"
     value: "7"
 ---

@@ -7,12 +7,21 @@ subcategory: ""
 price: 1.50
 stock: 9999
 moq: "10 pcs"
-image: "https://s.alicdn.com/@sc04/kf/H7b6cd8ef8a854304828b406a7a64de90p.png_500x500.jpg"
+pricing:
+  - qty: 100
+    price: 1.89
+  - qty: 3000
+    price: 1.42
+  - qty: 5000
+    price: 1.35
+  - qty: 10000
+    price: 1.28
+image: "https://s.alicdn.com/@sc04/kf/Heeb3d1875ad048c589a4461935156605j.jpg_500x500.jpg"
 gallery:
-  - image: "https://s.alicdn.com/@sc04/kf/Hcd979e0861124bd39efa2c113cb6ddafv.jpg_500x500.jpg"
-  - image: "https://s.alicdn.com/@sc04/kf/H7a5e9ffb33c34ee1bd2f975de4af5f68o.jpg_500x500.jpg"
-  - image: "https://s.alicdn.com/@sc04/kf/H3941eca926a943f78e05ba19b3a08624s.jpg_500x500.jpg"
-  - image: "https://s.alicdn.com/@sc04/kf/Hbf7d16e1dda647eb82298ab292d78118d.png_500x500.jpg"
+  - image: "https://s.alicdn.com/@sc04/kf/Hcce3654a1b08488aaafcedb1f87c54128.jpg_500x500.jpg"
+  - image: "https://s.alicdn.com/@sc04/kf/Hcc5623778be84f22ba468be0a770034e9.jpg_500x500.jpg"
+  - image: "https://s.alicdn.com/@sc04/kf/H56c61514242f45f9b5d362bdc5538489J.jpg_500x500.jpg"
+  - image: "https://s.alicdn.com/@sc04/kf/Hd2ae7f6fa11449bdb609453db2e57bdau.jpg_500x500.jpg"
 badge: "Bestseller"
 specs:
   - label: "Category"
@@ -27,12 +36,10 @@ specs:
     value: "10 pcs"
   - label: "Supply Ability"
     value: "10000 pcs per week"
-  - label: "OEM/ODM"
-    value: "快速风扇易风扇睫毛扩展0.03 0.05 0.07毫米人造水貂体积睫毛易风扇睫毛扩展"
   - label: "数量 (pieces)"
-    value: "1 - 10"
+    value: "1 - 200"
   - label: "美国东部时间（天）"
-    value: "7"
+    value: "15"
 ---
 
 Professional eyelash supplies product — Retail: $16.00 — Margin: 91% — Wholesale from our Guangzhou Baiyun factory.

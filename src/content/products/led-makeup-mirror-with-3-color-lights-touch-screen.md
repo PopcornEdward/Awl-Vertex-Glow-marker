@@ -4,21 +4,30 @@ sku: "BTL-0019"
 subtitle: "Beauty Tools wholesale — high profit margin product"
 category: "beauty-tools"
 subcategory: ""
-price: 5.50
+price: 0.75
 stock: 9999
 moq: "10 pcs"
-image: "https://s.alicdn.com/@sc04/kf/H12fed034654049fca7147c670f8fba20b.png_500x500.jpg"
+pricing:
+  - qty: 500
+    price: 5.90
+  - qty: 3000
+    price: 5.73
+  - qty: 5000
+    price: 5.62
+  - qty: 10000
+    price: 5.50
+image: "https://s.alicdn.com/@sc04/kf/Hb25142939b874fcaa7f82946fa914668j.jpg_500x500.jpg"
 gallery:
-  - image: "https://s.alicdn.com/@sc04/kf/H08fcf7f5423f4be6a1ef59c6e946ab72S.png_500x500.jpg"
-  - image: "https://s.alicdn.com/@sc04/kf/H284b4af455c94730a17ccfeab06cfe5a9.jpg_500x500.jpg"
-  - image: "https://s.alicdn.com/@sc04/kf/Ha2dbeeeee39346338de2ab7cf680e4a4b.png_500x500.jpg"
-  - image: "https://s.alicdn.com/@sc04/kf/H211be8ede13444e493fa08d551948a26s.jpg_500x500.jpg"
+  - image: "https://s.alicdn.com/@sc04/kf/H1527b9702fa94c49a9552d0c0883cabc9.jpg_500x500.jpg"
+  - image: "https://s.alicdn.com/@sc04/kf/Hc2bec380e7dd44d586e056b7445ea7baL.jpg_500x500.jpg"
+  - image: "https://s.alicdn.com/@sc04/kf/Ha6de8d374f124687b16859dbccc8360fv.jpg_500x500.jpg"
+  - image: "https://s.alicdn.com/@sc04/kf/H31b9d664cada4d17b40d3aa7eff6344cd.jpg_500x500.jpg"
 badge: "Value Deal"
 specs:
   - label: "Category"
     value: "Beauty Tools"
   - label: "Wholesale Price (USD)"
-    value: "$5.50"
+    value: "$0.75"
   - label: "Suggested Retail (USD)"
     value: "$32.99"
   - label: "Gross Margin"
@@ -27,14 +36,10 @@ specs:
     value: "10 pcs"
   - label: "Supply Ability"
     value: "10000 pcs per week"
-  - label: "Color"
-    value: "：Full spectrum + red blue light"
-  - label: "Power"
-    value: "12W"
-  - label: "Port"
-    value: "! We will keep providing our best service and good quality with better price. If you have any other inquiry, please feel free to contact me. Have a nice day and look forward to more cooperation!"
+  - label: "Type"
+    value: "C USB 充电端口带 LED 灯梳妆镜 15 可调光灯泡化妆镜"
   - label: "数量 (pieces)"
-    value: "1 - 200"
+    value: "1 - 3,000"
   - label: "美国东部时间（天）"
     value: "35"
 ---

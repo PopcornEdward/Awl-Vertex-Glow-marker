@@ -1,5 +1,6 @@
 import { atom, computed } from 'nanostores';
 import { persistentAtom } from '@nanostores/persistent';
+import type { PricingTier } from '../lib/products';
 
 export interface CartItem {
     id: string;
@@ -10,6 +11,7 @@ export interface CartItem {
     category?: string;
     discount?: number;
     stock?: number;
+    pricing?: PricingTier[];
 }
 
 export const isCartOpen = atom(false);
@@ -117,17 +119,30 @@ export function completePurchase() {
     return { success: true };
 }
 
+function getItemUnitPrice(item: CartItem): number {
+    if (item.pricing && item.pricing.length > 0) {
+        const sorted = [...item.pricing].sort((a, b) => b.qty - a.qty);
+        for (const tier of sorted) {
+            if (item.quantity >= tier.qty) return tier.price;
+        }
+        return item.pricing[item.pricing.length - 1].price;
+    }
+    return item.price;
+}
+
 export const totalPrice = computed(cartItems, (items) => {
     return items.reduce((total, item) => {
-        const itemPrice = item.price * (1 - (item.discount || 0) / 100);
-        return total + itemPrice * item.quantity;
+        const unitPrice = getItemUnitPrice(item);
+        const effectivePrice = unitPrice * (1 - (item.discount || 0) / 100);
+        return total + effectivePrice * item.quantity;
     }, 0);
 });
 
 export const totalSavings = computed(cartItems, (items) => {
     return items.reduce((total, item) => {
         if (!item.discount) return total;
-        const discountAmount = item.price * (item.discount / 100);
+        const unitPrice = getItemUnitPrice(item);
+        const discountAmount = unitPrice * (item.discount / 100);
         return total + discountAmount * item.quantity;
     }, 0);
 });

@@ -4,21 +4,28 @@ sku: "NAIL-0001"
 subtitle: "Nail Supplies wholesale — high profit margin product"
 category: "nails"
 subcategory: ""
-price: 2.80
+price: 0.14
 stock: 9999
 moq: "10 pcs"
-image: "https://s.alicdn.com/@sc04/kf/H0b93e32aef7d4c93b7edb83f4fc3fd59z.jpg_500x500.jpg"
+pricing:
+  - qty: 120
+    price: 3.06
+  - qty: 500
+    price: 2.93
+  - qty: 2000
+    price: 2.80
+image: "https://s.alicdn.com/@sc04/kf/H4ddb37c5796d436ba06309503770223bS.png_500x500.jpg"
 gallery:
-  - image: "https://s.alicdn.com/@sc04/kf/Hff2afd6329344e11afeb010c717c7f21t.jpg_500x500.jpg"
-  - image: "https://s.alicdn.com/@sc04/kf/H695c3bdd25da4a54ab0b4568b22c524fK.jpg_500x500.jpg"
-  - image: "https://s.alicdn.com/@sc04/kf/H7ec953f107bb450d813be2faa5e040d1B.jpg_500x500.jpg"
-  - image: "https://s.alicdn.com/@sc04/kf/Hd46542172dbb4b4f962de3d7971d3883Y.jpg_500x500.jpg"
+  - image: "https://s.alicdn.com/@sc04/kf/H75fd736b2182431b9c5a088f67d510f2P.jpg_500x500.jpg"
+  - image: "https://s.alicdn.com/@sc04/kf/Hc7f9b2e69cad4dc299df9ca2b942469e2.jpg_500x500.jpg"
+  - image: "https://s.alicdn.com/@sc04/kf/H8075ce24474a4bb59ff0c690af9e2931m.png_500x500.jpg"
+  - image: "https://s.alicdn.com/@sc04/kf/Hb529aa9a6a2c4f9588040a5566c82ddbj.jpg_500x500.jpg"
 badge: "Trending"
 specs:
   - label: "Category"
     value: "Nail Supplies"
   - label: "Wholesale Price (USD)"
-    value: "$2.80"
+    value: "$0.14"
   - label: "Suggested Retail (USD)"
     value: "$18.99"
   - label: "Gross Margin"
@@ -27,24 +34,30 @@ specs:
     value: "10 pcs"
   - label: "Supply Ability"
     value: "10000 pcs per week"
+  - label: "Material"
+    value: "Plastic+ABS+Leather"
   - label: "Color"
-    value: "Pink White Purple Yellow Blue"
-  - label: "Feature"
-    value: "Fast Drying"
+    value: "Box Packaging, Customized Packaging"
+  - label: "Type"
+    value: "low price wholesale ai gel lamp, Nail Gel Polish Lamp, Gel Nail Curing Dryer"
   - label: "Power"
-    value: "3W"
+    value: "功能"
+  - label: "Certification"
+    value: "RoHS Certified / CE Certified / FCC Certified"
+  - label: "Packaging"
+    value: ", Carton Packaging"
   - label: "Port"
-    value: "able UV LED Nail Lamp"
+    value: "able Ai Sensor led Nails lamp"
   - label: "Product name"
-    value: "Portable UV LED Nail Lamp"
-  - label: "Function"
-    value: "Nail Polish Curing Drying"
-  - label: "Application"
-    value: "Nail Art Beauty"
+    value: "Cordless mini UV LED Ai Sensor Nail Lamp G1"
+  - label: "Battery"
+    value: ", Cordless Rechargeable"
+  - label: "OEM/ODM"
+    value: "工厂直接销售指甲油机高品质便携式指甲钻无绳30000转/分钻钻指甲机"
   - label: "数量 (pieces)"
-    value: "1 - 2"
+    value: "1 - 100"
   - label: "美国东部时间（天）"
-    value: "3"
+    value: "15"
 ---
 
 Professional nail supplies product — Retail: $18.99 — Margin: 85% — Wholesale from our Guangzhou Baiyun factory.

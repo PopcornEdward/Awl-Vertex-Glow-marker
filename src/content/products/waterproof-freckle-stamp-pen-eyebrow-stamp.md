@@ -7,12 +7,16 @@ subcategory: ""
 price: 0.60
 stock: 9999
 moq: "10 pcs"
-image: "https://s.alicdn.com/@sc04/kf/Hd886c18e1baf4a028e58dd1b8ff88310D.jpg_500x500.jpg"
+pricing:
+  - qty: 12000
+    price: 1.49
+  - qty: 50000
+    price: 1.42
+image: "https://s.alicdn.com/@sc04/kf/H2cfd54700fe847d690a331ae1698d6efd.jpg_500x500.jpg"
 gallery:
-  - image: "https://s.alicdn.com/@sc04/kf/H49d163df11d34e758a8fa5732ad71244B.jpg_500x500.jpg"
-  - image: "https://s.alicdn.com/@sc04/kf/H625a976b7edd4d8c813a3873c9da393au.jpg_500x500.jpg"
-  - image: "https://s.alicdn.com/@sc04/kf/Hd5ef0cde691b44c08f05b58313134b1cR.jpg_500x500.jpg"
-  - image: "https://s.alicdn.com/@sc04/kf/H467c2fc55bfa41d3b54f041d42dfa851N.jpg_500x500.jpg"
+  - image: "https://s.alicdn.com/@sc04/kf/H4fa9cf563d954c1f9926648edc5e8fc6A.jpg_500x500.jpg"
+  - image: "https://s.alicdn.com/@sc04/kf/H5ef6fd12460a4a64b4322a2eab693595J.jpg_500x500.jpg"
+  - image: "https://s.alicdn.com/@sc04/kf/He13a5ac6886f4127ae5a657068edd39dl.jpg_500x500.jpg"
 badge: "Bestseller"
 specs:
   - label: "Category"
@@ -27,16 +31,8 @@ specs:
     value: "10 pcs"
   - label: "Supply Ability"
     value: "10000 pcs per week"
-  - label: "Material"
-    value: "pp/abs"
-  - label: "Color"
-    value: "Single-Color"
-  - label: "Usage"
-    value: "Cosmetic Personal Care Packaging"
   - label: "Packaging"
     value: "& Printing"
-  - label: "Function"
-    value: "Eyes Makeup Beauty"
   - label: "OEM/ODM"
     value: "¥1.22-1.35"
   - label: "数量 (pieces)"

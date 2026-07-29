@@ -1,15 +1,23 @@
 ---
 import { Icon } from "astro-icon/components";
 
+interface PricingTier {
+    qty: number;
+    price: number;
+}
+
 interface Props {
     title: string;
     price: number;
+    pricing?: PricingTier[];
     images: string[];
     stock: number;
     slug: string;
 }
 
-const { title, price, images, stock, slug } = Astro.props;
+const { title, price, pricing, images, stock, slug } = Astro.props;
+const hasTiers = pricing && pricing.length > 0;
+const displayPrice = hasTiers ? `From $${price.toLocaleString("en-US")}` : `$${price.toLocaleString("en-US")}`;
 ---
 
 <div
@@ -26,6 +34,7 @@ const { title, price, images, stock, slug } = Astro.props;
                 id: slug,
                 name: title,
                 price: price,
+                pricing: pricing || [],
                 image: images[0] || "",
                 stock: stock,
                 slug: slug,
@@ -43,6 +52,7 @@ const { title, price, images, stock, slug } = Astro.props;
                 id: slug,
                 name: title,
                 price: price,
+                pricing: pricing || [],
                 image: images[0] || "",
                 stock: stock,
             })}
@@ -110,7 +120,7 @@ const { title, price, images, stock, slug } = Astro.props;
 
         <div class="flex items-center justify-between mt-2">
             <span class="text-xl font-bold text-primary">
-                ${price.toLocaleString("en-US")}
+                {hasTiers ? `From $${price.toLocaleString("en-US")}` : `$${price.toLocaleString("en-US")}`}
             </span>
             <div class="flex items-center gap-1 text-xs font-medium">
                 {

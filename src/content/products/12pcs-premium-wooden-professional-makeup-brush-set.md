@@ -7,12 +7,19 @@ subcategory: ""
 price: 4.50
 stock: 9999
 moq: "10 pcs"
-image: "https://s.alicdn.com/@sc04/kf/H2cfdc8c7066e40d9baf365ca05633458i.jpg_500x500.jpg"
+pricing:
+  - qty: 10
+    price: 4.50
+  - qty: 100
+    price: 3.82
+  - qty: 1000
+    price: 3.15
+image: "https://s.alicdn.com/@sc04/kf/H48a32710303447ac8a7d638a51d8df1cz.png_500x500.jpg"
 gallery:
-  - image: "https://s.alicdn.com/@sc04/kf/H3ccecf6715324849af97d6d3978975caO.jpg_500x500.jpg"
-  - image: "https://s.alicdn.com/@sc04/kf/Hced4aebf0774449ca08aa405eb2f5beaY.jpg_500x500.jpg"
-  - image: "https://s.alicdn.com/@sc04/kf/H219b8d4eaee442c9acb524673fbebfb1i.jpg_500x500.jpg"
-  - image: "https://s.alicdn.com/@sc04/kf/Hc70b19d5cfe94a1ead8353697feb1a3eo.jpg_500x500.jpg"
+  - image: "https://s.alicdn.com/@sc04/kf/H400bcffdf7fb49bda616ab7fba631872i.png_500x500.jpg"
+  - image: "https://s.alicdn.com/@sc04/kf/H7ffbb3e39b834b5c824ae485292053756.png_500x500.jpg"
+  - image: "https://s.alicdn.com/@sc04/kf/Hee97337c593b4b249585b2b18d7a9e98E.png_500x500.jpg"
+  - image: "https://s.alicdn.com/@sc04/kf/H312871e8bb4e4cf28ab7bc1bd235d470M.png_500x500.jpg"
 badge: "Trending"
 specs:
   - label: "Category"
@@ -27,16 +34,20 @@ specs:
     value: "10 pcs"
   - label: "Supply Ability"
     value: "10000 pcs per week"
-  - label: "Material"
-    value: "s Technology Co., Ltd."
-  - label: "Color"
-    value: "：Pink"
-  - label: "Port"
-    value: "and trust,we will continue to provide quality products and services! Our products are well-received by brand customers in Europe and America, with an industry-leading 98.2% on-time delivery rate to fu"
-  - label: "数量 (sets)"
-    value: "1 - 500"
+  - label: "Usage"
+    value: "Makeup Tool Brushes"
+  - label: "Power"
+    value: "ful performance."
+  - label: "Product name"
+    value: "Makeup Brush"
+  - label: "Battery"
+    value: "life on it is great and the different speed options make this so worth the money."
+  - label: "OEM/ODM"
+    value: "Accept ODM OEM"
+  - label: "数量 (pieces)"
+    value: "1 - 20"
   - label: "美国东部时间（天）"
-    value: "7"
+    value: "10"
 ---
 
 Professional makeup tools product — Retail: $35.00 — Margin: 87% — Wholesale from our Guangzhou Baiyun factory.

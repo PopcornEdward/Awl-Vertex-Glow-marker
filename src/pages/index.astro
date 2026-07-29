@@ -142,7 +142,7 @@ const featuredProducts = await getFeaturedProducts();
               <div class="text-xs text-pink-500 font-medium mb-1">{product.category}</div>
               <h3 class="font-bold text-gray-900 mb-3 line-clamp-2 group-hover:text-pink-600 transition-colors">{product.name}</h3>
               <div class="flex items-center justify-between">
-                <span class="text-pink-600 font-black text-lg">${product.price.toFixed(2)}<span class="text-gray-400 text-xs font-normal">/unit</span></span>
+                <span class="text-pink-600 font-black text-lg">{product.pricing && product.pricing.length > 0 ? `$${product.price.toFixed(2)}+` : `$${product.price.toFixed(2)}`}<span class="text-gray-400 text-xs font-normal">/unit</span></span>
                 <span class="text-xs text-gray-400 bg-gray-100 px-2 py-0.5 rounded-full">MOQ {product.moq}</span>
               </div>
             </div>

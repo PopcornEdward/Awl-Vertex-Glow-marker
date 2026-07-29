@@ -1,9 +1,15 @@
 ---
 import { Icon } from "astro-icon/components";
 
+interface PricingTier {
+    qty: number;
+    price: number;
+}
+
 interface Product {
     name: string;
     price: number;
+    pricing?: PricingTier[];
     description: string;
     category: string;
     stock: number;
@@ -21,6 +27,9 @@ interface Props {
 const { product } = Astro.props;
 
 const discountedPrice = product.price * (1 - (product.discount || 0) / 100);
+const minPrice = product.pricing && product.pricing.length > 0
+    ? Math.min(...product.pricing.map((t) => t.price))
+    : product.price;
 ---
 
 <div
@@ -29,6 +38,7 @@ const discountedPrice = product.price * (1 - (product.discount || 0) / 100);
         id: product.name.toLowerCase().replace(/\s+/g, "-"), // fallback
         name: product.name,
         price: product.price,
+        pricing: product.pricing || [],
         image: product.image || (product as any).images?.[0] || "",
         category: product.category,
         discount: product.discount,
@@ -58,13 +68,14 @@ const discountedPrice = product.price * (1 - (product.discount || 0) / 100);
                     )
                 }
                 <span class="text-4xl font-black text-slate-900">
-                    ${
-                        discountedPrice.toLocaleString(undefined, {
-                            minimumFractionDigits: 0,
-                            maximumFractionDigits: 0,
-                        })
-                    }
+                    ${minPrice.toLocaleString(undefined, {
+                        minimumFractionDigits: 0,
+                        maximumFractionDigits: 0,
+                    })}
                 </span>
+                {product.pricing && product.pricing.length > 0 && (
+                    <span class="text-xs text-slate-500 mt-1">+ / pc (volume pricing)</span>
+                )}
             </div>
             <div class="flex flex-col gap-2">
                 {
@@ -87,6 +98,21 @@ const discountedPrice = product.price * (1 - (product.discount || 0) / 100);
                 }
             </div>
         </div>
+
+        {/* Tiered pricing table */}
+        {product.pricing && product.pricing.length > 0 && (
+            <div class="space-y-4">
+                <h3 class="text-[10px] font-black uppercase tracking-[0.3em] text-slate-400">Volume Pricing</h3>
+                <div class="space-y-2">
+                    {product.pricing.map((tier: PricingTier) => (
+                        <div class="flex justify-between items-center py-3 px-4 bg-slate-50 rounded-xl border border-slate-100">
+                            <span class="text-sm font-semibold text-slate-700">{tier.qty}+ pcs</span>
+                            <span class="font-black text-slate-900 text-lg">${tier.price.toFixed(2)}<span class="text-xs text-slate-400 font-normal"> /pc</span></span>
+                        </div>
+                    ))}
+                </div>
+            </div>
+        )}
     </div>
 
     <!-- Description -->

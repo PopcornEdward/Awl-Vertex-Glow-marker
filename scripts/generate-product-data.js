@@ -16,11 +16,16 @@ for (const file of files) {
   const raw = await readFile(resolve(contentDir, file), "utf-8");
   const { data } = matter(raw);
   const slug = file.replace(/\.md$/, "");
+  const pricing = data.pricing || [];
+  const price = pricing.length > 0
+    ? Math.min(...pricing.map((t) => t.price))
+    : (data.price || 0);
   products.push({
     slug,
     name: data.title || "",
     category: data.category || "",
-    price: data.price || 0,
+    price,
+    pricing,
     badge: data.badge || "",
     discount: data.discount || 0,
     moq: data.moq || "",
@@ -37,6 +42,7 @@ const searchIndex = products.map((p) => ({
   n: p.name,
   c: p.category,
   p: p.price,
+  pr: p.pricing,
   i: p.image,
 }));
 await writeFile(resolve(outDir, "search-index.json"), JSON.stringify(searchIndex));
@@ -49,6 +55,7 @@ const allProducts = products.map((p) => ({
   n: p.name,
   c: p.category,
   p: p.price,
+  pr: p.pricing,
   i: p.image,
   b: p.badge,
   d: p.discount,

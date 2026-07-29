@@ -7,12 +7,19 @@ subcategory: ""
 price: 18.00
 stock: 9999
 moq: "10 pcs"
-image: "https://s.alicdn.com/@sc04/kf/H054ddf190b244c5b8aa7b6593eae8dbex.jpg_500x500.jpg"
+pricing:
+  - qty: 10
+    price: 18.00
+  - qty: 100
+    price: 15.30
+  - qty: 1000
+    price: 12.60
+image: "https://s.alicdn.com/@sc04/kf/H26f660ac16714745913d0d2c507fd6cdo.png_500x500.jpg"
 gallery:
-  - image: "https://s.alicdn.com/@sc04/kf/Hf65aed00a66044d589d3f3a9e1b294a1F.jpg_500x500.jpg"
-  - image: "https://s.alicdn.com/@sc04/kf/H864867f3d8ea4a929a0f16d58bdef0a8H.jpg_500x500.jpg"
-  - image: "https://s.alicdn.com/@sc04/kf/H970f971a2fed40758081d8e100ebc65fz.jpg_500x500.jpg"
-  - image: "https://s.alicdn.com/@sc04/kf/H8d8d025b4d1f43d28808d92bea454dafT.jpg_500x500.jpg"
+  - image: "https://s.alicdn.com/@sc04/kf/H4ea3ce25e3c84f74b67ceff1f487ec476.png_500x500.jpg"
+  - image: "https://s.alicdn.com/@sc04/kf/H7f0ec4e6808c4e5ab251d74da05befe5y.png_500x500.jpg"
+  - image: "https://s.alicdn.com/@sc04/kf/H7ec8f5d7edde43109ee2bc97da334be08.png_500x500.jpg"
+  - image: "https://s.alicdn.com/@sc04/kf/H53279d9f8e4445dcaf6757e095251cb6T.png_500x500.jpg"
 badge: "Value Deal"
 specs:
   - label: "Category"
@@ -28,13 +35,19 @@ specs:
   - label: "Supply Ability"
     value: "10000 pcs per week"
   - label: "Color"
-    value: "：Champagne Gold"
+    value: "：pink"
+  - label: "Size"
+    value: "：1R-0.20mm"
+  - label: "Usage"
+    value: "一次性"
+  - label: "Power"
+    value: "型号"
   - label: "OEM/ODM"
-    value: "服务，定制产品以满足特定的客户要求。 我们尤其擅长纹身/半永久化妆/MTS（微针治疗系统）纹绣笔机和纹绣针的研发与生产，并为全球众多知名纹身品牌提供OEM/ODM服务，年产量可观。"
+    value: "粉末针筒定制软雾遮光 PMU 针"
   - label: "数量 (sets)"
-    value: "1 - 10"
+    value: "1 - 1"
   - label: "美国东部时间（天）"
-    value: "7"
+    value: "3"
 ---
 
 Professional permanent makeup product — Retail: $99.00 — Margin: 82% — Wholesale from our Guangzhou Baiyun factory.

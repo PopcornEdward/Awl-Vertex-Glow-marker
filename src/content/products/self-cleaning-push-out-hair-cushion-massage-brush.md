@@ -4,21 +4,28 @@ sku: "HAIR-0037"
 subtitle: "Hair Tools wholesale — high profit margin product"
 category: "hair-tools"
 subcategory: ""
-price: 1.80
+price: 0.02
 stock: 9999
 moq: "10 pcs"
-image: "https://s.alicdn.com/@sc04/kf/Had06801b6c914f7f8fe7279323a6b80dX.png_500x500.jpg"
+pricing:
+  - qty: 1000
+    price: 1.96
+  - qty: 5000
+    price: 1.85
+  - qty: 10000
+    price: 1.80
+image: "https://s.alicdn.com/@sc04/kf/Haab1a1a79194418c974652053ecbb932z.png_500x500.jpg"
 gallery:
-  - image: "https://s.alicdn.com/@sc04/kf/H3215791d41d7402fb5b318ca2669ffe6B.png_500x500.jpg"
-  - image: "https://s.alicdn.com/@sc04/kf/H3d7e3c8d425a46afa04050e9ede2abddD.png_500x500.jpg"
-  - image: "https://s.alicdn.com/@sc04/kf/Hd173e2a5f06743e4b59af98f21d4ae3dU.png_500x500.jpg"
-  - image: "https://s.alicdn.com/@sc04/kf/H5ce28b39590245148ad241023b4f69958.png_500x500.jpg"
+  - image: "https://s.alicdn.com/@sc04/kf/H88bc8a0123f948b5b966366985245ebek.png_500x500.jpg"
+  - image: "https://s.alicdn.com/@sc04/kf/H9552568d63cc45f4a268e62cc82a7562F.png_500x500.jpg"
+  - image: "https://s.alicdn.com/@sc04/kf/Hc6193e5e4c4545689cf74387743b2a4ae.png_500x500.jpg"
+  - image: "https://s.alicdn.com/@sc04/kf/H0105bbdb57714276857672aabc641643Q.png_500x500.jpg"
 badge: "Bestseller"
 specs:
   - label: "Category"
     value: "Hair Tools"
   - label: "Wholesale Price (USD)"
-    value: "$1.80"
+    value: "$0.02"
   - label: "Suggested Retail (USD)"
     value: "$19.99"
   - label: "Gross Margin"
@@ -27,12 +34,30 @@ specs:
     value: "10 pcs"
   - label: "Supply Ability"
     value: "10000 pcs per week"
+  - label: "Material"
+    value: "PC"
   - label: "Color"
-    value: "：Beige"
+    value: "yellow, purple, custom color"
+  - label: "Type"
+    value: "：US PLUG"
+  - label: "Usage"
+    value: "Hair Styling"
+  - label: "Voltage"
+    value: "(V)：110-120V"
+  - label: "Packaging"
+    value: "types：Gift Box"
+  - label: "Product name"
+    value: "Multifunctional 4 in 1 High Speed Hair Dryer"
+  - label: "Function"
+    value: "al 4 in 1 High Speed Hair Dryer"
+  - label: "OEM/ODM"
+    value: "特殊类型"
+  - label: "Style"
+    value: "Modern"
   - label: "数量 (pieces)"
-    value: "1 - 500"
+    value: "1 - 1,000"
   - label: "美国东部时间（天）"
-    value: "7"
+    value: "35"
 ---
 
 Professional hair tools product — Retail: $19.99 — Margin: 91% — Wholesale from our Guangzhou Baiyun factory.

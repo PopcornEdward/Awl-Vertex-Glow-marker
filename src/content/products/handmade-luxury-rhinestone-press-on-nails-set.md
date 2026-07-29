@@ -4,21 +4,28 @@ sku: "NAIL-0004"
 subtitle: "Nail Supplies wholesale — high profit margin product"
 category: "nails"
 subcategory: ""
-price: 1.80
+price: 0.16
 stock: 9999
 moq: "10 pcs"
-image: "https://s.alicdn.com/@sc04/kf/H014bbc2c3db7497786fae015f718b3ae1.jpg_500x500.jpg"
+pricing:
+  - qty: 100
+    price: 2.14
+  - qty: 5000
+    price: 1.89
+  - qty: 10000
+    price: 1.80
+image: "https://s.alicdn.com/@sc04/kf/Hd5a55803b83d4fe3b7cac33c41f18691e.jpg_500x500.jpg"
 gallery:
-  - image: "https://s.alicdn.com/@sc04/kf/H480c801835074fdeba7816a7490a2775f.jpg_500x500.jpg"
-  - image: "https://s.alicdn.com/@sc04/kf/He5b0047b59034a3cb3b6f73227c9dd9ee.png_500x500.jpg"
-  - image: "https://s.alicdn.com/@sc04/kf/H1ae84cf4d249441cbef5481158aba2f7O.png_500x500.jpg"
-  - image: "https://s.alicdn.com/@sc04/kf/H14b72f36dadc4efab16ad503ec856086q.png_500x500.jpg"
+  - image: "https://s.alicdn.com/@sc04/kf/Hbc26db75039c49ba9db5c27e36ec6686f.jpg_500x500.jpg"
+  - image: "https://s.alicdn.com/@sc04/kf/Hb9c9d1e4f9cd4be7bc57e9ceb65768e2t.jpg_500x500.jpg"
+  - image: "https://s.alicdn.com/@sc04/kf/Hc933372516574f1ba2f2595e898c439ca.jpg_500x500.jpg"
+  - image: "https://s.alicdn.com/@sc04/kf/H2ea201913ada462c977e4adb6fe9cb7bu.jpg_500x500.jpg"
 badge: "Bestseller"
 specs:
   - label: "Category"
     value: "Nail Supplies"
   - label: "Wholesale Price (USD)"
-    value: "$1.80"
+    value: "$0.16"
   - label: "Suggested Retail (USD)"
     value: "$24.99"
   - label: "Gross Margin"
@@ -27,20 +34,12 @@ specs:
     value: "10 pcs"
   - label: "Supply Ability"
     value: "10000 pcs per week"
-  - label: "Material"
-    value: "ABS / Eco-friendly ABS / Acrylic / Soft Gel"
-  - label: "Size"
-    value: "s / 12 Sizes"
-  - label: "Packaging"
-    value: "产品图案"
   - label: "OEM/ODM"
-    value: "美甲供应商，我们支持美甲贴片批发生产、假指甲批量订单、自有品牌定制、定制Logo印刷以及为全球美妆品牌和美甲沙龙经销商提供个性化包装解决方案。 厂家直接制造，确保稳定的质量控制，灵活的最小起订量支持，为阿里巴巴国际买家提供快速的运输。"
-  - label: "Style"
-    value: "s + Custom Logo + Custom Packaging"
+    value: "生产商 按压式指甲"
   - label: "数量 (pieces)"
-    value: "1 - 100"
+    value: "1 - 500"
   - label: "美国东部时间（天）"
-    value: "31"
+    value: "15"
 ---
 
 Professional nail supplies product — Retail: $24.99 — Margin: 93% — Wholesale from our Guangzhou Baiyun factory.

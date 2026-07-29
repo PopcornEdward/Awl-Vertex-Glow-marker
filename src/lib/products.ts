@@ -1,12 +1,33 @@
 import { getCollection } from "astro:content";
 
+export interface PricingTier {
+  qty: number;
+  price: number;
+}
+
+export function getEffectivePrice(pricing: PricingTier[], quantity: number): number | null {
+  if (!pricing || pricing.length === 0) return null;
+  const sorted = [...pricing].sort((a, b) => b.qty - a.qty);
+  for (const tier of sorted) {
+    if (quantity >= tier.qty) return tier.price;
+  }
+  return pricing[pricing.length - 1].price;
+}
+
+export function getPriceRange(pricing: PricingTier[]): { min: number; max: number } | null {
+  if (!pricing || pricing.length === 0) return null;
+  const prices = pricing.map((t) => t.price);
+  return { min: Math.min(...prices), max: Math.max(...prices) };
+}
+
 export async function getAllProducts() {
   const entries = await getCollection("products");
   return entries.map((e) => ({
     id: e.data.sku,
     name: e.data.title,
     title: e.data.subtitle || e.data.title,
-    price: e.data.price,
+    price: e.data.pricing?.[0]?.price ?? e.data.price ?? 0,
+    pricing: (e.data.pricing || []) as PricingTier[],
     description: e.body || "",
     category: e.data.category,
     subcategory: e.data.subcategory,

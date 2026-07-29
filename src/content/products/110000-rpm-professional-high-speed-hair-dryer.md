@@ -4,21 +4,24 @@ sku: "HAIR-0041"
 subtitle: "Hair Tools wholesale — high profit margin product"
 category: "hair-tools"
 subcategory: ""
-price: 22.00
+price: 2.57
 stock: 9999
 moq: "10 pcs"
-image: "https://s.alicdn.com/@sc04/kf/H23a55aa7b02e44c3b1c0ad4755259a4e6.jpg_500x500.jpg"
+pricing:
+  - qty: 3000
+    price: 22.00
+image: "https://s.alicdn.com/@sc04/kf/H890abb89ad72465bb292837e81e689798.jpg_500x500.jpg"
 gallery:
-  - image: "https://s.alicdn.com/@sc04/kf/Hec8b9e611b8d409797977cfff3aa2f4ef.png_500x500.jpg"
-  - image: "https://s.alicdn.com/@sc04/kf/H8142c989dd1946c3acc9cda1b6dbec43m.png_500x500.jpg"
-  - image: "https://s.alicdn.com/@sc04/kf/H58651eaf21e54c2c954c9dcc202735a58.png_500x500.jpg"
-  - image: "https://s.alicdn.com/@sc04/kf/H2a29141882464c25a816eef568010e17I.png_500x500.jpg"
+  - image: "https://s.alicdn.com/@sc04/kf/Ha0f362d4815f4541afb14c5c1636ff0dS.jpg_500x500.jpg"
+  - image: "https://s.alicdn.com/@sc04/kf/H5dee8bc5557542f5a2de7b805eb581c6G.jpg_500x500.jpg"
+  - image: "https://s.alicdn.com/@sc04/kf/Ha363fc4b720d42569dacfe9c1a8dd9d2X.jpg_500x500.jpg"
+  - image: "https://s.alicdn.com/@sc04/kf/Hcd5d9aec75214db8b40d0492458ba079f.jpg_500x500.jpg"
 badge: "Value Deal"
 specs:
   - label: "Category"
     value: "Hair Tools"
   - label: "Wholesale Price (USD)"
-    value: "$22.00"
+    value: "$2.57"
   - label: "Suggested Retail (USD)"
     value: "$119.00"
   - label: "Gross Margin"
@@ -27,14 +30,10 @@ specs:
     value: "10 pcs"
   - label: "Supply Ability"
     value: "10000 pcs per week"
-  - label: "Type"
-    value: "-C 可充电可拆卸电池无线直发器 便携式迷你直发器 旅行用直发器"
-  - label: "OEM/ODM"
-    value: "制造商。 我们为全球进口商、品牌、分销商、零售商和电子商务卖家提供高效、以市场为导向的服务。"
   - label: "数量 (pieces)"
-    value: "1 - 5,000"
+    value: "1 - 3,000"
   - label: "美国东部时间（天）"
-    value: "60"
+    value: "30"
 ---
 
 Professional hair tools product — Retail: $119.00 — Margin: 82% — Wholesale from our Guangzhou Baiyun factory.

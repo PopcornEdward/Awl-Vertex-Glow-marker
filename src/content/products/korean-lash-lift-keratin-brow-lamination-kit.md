@@ -7,12 +7,21 @@ subcategory: ""
 price: 4.50
 stock: 9999
 moq: "10 pcs"
-image: "https://s.alicdn.com/@sc04/kf/Hbbed1c72df6f451b97e30cee8cc0a1c20.jpg_500x500.jpg"
+pricing:
+  - qty: 500
+    price: 27.95
+  - qty: 1000
+    price: 24.58
+  - qty: 3000
+    price: 21.22
+  - qty: 5000
+    price: 17.85
+image: "https://s.alicdn.com/@sc04/kf/H52e62a1cdeb84dc8854eb46da0e39305O.jpg_500x500.jpg"
 gallery:
-  - image: "https://s.alicdn.com/@sc04/kf/H6d407b8faed4480c8f812f788a59d6a8o.jpg_500x500.jpg"
-  - image: "https://s.alicdn.com/@sc04/kf/Hb08cb3cdf93b4e2ca6a753a5906072fcp.jpg_500x500.jpg"
-  - image: "https://s.alicdn.com/@sc04/kf/Ha8ba52da0d4c49a8b5b8bcbd39a8ac79T.jpg_500x500.jpg"
-  - image: "https://s.alicdn.com/@sc04/kf/H5f23c4b0106848fb8694b1fb2796a22cs.jpg_500x500.jpg"
+  - image: "https://s.alicdn.com/@sc04/kf/H331c645a518d4cd09efc3dc5147333caT.jpg_500x500.jpg"
+  - image: "https://s.alicdn.com/@sc04/kf/Hee5489d4caeb49ecaca27aac2e962e5bZ.jpg_500x500.jpg"
+  - image: "https://s.alicdn.com/@sc04/kf/H836d780555c541f989e7cdcfe4f55542G.jpg_500x500.jpg"
+  - image: "https://s.alicdn.com/@sc04/kf/Hb3d9be6f6d2b4f99ae3819d74d720952A.jpg_500x500.jpg"
 badge: "Trending"
 specs:
   - label: "Category"
@@ -27,14 +36,12 @@ specs:
     value: "10 pcs"
   - label: "Supply Ability"
     value: "10000 pcs per week"
-  - label: "Color"
-    value: "s Biological Technology Co., Ltd."
-  - label: "Power"
-    value: "Balm 适合沙龙和家庭使用"
-  - label: "数量 (sets)"
-    value: "1 - 500"
+  - label: "Port"
+    value: "! We will insist on providing good service and quality products."
+  - label: "数量 (pieces)"
+    value: "1 - 1,000"
   - label: "美国东部时间（天）"
-    value: "5"
+    value: "7"
 ---
 
 Professional eyelash supplies product — Retail: $39.99 — Margin: 89% — Wholesale from our Guangzhou Baiyun factory.
