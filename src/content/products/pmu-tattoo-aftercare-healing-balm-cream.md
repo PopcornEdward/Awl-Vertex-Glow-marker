@@ -4,18 +4,18 @@ sku: "PMUS-0017"
 subtitle: "Permanent Makeup wholesale — high profit margin product"
 category: "permanent-makeup"
 subcategory: ""
-price: 0.04
+price: 1.04
 stock: 9999
-moq: "10 pcs"
+moq: "500 pcs"
 pricing:
+  - qty: 500
+    price: 1.04
   - qty: 1000
-    price: 0.87
+    price: 1.00
   - qty: 2000
-    price: 0.80
+    price: 0.95
   - qty: 5000
-    price: 0.72
-  - qty: 10000
-    price: 0.60
+    price: 0.89
 image: "https://s.alicdn.com/@sc04/kf/H73276241cd9649cfbdd1d70b4a27b585y.jpg_500x500.jpg"
 gallery:
   - image: "https://s.alicdn.com/@sc04/kf/H8c852ae55abd47c295b5d316f8503591L.jpg_500x500.jpg"
@@ -27,13 +27,13 @@ specs:
   - label: "Category"
     value: "Permanent Makeup"
   - label: "Wholesale Price (USD)"
-    value: "$0.04"
+    value: "$1.04"
   - label: "Suggested Retail (USD)"
     value: "$9.99"
   - label: "Gross Margin"
-    value: "94%"
+    value: "90%"
   - label: "MOQ"
-    value: "10 pcs"
+    value: "500 pcs"
   - label: "Supply Ability"
     value: "10000 pcs per week"
   - label: "Color"
@@ -46,4 +46,4 @@ specs:
     value: "20"
 ---
 
-Professional permanent makeup product — Retail: $9.99 — Margin: 94% — Wholesale from our Guangzhou Baiyun factory.
+Professional permanent makeup product — Retail: $9.99 — Margin: 90% — Wholesale from our Guangzhou Baiyun factory.

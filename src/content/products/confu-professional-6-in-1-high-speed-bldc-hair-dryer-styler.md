@@ -1,15 +1,15 @@
 ---
-title: "Electric Heated Eyelash Curler Rechargeable"
+title: "CONFU Professional 6-in-1 High Speed BLDC Hair Dryer Styler"
 sku: "BTL-0022"
-subtitle: "Beauty Tools wholesale — high profit margin product"
-category: "beauty-tools"
+subtitle: "Hair Tools wholesale — high profit margin product"
+category: "hair-tools"
 subcategory: ""
-price: 0.04
+price: 25.00
 stock: 9999
-moq: "10 pcs"
+moq: "2,000 pcs"
 pricing:
   - qty: 2000
-    price: 2.50
+    price: 25.00
 image: "https://s.alicdn.com/@sc04/kf/Hc593a20dd3d544178eb4c592c7fc4716y.jpg_500x500.jpg"
 gallery:
   - image: "https://s.alicdn.com/@sc04/kf/H4fb337e662cf40cc902f679cad218e08H.png_500x500.jpg"
@@ -19,15 +19,15 @@ gallery:
 badge: "Trending"
 specs:
   - label: "Category"
-    value: "Beauty Tools"
+    value: "Hair Tools"
   - label: "Wholesale Price (USD)"
-    value: "$0.04"
+    value: "$25.00"
   - label: "Suggested Retail (USD)"
-    value: "$18.99"
+    value: "$65.00"
   - label: "Gross Margin"
-    value: "87%"
+    value: "62%"
   - label: "MOQ"
-    value: "10 pcs"
+    value: "2,000 pcs"
   - label: "Supply Ability"
     value: "10000 pcs per week"
   - label: "Color"
@@ -50,4 +50,4 @@ specs:
     value: "30"
 ---
 
-Professional beauty tools product — Retail: $18.99 — Margin: 87% — Wholesale from our Guangzhou Baiyun factory.
+Professional hair tools product — Retail: $65.00 — Margin: 62% — Wholesale from our Guangzhou Baiyun factory.

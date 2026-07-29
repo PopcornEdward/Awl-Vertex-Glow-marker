@@ -1,21 +1,21 @@
 ---
-title: "Ultra Thin Waterproof Jelly Glue Stickers for Nails"
+title: "Semi-Cured Gel Nail Polish Strips UV LED Art Stickers"
 sku: "NAIL-0006"
 subtitle: "Nail Supplies wholesale — high profit margin product"
 category: "nails"
 subcategory: ""
-price: 0.00
+price: 2.25
 stock: 9999
-moq: "10 pcs"
+moq: "100 pcs"
 pricing:
   - qty: 100
-    price: 0.17
+    price: 2.25
   - qty: 1000
-    price: 0.16
+    price: 2.15
   - qty: 6000
-    price: 0.15
+    price: 2.05
   - qty: 10000
-    price: 0.15
+    price: 1.99
 image: "https://s.alicdn.com/@sc04/kf/Aabe85ccb4e7349d6aff9e4e4fe3e41c1E.jpg_500x500.jpg"
 gallery:
   - image: "https://s.alicdn.com/@sc04/kf/Hde022ede7e8a47aa9d5e4f87d8192f2cK.jpg_500x500.jpg"
@@ -27,13 +27,13 @@ specs:
   - label: "Category"
     value: "Nail Supplies"
   - label: "Wholesale Price (USD)"
-    value: "$0.00"
+    value: "$2.25"
   - label: "Suggested Retail (USD)"
-    value: "$3.99"
+    value: "$8.99"
   - label: "Gross Margin"
-    value: "96%"
+    value: "75%"
   - label: "MOQ"
-    value: "10 pcs"
+    value: "100 pcs"
   - label: "Supply Ability"
     value: "10000 pcs per week"
   - label: "OEM/ODM"
@@ -44,4 +44,4 @@ specs:
     value: "31"
 ---
 
-Professional nail supplies product — Retail: $3.99 — Margin: 96% — Wholesale from our Guangzhou Baiyun factory.
+Professional nail supplies product — Retail: $8.99 — Margin: 75% — Wholesale from our Guangzhou Baiyun factory.

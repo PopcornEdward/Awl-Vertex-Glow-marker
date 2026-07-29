@@ -4,14 +4,14 @@ sku: "MKTL-0036"
 subtitle: "Makeup Tools wholesale — high profit margin product"
 category: "makeup-tools"
 subcategory: ""
-price: 0.02
+price: 4.25
 stock: 9999
-moq: "10 pcs"
+moq: "1,000 pcs"
 pricing:
   - qty: 1000
-    price: 0.73
+    price: 4.25
   - qty: 2000
-    price: 0.70
+    price: 4.10
 image: "https://s.alicdn.com/@sc04/kf/H4a4f471280ba4387b802110b2eac314fi.jpg_500x500.jpg"
 gallery:
   - image: "https://s.alicdn.com/@sc04/kf/HLB1ROZSRAvoK1RjSZFN763xMVXa2.png_500x500.jpg"
@@ -23,13 +23,13 @@ specs:
   - label: "Category"
     value: "Makeup Tools"
   - label: "Wholesale Price (USD)"
-    value: "$0.02"
+    value: "$4.25"
   - label: "Suggested Retail (USD)"
-    value: "$9.99"
+    value: "$14.99"
   - label: "Gross Margin"
-    value: "93%"
+    value: "72%"
   - label: "MOQ"
-    value: "10 pcs"
+    value: "1,000 pcs"
   - label: "Supply Ability"
     value: "10000 pcs per week"
   - label: "Type"
@@ -42,4 +42,4 @@ specs:
     value: "45"
 ---
 
-Professional makeup tools product — Retail: $9.99 — Margin: 93% — Wholesale from our Guangzhou Baiyun factory.
+Professional makeup tools product — Retail: $14.99 — Margin: 72% — Wholesale from our Guangzhou Baiyun factory.

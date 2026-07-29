@@ -1,21 +1,21 @@
 ---
-title: "UV LED Lash Extension Glue Curing Light System"
+title: "Alcohol-Free Waterproof Eyelash Extension Glue 20ml"
 sku: "LASH-0007"
 subtitle: "Eyelash Supplies wholesale — high profit margin product"
 category: "eyelashes"
 subcategory: ""
-price: 35.00
+price: 4.80
 stock: 9999
 moq: "10 pcs"
 pricing:
   - qty: 10
-    price: 32.33
+    price: 4.80
   - qty: 100
-    price: 30.31
+    price: 4.50
   - qty: 500
-    price: 25.59
+    price: 3.80
   - qty: 3000
-    price: 20.07
+    price: 2.98
 image: "https://s.alicdn.com/@sc04/kf/H72385ac8e56a427a9893f28df0190893x.png_500x500.jpg"
 gallery:
   - image: "https://s.alicdn.com/@sc04/kf/Habfee883315e4732ad19cb6767a823009.png_500x500.jpg"
@@ -27,11 +27,11 @@ specs:
   - label: "Category"
     value: "Eyelash Supplies"
   - label: "Wholesale Price (USD)"
-    value: "$35.00"
+    value: "$4.80"
   - label: "Suggested Retail (USD)"
-    value: "$199.00"
+    value: "$14.99"
   - label: "Gross Margin"
-    value: "82%"
+    value: "68%"
   - label: "MOQ"
     value: "10 pcs"
   - label: "Supply Ability"
@@ -42,4 +42,4 @@ specs:
     value: "30"
 ---
 
-Professional eyelash supplies product — Retail: $199.00 — Margin: 82% — Wholesale from our Guangzhou Baiyun factory.
+Professional eyelash supplies product — Retail: $14.99 — Margin: 68% — Wholesale from our Guangzhou Baiyun factory.

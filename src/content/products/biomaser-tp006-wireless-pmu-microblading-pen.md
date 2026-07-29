@@ -1,19 +1,19 @@
 ---
-title: "Smart Microblading PMU Numbing Auxiliary Device"
+title: "Biomaser TP006 Wireless PMU Microblading Pen"
 sku: "PMUS-0016"
 subtitle: "Permanent Makeup wholesale — high profit margin product"
 category: "permanent-makeup"
 subcategory: ""
-price: 18.00
+price: 149.90
 stock: 9999
-moq: "10 pcs"
+moq: "1 set"
 pricing:
-  - qty: 10
-    price: 18.00
-  - qty: 100
-    price: 15.30
-  - qty: 1000
-    price: 12.60
+  - qty: 1
+    price: 149.90
+  - qty: 2
+    price: 120.00
+  - qty: 5
+    price: 75.00
 image: "https://s.alicdn.com/@sc04/kf/H26f660ac16714745913d0d2c507fd6cdo.png_500x500.jpg"
 gallery:
   - image: "https://s.alicdn.com/@sc04/kf/H4ea3ce25e3c84f74b67ceff1f487ec476.png_500x500.jpg"
@@ -25,13 +25,13 @@ specs:
   - label: "Category"
     value: "Permanent Makeup"
   - label: "Wholesale Price (USD)"
-    value: "$18.00"
+    value: "$149.90"
   - label: "Suggested Retail (USD)"
-    value: "$99.00"
+    value: "$299.00"
   - label: "Gross Margin"
-    value: "82%"
+    value: "50%"
   - label: "MOQ"
-    value: "10 pcs"
+    value: "1 set"
   - label: "Supply Ability"
     value: "10000 pcs per week"
   - label: "Color"
@@ -50,4 +50,4 @@ specs:
     value: "3"
 ---
 
-Professional permanent makeup product — Retail: $99.00 — Margin: 82% — Wholesale from our Guangzhou Baiyun factory.
+Professional permanent makeup product — Retail: $299.00 — Margin: 50% — Wholesale from our Guangzhou Baiyun factory.

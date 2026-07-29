@@ -1,21 +1,21 @@
 ---
-title: "Stainless Steel Precision Partial Eyelash Curler Kit"
+title: "2-in-1 Mini Titanium Hair Curler and Curling Iron"
 sku: "MKTL-0034"
-subtitle: "Makeup Tools wholesale — high profit margin product"
-category: "makeup-tools"
+subtitle: "Hair Tools wholesale — high profit margin product"
+category: "hair-tools"
 subcategory: ""
-price: 0.01
+price: 11.70
 stock: 9999
-moq: "10 pcs"
+moq: "100 pcs"
 pricing:
   - qty: 100
-    price: 1.02
+    price: 11.70
   - qty: 1000
-    price: 0.91
+    price: 10.50
   - qty: 5000
-    price: 0.83
+    price: 9.50
   - qty: 10000
-    price: 0.80
+    price: 9.20
 image: "https://s.alicdn.com/@sc04/kf/H8f20cce61c954a60a0992b8a0734cbc0R.jpg_500x500.jpg"
 gallery:
   - image: "https://s.alicdn.com/@sc04/kf/H7c96d8cf8b64443e8ec9779ef2693fa3Z.jpg_500x500.jpg"
@@ -25,15 +25,15 @@ gallery:
 badge: "Bestseller"
 specs:
   - label: "Category"
-    value: "Makeup Tools"
+    value: "Hair Tools"
   - label: "Wholesale Price (USD)"
-    value: "$0.01"
+    value: "$11.70"
   - label: "Suggested Retail (USD)"
-    value: "$9.99"
+    value: "$29.99"
   - label: "Gross Margin"
-    value: "92%"
+    value: "61%"
   - label: "MOQ"
-    value: "10 pcs"
+    value: "100 pcs"
   - label: "Supply Ability"
     value: "10000 pcs per week"
   - label: "Material"
@@ -56,4 +56,4 @@ specs:
     value: "8"
 ---
 
-Professional makeup tools product — Retail: $9.99 — Margin: 92% — Wholesale from our Guangzhou Baiyun factory.
+Professional hair tools product — Retail: $29.99 — Margin: 61% — Wholesale from our Guangzhou Baiyun factory.

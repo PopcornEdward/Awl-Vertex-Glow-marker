@@ -1,19 +1,19 @@
 ---
-title: "3D Silicone Microblading Practice Skin with Facial Contour"
+title: "Rose Rhododendron Nourishing Facial Essence Toner"
 sku: "PMUS-0018"
-subtitle: "Permanent Makeup wholesale — high profit margin product"
-category: "permanent-makeup"
+subtitle: "Daily Chemical wholesale — high profit margin product"
+category: "daily-chemical"
 subcategory: ""
-price: 0.06
+price: 4.62
 stock: 9999
-moq: "10 pcs"
+moq: "3,000 pcs"
 pricing:
   - qty: 3000
-    price: 1.64
+    price: 4.62
   - qty: 5000
-    price: 1.43
+    price: 4.03
   - qty: 10000
-    price: 1.20
+    price: 3.38
 image: "https://s.alicdn.com/@sc04/kf/Hc2f1ce6b61bf479195927c3cdaba6d80L.png_500x500.jpg"
 gallery:
   - image: "https://s.alicdn.com/@sc04/kf/Hc7052ef18c464533b175cfe0c916d371q.png_500x500.jpg"
@@ -23,15 +23,15 @@ gallery:
 badge: "Bestseller"
 specs:
   - label: "Category"
-    value: "Permanent Makeup"
+    value: "Daily Chemical"
   - label: "Wholesale Price (USD)"
-    value: "$0.06"
+    value: "$4.62"
   - label: "Suggested Retail (USD)"
-    value: "$12.00"
+    value: "$19.99"
   - label: "Gross Margin"
-    value: "90%"
+    value: "77%"
   - label: "MOQ"
-    value: "10 pcs"
+    value: "3,000 pcs"
   - label: "Supply Ability"
     value: "10000 pcs per week"
   - label: "OEM/ODM"
@@ -42,4 +42,4 @@ specs:
     value: "31"
 ---
 
-Professional permanent makeup product — Retail: $12.00 — Margin: 90% — Wholesale from our Guangzhou Baiyun factory.
+Professional daily chemical product — Retail: $19.99 — Margin: 77% — Wholesale from our Guangzhou Baiyun factory.

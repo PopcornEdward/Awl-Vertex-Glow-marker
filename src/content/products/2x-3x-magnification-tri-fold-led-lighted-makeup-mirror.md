@@ -1,21 +1,21 @@
 ---
-title: "Azelaic Acid 10% 20% Anti-Redness Serum"
+title: "2X/3X Magnification Tri-Fold LED Lighted Makeup Mirror"
 sku: "DCML-0025"
-subtitle: "Daily Chemical wholesale — high profit margin product"
-category: "daily-chemical"
+subtitle: "Makeup Tools wholesale — high profit margin product"
+category: "makeup-tools"
 subcategory: ""
-price: 0.08
+price: 6.40
 stock: 9999
-moq: "10 pcs"
+moq: "500 pcs"
 pricing:
   - qty: 500
-    price: 1.93
+    price: 6.40
   - qty: 3000
-    price: 1.88
+    price: 6.22
   - qty: 5000
-    price: 1.84
+    price: 6.10
   - qty: 10000
-    price: 1.80
+    price: 5.97
 image: "https://s.alicdn.com/@sc04/kf/Hb25142939b874fcaa7f82946fa914668j.jpg_500x500.jpg"
 gallery:
   - image: "https://s.alicdn.com/@sc04/kf/H1527b9702fa94c49a9552d0c0883cabc9.jpg_500x500.jpg"
@@ -25,15 +25,15 @@ gallery:
 badge: "Bestseller"
 specs:
   - label: "Category"
-    value: "Daily Chemical"
+    value: "Makeup Tools"
   - label: "Wholesale Price (USD)"
-    value: "$0.08"
+    value: "$6.40"
   - label: "Suggested Retail (USD)"
     value: "$19.99"
   - label: "Gross Margin"
-    value: "91%"
+    value: "68%"
   - label: "MOQ"
-    value: "10 pcs"
+    value: "500 pcs"
   - label: "Supply Ability"
     value: "10000 pcs per week"
   - label: "Type"
@@ -44,4 +44,4 @@ specs:
     value: "35"
 ---
 
-Professional daily chemical product — Retail: $19.99 — Margin: 91% — Wholesale from our Guangzhou Baiyun factory.
+Professional makeup tools product — Retail: $19.99 — Margin: 68% — Wholesale from our Guangzhou Baiyun factory.

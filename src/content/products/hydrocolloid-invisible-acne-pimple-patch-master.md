@@ -6,14 +6,14 @@ category: "daily-chemical"
 subcategory: ""
 price: 0.20
 stock: 9999
-moq: "10 pcs"
+moq: "5,000 pcs"
 pricing:
-  - qty: 10
+  - qty: 5000
     price: 0.20
-  - qty: 100
-    price: 0.17
-  - qty: 1000
-    price: 0.14
+  - qty: 10000
+    price: 0.15
+  - qty: 50000
+    price: 0.10
 image: "https://s.alicdn.com/@sc04/kf/H5200ac5b46df45558a5f4ec6cb07a133Q.jpg_500x500.jpg"
 gallery:
   - image: "https://s.alicdn.com/@sc04/kf/H91ec9291d00746efb5aa6b59c2159c4cj.jpg_500x500.jpg"
@@ -27,11 +27,11 @@ specs:
   - label: "Wholesale Price (USD)"
     value: "$0.20"
   - label: "Suggested Retail (USD)"
-    value: "$5.99"
+    value: "$2.99"
   - label: "Gross Margin"
-    value: "97%"
+    value: "93%"
   - label: "MOQ"
-    value: "10 pcs"
+    value: "5,000 pcs"
   - label: "Supply Ability"
     value: "10000 pcs per week"
   - label: "Color"
@@ -42,4 +42,4 @@ specs:
     value: "15"
 ---
 
-Professional daily chemical product — Retail: $5.99 — Margin: 97% — Wholesale from our Guangzhou Baiyun factory.
+Professional daily chemical product — Retail: $2.99 — Margin: 93% — Wholesale from our Guangzhou Baiyun factory.

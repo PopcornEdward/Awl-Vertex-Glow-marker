@@ -4,12 +4,12 @@ sku: "LASH-0012"
 subtitle: "Eyelash Supplies wholesale — high profit margin product"
 category: "eyelashes"
 subcategory: ""
-price: 0.04
+price: 13.10
 stock: 9999
-moq: "10 pcs"
+moq: "1,000 pcs"
 pricing:
   - qty: 1000
-    price: 1.80
+    price: 13.10
 image: "https://s.alicdn.com/@sc04/kf/H98e93ec79a9f495fb588f507bf74a994k.jpg_500x500.jpg"
 gallery:
   - image: "https://s.alicdn.com/@sc04/kf/Had5dcc9c598f4386a5564f8133c207d4r.png_500x500.jpg"
@@ -21,13 +21,13 @@ specs:
   - label: "Category"
     value: "Eyelash Supplies"
   - label: "Wholesale Price (USD)"
-    value: "$0.04"
+    value: "$13.10"
   - label: "Suggested Retail (USD)"
-    value: "$12.99"
+    value: "$39.99"
   - label: "Gross Margin"
-    value: "86%"
+    value: "67%"
   - label: "MOQ"
-    value: "10 pcs"
+    value: "1,000 pcs"
   - label: "Supply Ability"
     value: "10000 pcs per week"
   - label: "Type"
@@ -38,4 +38,4 @@ specs:
     value: "30"
 ---
 
-Professional eyelash supplies product — Retail: $12.99 — Margin: 86% — Wholesale from our Guangzhou Baiyun factory.
+Professional eyelash supplies product — Retail: $39.99 — Margin: 67% — Wholesale from our Guangzhou Baiyun factory.

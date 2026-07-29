@@ -1,21 +1,21 @@
 ---
-title: "9D Cat Eye Magnetic Gel Polish Luxury Kit"
+title: "Custom Logo 3-in-1 Easy Cat Eye Tool for Cat Eye Gel Magnet"
 sku: "NAIL-0002"
 subtitle: "Nail Supplies wholesale — high profit margin product"
 category: "nails"
 subcategory: ""
-price: 8.50
+price: 1.21
 stock: 9999
-moq: "10 pcs"
+moq: "50 pcs"
 pricing:
   - qty: 50
-    price: 7.88
+    price: 1.21
   - qty: 200
-    price: 7.55
+    price: 1.17
   - qty: 500
-    price: 7.28
-  - qty: 2000
-    price: 6.94
+    price: 1.12
+  - qty: 1000
+    price: 1.08
 image: "https://s.alicdn.com/@sc04/kf/H498fe985562b4dc1b43e23da3c3858b7s.jpg_500x500.jpg"
 gallery:
   - image: "https://s.alicdn.com/@sc04/kf/H9c93c480a9ed4948af2625c9a446e354Q.jpg_500x500.jpg"
@@ -27,13 +27,13 @@ specs:
   - label: "Category"
     value: "Nail Supplies"
   - label: "Wholesale Price (USD)"
-    value: "$8.50"
+    value: "$1.21"
   - label: "Suggested Retail (USD)"
-    value: "$45.00"
+    value: "$4.99"
   - label: "Gross Margin"
-    value: "81%"
+    value: "76%"
   - label: "MOQ"
-    value: "10 pcs"
+    value: "50 pcs"
   - label: "Supply Ability"
     value: "10000 pcs per week"
   - label: "数量 (pieces)"
@@ -42,4 +42,4 @@ specs:
     value: "15"
 ---
 
-Professional nail supplies product — Retail: $45.00 — Margin: 81% — Wholesale from our Guangzhou Baiyun factory.
+Professional nail supplies product — Retail: $4.99 — Margin: 76% — Wholesale from our Guangzhou Baiyun factory.

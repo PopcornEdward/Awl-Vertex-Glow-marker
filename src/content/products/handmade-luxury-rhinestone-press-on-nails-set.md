@@ -4,16 +4,16 @@ sku: "NAIL-0004"
 subtitle: "Nail Supplies wholesale — high profit margin product"
 category: "nails"
 subcategory: ""
-price: 0.16
+price: 2.45
 stock: 9999
-moq: "10 pcs"
+moq: "500 pcs"
 pricing:
-  - qty: 100
-    price: 2.14
+  - qty: 500
+    price: 2.45
   - qty: 5000
-    price: 1.89
+    price: 2.35
   - qty: 10000
-    price: 1.80
+    price: 2.25
 image: "https://s.alicdn.com/@sc04/kf/Hd5a55803b83d4fe3b7cac33c41f18691e.jpg_500x500.jpg"
 gallery:
   - image: "https://s.alicdn.com/@sc04/kf/Hbc26db75039c49ba9db5c27e36ec6686f.jpg_500x500.jpg"
@@ -25,13 +25,13 @@ specs:
   - label: "Category"
     value: "Nail Supplies"
   - label: "Wholesale Price (USD)"
-    value: "$0.16"
+    value: "$2.45"
   - label: "Suggested Retail (USD)"
-    value: "$24.99"
+    value: "$12.99"
   - label: "Gross Margin"
-    value: "93%"
+    value: "81%"
   - label: "MOQ"
-    value: "10 pcs"
+    value: "500 pcs"
   - label: "Supply Ability"
     value: "10000 pcs per week"
   - label: "OEM/ODM"
@@ -42,4 +42,4 @@ specs:
     value: "15"
 ---
 
-Professional nail supplies product — Retail: $24.99 — Margin: 93% — Wholesale from our Guangzhou Baiyun factory.
+Professional nail supplies product — Retail: $12.99 — Margin: 81% — Wholesale from our Guangzhou Baiyun factory.

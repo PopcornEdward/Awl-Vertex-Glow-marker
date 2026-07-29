@@ -4,16 +4,16 @@ sku: "HAIR-0039"
 subtitle: "Hair Tools wholesale — high profit margin product"
 category: "hair-tools"
 subcategory: ""
-price: 0.45
+price: 25.00
 stock: 9999
-moq: "10 pcs"
+moq: "2,000 pcs"
 pricing:
-  - qty: 1000
-    price: 9.25
+  - qty: 2000
+    price: 25.00
   - qty: 5000
-    price: 8.71
+    price: 23.00
   - qty: 10000
-    price: 8.50
+    price: 21.00
 image: "https://s.alicdn.com/@sc04/kf/Haab1a1a79194418c974652053ecbb932z.png_500x500.jpg"
 gallery:
   - image: "https://s.alicdn.com/@sc04/kf/H88bc8a0123f948b5b966366985245ebek.png_500x500.jpg"
@@ -25,13 +25,13 @@ specs:
   - label: "Category"
     value: "Hair Tools"
   - label: "Wholesale Price (USD)"
-    value: "$0.45"
+    value: "$25.00"
   - label: "Suggested Retail (USD)"
-    value: "$49.99"
+    value: "$65.00"
   - label: "Gross Margin"
-    value: "83%"
+    value: "62%"
   - label: "MOQ"
-    value: "10 pcs"
+    value: "2,000 pcs"
   - label: "Supply Ability"
     value: "10000 pcs per week"
   - label: "Material"
@@ -54,4 +54,4 @@ specs:
     value: "35"
 ---
 
-Professional hair tools product — Retail: $49.99 — Margin: 83% — Wholesale from our Guangzhou Baiyun factory.
+Professional hair tools product — Retail: $65.00 — Margin: 62% — Wholesale from our Guangzhou Baiyun factory.

@@ -1,15 +1,15 @@
 ---
-title: "Automatic Makeup Brush Cleaner and Dryer Machine"
+title: "CONFU KF-3150 Professional 5-in-1 Electric Hot Air Brush"
 sku: "BTL-0020"
-subtitle: "Beauty Tools wholesale — high profit margin product"
-category: "beauty-tools"
+subtitle: "Hair Tools wholesale — high profit margin product"
+category: "hair-tools"
 subcategory: ""
-price: 0.22
+price: 12.00
 stock: 9999
-moq: "10 pcs"
+moq: "2,000 pcs"
 pricing:
   - qty: 2000
-    price: 4.20
+    price: 12.00
 image: "https://s.alicdn.com/@sc04/kf/H0c32367e181e4a6cb5a0dcb3e8400cd1X.jpg_500x500.jpg"
 gallery:
   - image: "https://s.alicdn.com/@sc04/kf/Hdcbfdaf82c8b472083d67d644eedc397K.png_500x500.jpg"
@@ -19,15 +19,15 @@ gallery:
 badge: "Trending"
 specs:
   - label: "Category"
-    value: "Beauty Tools"
+    value: "Hair Tools"
   - label: "Wholesale Price (USD)"
-    value: "$0.22"
+    value: "$12.00"
   - label: "Suggested Retail (USD)"
-    value: "$29.99"
+    value: "$34.99"
   - label: "Gross Margin"
-    value: "86%"
+    value: "66%"
   - label: "MOQ"
-    value: "10 pcs"
+    value: "2,000 pcs"
   - label: "Supply Ability"
     value: "10000 pcs per week"
   - label: "Color"
@@ -52,4 +52,4 @@ specs:
     value: "40"
 ---
 
-Professional beauty tools product — Retail: $29.99 — Margin: 86% — Wholesale from our Guangzhou Baiyun factory.
+Professional hair tools product — Retail: $34.99 — Margin: 66% — Wholesale from our Guangzhou Baiyun factory.

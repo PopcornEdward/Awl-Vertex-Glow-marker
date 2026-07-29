@@ -1,19 +1,21 @@
 ---
-title: "UV LED Lash Light Sensitive Extension Glue 5ml"
+title: "UV Bond Lash Glue 1-Second Quick Dry Waterproof 5ml"
 sku: "LASH-0009"
 subtitle: "Eyelash Supplies wholesale — high profit margin product"
 category: "eyelashes"
 subcategory: ""
-price: 0.36
+price: 6.50
 stock: 9999
-moq: "10 pcs"
+moq: "3 pcs"
 pricing:
   - qty: 3
-    price: 4.40
+    price: 6.50
   - qty: 50
-    price: 3.30
-  - qty: 1000
-    price: 2.20
+    price: 5.50
+  - qty: 100
+    price: 5.00
+  - qty: 3000
+    price: 2.00
 image: "https://s.alicdn.com/@sc04/kf/H7752687ed3e74932a1f6084ba1063651a.png_500x500.jpg"
 gallery:
   - image: "https://s.alicdn.com/@sc04/kf/H62c74d594ce0432eb1c792f4db5adff9Z.png_500x500.jpg"
@@ -25,13 +27,13 @@ specs:
   - label: "Category"
     value: "Eyelash Supplies"
   - label: "Wholesale Price (USD)"
-    value: "$0.36"
+    value: "$6.50"
   - label: "Suggested Retail (USD)"
-    value: "$28.00"
+    value: "$16.99"
   - label: "Gross Margin"
-    value: "92%"
+    value: "62%"
   - label: "MOQ"
-    value: "10 pcs"
+    value: "3 pcs"
   - label: "Supply Ability"
     value: "10000 pcs per week"
   - label: "数量 (pieces)"
@@ -40,4 +42,4 @@ specs:
     value: "30"
 ---
 
-Professional eyelash supplies product — Retail: $28.00 — Margin: 92% — Wholesale from our Guangzhou Baiyun factory.
+Professional eyelash supplies product — Retail: $16.99 — Margin: 62% — Wholesale from our Guangzhou Baiyun factory.

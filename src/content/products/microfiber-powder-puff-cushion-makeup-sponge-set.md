@@ -4,14 +4,14 @@ sku: "BTL-0023"
 subtitle: "Beauty Tools wholesale — high profit margin product"
 category: "beauty-tools"
 subcategory: ""
-price: 0.50
+price: 0.38
 stock: 9999
-moq: "10 pcs"
+moq: "100 pcs"
 pricing:
   - qty: 100
-    price: 2.36
+    price: 0.38
   - qty: 500
-    price: 2.03
+    price: 0.30
 image: "https://s.alicdn.com/@sc04/kf/H2070afa7ec66415db23b7ed71da07a0ad.jpg_500x500.jpg"
 gallery:
   - image: "https://s.alicdn.com/@sc04/kf/H81156dbcf136440a8c2d3d3b3df45d1bV.jpg_500x500.jpg"
@@ -23,13 +23,13 @@ specs:
   - label: "Category"
     value: "Beauty Tools"
   - label: "Wholesale Price (USD)"
-    value: "$0.50"
+    value: "$0.38"
   - label: "Suggested Retail (USD)"
-    value: "$7.99"
+    value: "$3.99"
   - label: "Gross Margin"
-    value: "94%"
+    value: "90%"
   - label: "MOQ"
-    value: "10 pcs"
+    value: "100 pcs"
   - label: "Supply Ability"
     value: "10000 pcs per week"
   - label: "数量 (pieces)"
@@ -38,4 +38,4 @@ specs:
     value: "7"
 ---
 
-Professional beauty tools product — Retail: $7.99 — Margin: 94% — Wholesale from our Guangzhou Baiyun factory.
+Professional beauty tools product — Retail: $3.99 — Margin: 90% — Wholesale from our Guangzhou Baiyun factory.

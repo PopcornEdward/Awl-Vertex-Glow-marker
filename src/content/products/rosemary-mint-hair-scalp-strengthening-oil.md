@@ -4,16 +4,16 @@ sku: "DCML-0029"
 subtitle: "Daily Chemical wholesale — high profit margin product"
 category: "daily-chemical"
 subcategory: ""
-price: 1.10
+price: 0.70
 stock: 9999
-moq: "10 pcs"
+moq: "1,000 pcs"
 pricing:
   - qty: 1000
-    price: 4.72
+    price: 0.70
   - qty: 5000
-    price: 4.38
+    price: 0.65
   - qty: 10000
-    price: 3.71
+    price: 0.55
 image: "https://s.alicdn.com/@sc04/kf/He05a5dbcf9c9424bac09714ce1408e3dq.jpg_500x500.jpg"
 gallery:
   - image: "https://s.alicdn.com/@sc04/kf/He4afc1a28f0943e5bbfbbee4d2231f09E.jpg_500x500.jpg"
@@ -25,13 +25,13 @@ specs:
   - label: "Category"
     value: "Daily Chemical"
   - label: "Wholesale Price (USD)"
-    value: "$1.10"
+    value: "$0.70"
   - label: "Suggested Retail (USD)"
-    value: "$15.99"
+    value: "$9.99"
   - label: "Gross Margin"
     value: "93%"
   - label: "MOQ"
-    value: "10 pcs"
+    value: "1,000 pcs"
   - label: "Supply Ability"
     value: "10000 pcs per week"
   - label: "Material"
@@ -52,4 +52,4 @@ specs:
     value: "31"
 ---
 
-Professional daily chemical product — Retail: $15.99 — Margin: 93% — Wholesale from our Guangzhou Baiyun factory.
+Professional daily chemical product — Retail: $9.99 — Margin: 93% — Wholesale from our Guangzhou Baiyun factory.

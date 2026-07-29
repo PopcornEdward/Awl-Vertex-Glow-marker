@@ -1,19 +1,19 @@
 ---
-title: "Wireless Handheld UV LED Nail Cure Light Lamp"
+title: "SNRQI G1 AI Smart Sensor UV LED Nail Lamp Cordless Quick Dry"
 sku: "NAIL-0001"
 subtitle: "Nail Supplies wholesale — high profit margin product"
 category: "nails"
 subcategory: ""
-price: 0.14
+price: 9.30
 stock: 9999
-moq: "10 pcs"
+moq: "120 pcs"
 pricing:
   - qty: 120
-    price: 3.06
+    price: 9.30
   - qty: 500
-    price: 2.93
+    price: 8.90
   - qty: 2000
-    price: 2.80
+    price: 8.50
 image: "https://s.alicdn.com/@sc04/kf/H4ddb37c5796d436ba06309503770223bS.png_500x500.jpg"
 gallery:
   - image: "https://s.alicdn.com/@sc04/kf/H75fd736b2182431b9c5a088f67d510f2P.jpg_500x500.jpg"
@@ -25,13 +25,13 @@ specs:
   - label: "Category"
     value: "Nail Supplies"
   - label: "Wholesale Price (USD)"
-    value: "$0.14"
+    value: "$9.30"
   - label: "Suggested Retail (USD)"
-    value: "$18.99"
+    value: "$24.99"
   - label: "Gross Margin"
-    value: "85%"
+    value: "63%"
   - label: "MOQ"
-    value: "10 pcs"
+    value: "120 pcs"
   - label: "Supply Ability"
     value: "10000 pcs per week"
   - label: "Material"
@@ -60,4 +60,4 @@ specs:
     value: "15"
 ---
 
-Professional nail supplies product — Retail: $18.99 — Margin: 85% — Wholesale from our Guangzhou Baiyun factory.
+Professional nail supplies product — Retail: $24.99 — Margin: 63% — Wholesale from our Guangzhou Baiyun factory.
