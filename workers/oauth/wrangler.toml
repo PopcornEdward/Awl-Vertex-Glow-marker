@@ -6,11 +6,8 @@ account_id = "8b0adeeddb1097052d05dcc7f5bc2796"
 [vars]
 OAUTH_REDIRECT_HOST = "awlvertexglowmarker.aviciimailsend.dpdns.org"
 OAUTH_ORIGIN = "https://vertex.aviciiedulab.dpdns.org"
+ORIGIN_HOST = "popcornedward.github.io"
 
 [[r2_buckets]]
 binding = "MY_BUCKET"
 bucket_name = "my-astro-avgm"
-
-[[routes]]
-pattern = "awlvertexglowmarker.aviciimailsend.dpdns.org/*"
-zone_name = "aviciimailsend.dpdns.org"

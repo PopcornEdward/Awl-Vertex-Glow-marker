@@ -1,5 +1,5 @@
 /**
- * Cloudflare Worker — GitHub OAuth Gateway + R2 Image Upload
+ * Cloudflare Worker — GitHub OAuth Gateway + R2 Image Upload + Frontend Proxy
  * for Sveltia/Decap CMS
  */
 
@@ -146,6 +146,16 @@ export default {
       );
     }
 
-    return new Response("Not Found", { status: 404 });
+    // ── 其他所有请求 → 代理到 GitHub Pages 源站 ──
+    const originUrl = new URL(request.url);
+    originUrl.hostname = env.ORIGIN_HOST;
+    const originReq = new Request(originUrl.toString(), {
+      method: request.method,
+      headers: request.headers,
+      body: request.body,
+      redirect: "follow",
+    });
+
+    return fetch(originReq);
   },
 };
