@@ -33,12 +33,12 @@ specs:
   - label: "Supply Ability"
     value: "10000 pcs per week"
   - label: "Type"
-    value: "-C 可充电"
+    value: "USB-C Rechargeable"
   - label: "OEM/ODM"
-    value: "合作伙伴，专注于个人护理和美容电器，为全球进口商、品牌所有者、分销商、连锁店和电子商务卖家提供高效的市场导向解决方案。"
-  - label: "数量 (pieces)"
+    value: "Partner focused on personal care and beauty appliances, providing efficient market-oriented solutions for global importers, brand owners, distributors, chains and e-commerce sellers"
+  - label: "Order Quantity"
     value: "1 - 5,000"
-  - label: "美国东部时间（天）"
+  - label: "Lead Time (days)"
     value: "45"
 ---
 

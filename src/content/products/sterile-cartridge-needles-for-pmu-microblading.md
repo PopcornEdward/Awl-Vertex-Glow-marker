@@ -37,10 +37,10 @@ specs:
   - label: "Color"
     value: "：Champagne Gold"
   - label: "OEM/ODM"
-    value: "功能/特性"
-  - label: "数量 (boxes)"
+    value: "Features"
+  - label: "Order Quantity (boxes)"
     value: "1 - 1,000"
-  - label: "美国东部时间（天）"
+  - label: "Lead Time (days)"
     value: "35"
 ---
 

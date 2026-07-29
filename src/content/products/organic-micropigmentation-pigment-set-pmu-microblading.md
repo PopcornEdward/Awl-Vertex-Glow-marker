@@ -37,10 +37,10 @@ specs:
   - label: "Color"
     value: "：Champagne Gold"
   - label: "OEM/ODM"
-    value: "服务，定制产品以满足特定的客户要求。 我们尤其擅长纹身/半永久化妆/MTS（微针治疗系统）纹绣笔机和纹绣针的研发与生产，并为全球众多知名纹身品牌提供OEM/ODM服务，年产量可观。"
-  - label: "数量 (sets)"
+    value: "Custom products meeting specific client requirements. Specializing in tattoo/semi-permanent makeup/MTS microblading pen machines and needles R&D, providing OEM/ODM for renowned global tattoo brands"
+  - label: "Order Quantity (sets)"
     value: "1 - 10"
-  - label: "美国东部时间（天）"
+  - label: "Lead Time (days)"
     value: "7"
 ---
 

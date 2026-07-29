@@ -37,10 +37,10 @@ specs:
   - label: "Supply Ability"
     value: "10000 pcs per week"
   - label: "Type"
-    value: "C USB 充电端口带 LED 灯梳妆镜 15 可调光灯泡化妆镜"
-  - label: "数量 (pieces)"
+    value: "USB-C rechargeable LED vanity mirror with 15 adjustable bulbs"
+  - label: "Order Quantity"
     value: "1 - 3,000"
-  - label: "美国东部时间（天）"
+  - label: "Lead Time (days)"
     value: "35"
 ---
 

@@ -32,9 +32,9 @@ specs:
     value: "100 pcs"
   - label: "Supply Ability"
     value: "10000 pcs per week"
-  - label: "数量 (pieces)"
+  - label: "Order Quantity"
     value: "1 - 100"
-  - label: "美国东部时间（天）"
+  - label: "Lead Time (days)"
     value: "7"
 ---
 

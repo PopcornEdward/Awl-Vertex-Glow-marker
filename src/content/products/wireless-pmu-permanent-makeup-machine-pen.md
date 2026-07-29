@@ -37,12 +37,12 @@ specs:
   - label: "Color"
     value: "：Blue"
   - label: "Type"
-    value: "-C 快速充电 PMU 笔式充电器 工作时间 3-5 小时"
+    value: "USB-C fast charging PMU pen charger, 3-5 hours working time"
   - label: "OEM/ODM"
-    value: "纹身笔，适用于眉毛、眼线、嘴唇"
-  - label: "数量 (pieces)"
+    value: "Tattoo pen for eyebrows, eyeliner, lips"
+  - label: "Order Quantity"
     value: "1 - 1"
-  - label: "美国东部时间（天）"
+  - label: "Lead Time (days)"
     value: "3"
 ---
 

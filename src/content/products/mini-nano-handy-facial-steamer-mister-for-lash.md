@@ -31,10 +31,10 @@ specs:
   - label: "Supply Ability"
     value: "10000 pcs per week"
   - label: "Type"
-    value: "-C 充电剃须机"
-  - label: "数量 (pieces)"
+    value: "USB-C Rechargeable"
+  - label: "Order Quantity"
     value: "1 - 1,000"
-  - label: "美国东部时间（天）"
+  - label: "Lead Time (days)"
     value: "30"
 ---
 

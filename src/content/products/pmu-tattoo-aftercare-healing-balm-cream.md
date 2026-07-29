@@ -40,9 +40,9 @@ specs:
     value: "：Kojic Acid Turmeric Copsule Serum"
   - label: "Weight"
     value: "：30 ml"
-  - label: "数量 (pieces)"
+  - label: "Order Quantity"
     value: "1 - 1,000"
-  - label: "美国东部时间（天）"
+  - label: "Lead Time (days)"
     value: "20"
 ---
 

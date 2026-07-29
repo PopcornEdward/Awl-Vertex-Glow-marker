@@ -35,10 +35,10 @@ specs:
   - label: "Supply Ability"
     value: "10000 pcs per week"
   - label: "OEM/ODM"
-    value: "指甲凝胶欧盟版Hema免费TPO免费15毫升高低粘度底涂层凝胶抛光剂，适用于专业美甲沙龙"
-  - label: "数量 (pieces)"
+    value: "EU version Hema-free TPO-free 15ml high/low viscosity base coat gel polish for professional salons"
+  - label: "Order Quantity"
     value: "1 - 12"
-  - label: "美国东部时间（天）"
+  - label: "Lead Time (days)"
     value: "7"
 ---
 

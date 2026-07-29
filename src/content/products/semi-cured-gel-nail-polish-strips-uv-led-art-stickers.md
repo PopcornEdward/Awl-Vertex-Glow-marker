@@ -37,10 +37,10 @@ specs:
   - label: "Supply Ability"
     value: "10000 pcs per week"
   - label: "OEM/ODM"
-    value: "生产商 按压式指甲"
-  - label: "数量 (pieces)"
+    value: "Manufacturer — Press-on Nails"
+  - label: "Order Quantity"
     value: "1 - 5,000"
-  - label: "美国东部时间（天）"
+  - label: "Lead Time (days)"
     value: "31"
 ---
 

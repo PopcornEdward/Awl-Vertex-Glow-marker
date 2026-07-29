@@ -35,10 +35,10 @@ specs:
   - label: "Supply Ability"
     value: "10000 pcs per week"
   - label: "OEM/ODM"
-    value: "自有品牌外泌体胶原蛋白抗衰老亮白面膜"
-  - label: "数量 (pieces)"
+    value: "Private label exosome collagen anti-aging brightening mask"
+  - label: "Order Quantity"
     value: "1 - 9,999"
-  - label: "美国东部时间（天）"
+  - label: "Lead Time (days)"
     value: "31"
 ---
 

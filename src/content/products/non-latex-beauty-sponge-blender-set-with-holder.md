@@ -45,10 +45,10 @@ specs:
   - label: "Port"
     value: ". Really appreciate your recommendation. Esperamos atendê-lo novamente em breve!"
   - label: "OEM/ODM"
-    value: "可充电SUNX9手持式指甲干燥灯220W 57 leds发光二极管紫外线指甲油灯"
-  - label: "数量 (pieces)"
+    value: "Rechargeable SUNX9 handheld nail dryer 220W 57 LEDs UV nail lamp"
+  - label: "Order Quantity"
     value: "1 - 10,000"
-  - label: "美国东部时间（天）"
+  - label: "Lead Time (days)"
     value: "38"
 ---
 

@@ -38,9 +38,9 @@ specs:
     value: "：Green"
   - label: "Type"
     value: "：Type-C"
-  - label: "数量 (pieces)"
+  - label: "Order Quantity"
     value: "1 - 2,000"
-  - label: "美国东部时间（天）"
+  - label: "Lead Time (days)"
     value: "5"
 ---
 

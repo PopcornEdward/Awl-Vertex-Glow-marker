@@ -46,9 +46,9 @@ specs:
     value: "life on it is great and the different speed options make this so worth the money."
   - label: "OEM/ODM"
     value: "Accept ODM OEM"
-  - label: "数量 (pieces)"
+  - label: "Order Quantity"
     value: "1 - 20"
-  - label: "美国东部时间（天）"
+  - label: "Lead Time (days)"
     value: "10"
 ---
 

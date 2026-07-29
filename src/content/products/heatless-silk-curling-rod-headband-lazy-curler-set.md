@@ -45,10 +45,10 @@ specs:
   - label: "OEM/ODM"
     value: "Accepted OEM ODM"
   - label: "Style"
-    value: "r 220-240V 50hz专业长寿命BLDC电机液晶指示灯离子功能"
-  - label: "数量 (pieces)"
+    value: "220-240V 50Hz Long-life BLDC motor with LCD indicator and ionic function"
+  - label: "Order Quantity"
     value: "1 - 10,000"
-  - label: "美国东部时间（天）"
+  - label: "Lead Time (days)"
     value: "30"
 ---
 

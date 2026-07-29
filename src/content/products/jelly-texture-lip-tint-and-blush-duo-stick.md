@@ -41,10 +41,10 @@ specs:
   - label: "Weight"
     value: "：50 ml"
   - label: "OEM/ODM"
-    value: "服务，先进的生产线，严格的质量控制，服务于全球市场，专注于护肤品定制。"
-  - label: "数量 (pieces)"
+    value: "Advanced production lines, strict QC, global market focus, skincare customization"
+  - label: "Order Quantity"
     value: "1 - 100"
-  - label: "美国东部时间（天）"
+  - label: "Lead Time (days)"
     value: "7"
 ---
 

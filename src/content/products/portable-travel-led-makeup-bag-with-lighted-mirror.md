@@ -37,12 +37,12 @@ specs:
   - label: "Supply Ability"
     value: "10000 pcs per week"
   - label: "Feature"
-    value: "经久耐用"
+    value: "Durable"
   - label: "Style"
     value: "Bags"
-  - label: "数量 (pieces)"
+  - label: "Order Quantity"
     value: "1 - 499"
-  - label: "美国东部时间（天）"
+  - label: "Lead Time (days)"
     value: "30"
 ---
 

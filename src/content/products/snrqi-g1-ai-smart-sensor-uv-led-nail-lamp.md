@@ -41,7 +41,7 @@ specs:
   - label: "Type"
     value: "low price wholesale ai gel lamp, Nail Gel Polish Lamp, Gel Nail Curing Dryer"
   - label: "Power"
-    value: "功能"
+    value: "Function"
   - label: "Certification"
     value: "RoHS Certified / CE Certified / FCC Certified"
   - label: "Packaging"
@@ -53,10 +53,10 @@ specs:
   - label: "Battery"
     value: ", Cordless Rechargeable"
   - label: "OEM/ODM"
-    value: "工厂直接销售指甲油机高品质便携式指甲钻无绳30000转/分钻钻指甲机"
-  - label: "数量 (pieces)"
+    value: "Factory direct high quality portable cordless nail drill 30000 RPM"
+  - label: "Order Quantity"
     value: "1 - 100"
-  - label: "美国东部时间（天）"
+  - label: "Lead Time (days)"
     value: "15"
 ---
 

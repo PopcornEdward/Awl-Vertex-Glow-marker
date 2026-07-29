@@ -46,9 +46,9 @@ specs:
     value: "BLDC Curling iron Hair Dryer"
   - label: "OEM/ODM"
     value: "Accepted OEM ODM"
-  - label: "数量 (pieces)"
+  - label: "Order Quantity"
     value: "1 - 10,000"
-  - label: "美国东部时间（天）"
+  - label: "Lead Time (days)"
     value: "30"
 ---
 

@@ -45,10 +45,10 @@ specs:
   - label: "Function"
     value: "Contact us to learn more"
   - label: "OEM/ODM"
-    value: "除皱DNA钠+NAD肽冻干粉小瓶溶液抗衰老精华液冻干粉"
-  - label: "数量 (pieces)"
+    value: "Anti-wrinkle DNA Sodium + NAD Peptide Lyophilized Powder Anti-aging Serum"
+  - label: "Order Quantity"
     value: "1 - 1,000"
-  - label: "美国东部时间（天）"
+  - label: "Lead Time (days)"
     value: "31"
 ---
 
