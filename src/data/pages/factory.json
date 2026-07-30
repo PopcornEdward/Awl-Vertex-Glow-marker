@@ -23,12 +23,56 @@
   "photo_wall_subtitle": "A transparent look at our production environment",
   "pw_cat_1_name": "Raw Materials",
   "pw_cat_1_cover": "https://ownshop.usbartimgotolink.qzz.io/2026/07/28/bc7fd8df2a459f9a53eb4ea5f22b3d0c.jpeg",
+  "pw_cat_1_images": [
+    "https://ownshop.usbartimgotolink.qzz.io/2026/07/28/a082bf81497418fbb9f2f49e38501531.webp",
+    "https://ownshop.usbartimgotolink.qzz.io/2026/07/28/41d4e7569cd1a0c62a61a6202c13645b.jpeg",
+    "https://ownshop.usbartimgotolink.qzz.io/2026/07/28/02b21503b728d929ee3933928e14ed67.jpeg",
+    "https://ownshop.usbartimgotolink.qzz.io/2026/07/28/5fab541f31a5b6982e7c2c3728a8941f.webp",
+    "https://ownshop.usbartimgotolink.qzz.io/2026/07/28/cb82c0e3f2e491ac440df0c7668d1bd5.png",
+    "https://ownshop.usbartimgotolink.qzz.io/2026/07/28/379f38fece2b312c4a2b1d73d9c29894.png",
+    "https://ownshop.usbartimgotolink.qzz.io/2026/07/28/e82149bca097e9e01ef7813b18069d5b.jpg",
+    "https://ownshop.usbartimgotolink.qzz.io/2026/07/28/a4089420a66ce65a7c357c8c9368c68a.jpg",
+    "https://ownshop.usbartimgotolink.qzz.io/2026/07/28/6ee83d2b59b8b9e944b617460c9a2ea2.jpeg"
+  ],
   "pw_cat_2_name": "Production Line",
   "pw_cat_2_cover": "https://images.pexels.com/photos/34221997/pexels-photo-34221997.jpeg?auto=compress&cs=tinysrgb&w=600",
+  "pw_cat_2_images": [
+    "https://ownshop.usbartimgotolink.qzz.io/2026/07/28/5e24d6731500f5cd6b18296427b22a81.png",
+    "https://ownshop.usbartimgotolink.qzz.io/2026/07/28/b145fb60e26d758ffb569249ca4f7be3.jpeg",
+    "https://ownshop.usbartimgotolink.qzz.io/2026/07/29/fb39bf7457d3c12e1c1ac08a8639de42.png",
+    "https://ownshop.usbartimgotolink.qzz.io/2026/07/29/2fcc87d1e87d41f1808b55239c48ca2d.png",
+    "https://ownshop.usbartimgotolink.qzz.io/2026/07/28/1d4889d09aff3cfb5056da57e4179921.png",
+    "https://ownshop.usbartimgotolink.qzz.io/2026/07/28/a1404340069aef47c19e1879a9e8a66a.png",
+    "https://ownshop.usbartimgotolink.qzz.io/2026/07/29/0562c2ef0622efc0bd9e3026753ed470.png",
+    "https://images.pexels.com/photos/38357014/pexels-photo-38357014.jpeg?auto=compress&cs=tinysrgb&w=1200",
+    "https://ownshop.usbartimgotolink.qzz.io/2026/07/29/75575614629f05f19ca08104b89d637f.png"
+  ],
   "pw_cat_3_name": "Quality Control",
   "pw_cat_3_cover": "https://images.pexels.com/photos/37466061/pexels-photo-37466061.jpeg?auto=compress&cs=tinysrgb&w=600",
+  "pw_cat_3_images": [
+    "https://ownshop.usbartimgotolink.qzz.io/2026/07/30/18c87de4439216aab2902a1c107d7ed2.png",
+    "https://ownshop.usbartimgotolink.qzz.io/2026/07/30/1c4f3fc9ab653b0e7d78c599441ccde1.png",
+    "https://ownshop.usbartimgotolink.qzz.io/2026/07/30/a69839e93b87e53e2b23c07b4859034e.png",
+    "https://ownshop.usbartimgotolink.qzz.io/2026/07/30/3ca411a33c953485f6fdd4a99b58a38c.png",
+    "https://ownshop.usbartimgotolink.qzz.io/2026/07/30/dd51be7b21bc5d57c6dd73fd613304f4.png",
+    "https://ownshop.usbartimgotolink.qzz.io/2026/07/30/ab9db75dff5e5d3337e903002583ce1e.png",
+    "https://ownshop.usbartimgotolink.qzz.io/2026/07/30/38abcfd338d49566d890552227e499de.png",
+    "https://ownshop.usbartimgotolink.qzz.io/2026/07/30/5a4d4ff27aba7ad61820b2a87736c0e7.png",
+    "https://ownshop.usbartimgotolink.qzz.io/2026/07/30/c7d14efcb6d6efdbcec1f1355120546d.png"
+  ],
   "pw_cat_4_name": "Packing & Loading",
   "pw_cat_4_cover": "https://images.pexels.com/photos/15016523/pexels-photo-15016523.jpeg?auto=compress&cs=tinysrgb&w=600",
+  "pw_cat_4_images": [
+    "https://images.pexels.com/photos/15016523/pexels-photo-15016523.jpeg?auto=compress&cs=tinysrgb&w=1200",
+    "https://ownshop.usbartimgotolink.qzz.io/2026/07/28/57ba263c392b00f6b7fae2f5840ae82d.jpg",
+    "https://ownshop.usbartimgotolink.qzz.io/2026/07/28/c5325d57171dcd51ae0af3f710c5023a.jpg",
+    "https://ownshop.usbartimgotolink.qzz.io/2026/07/28/9d1f4ebcbf2dff84abcda99f969bc327.jpg",
+    "https://ownshop.usbartimgotolink.qzz.io/2026/07/28/31d538f00d124c93ca7ea084d88227fc.jpg",
+    "https://images.pexels.com/photos/4483774/pexels-photo-4483774.jpeg?auto=compress&cs=tinysrgb&w=1200",
+    "https://ownshop.usbartimgotolink.qzz.io/2026/07/28/3dad1759745844efdcaf5040b81a4979.jpg",
+    "https://ownshop.usbartimgotolink.qzz.io/2026/07/28/4e954d059f46948d3bd1236837a9fa38.jpg",
+    "https://ownshop.usbartimgotolink.qzz.io/2026/07/28/d3fea8274e56203f2ab241e15b61a394.jpg"
+  ],
   "qc_title": "6-Stage Quality Control",
   "qc_stages": [
     {
@@ -51,49 +95,5 @@
     }
   ],
   "cta_title": "Want a Live Video Tour?",
-  "cta_description": "Contact us to schedule a live video walkthrough of our factory. We're proud to show you where your products come from.",
-  "pw_cat_1_images": [
-    "https://ownshop.usbartimgotolink.qzz.io/2026/07/28/a082bf81497418fbb9f2f49e38501531.webp",
-    "https://ownshop.usbartimgotolink.qzz.io/2026/07/28/41d4e7569cd1a0c62a61a6202c13645b.jpeg",
-    "https://ownshop.usbartimgotolink.qzz.io/2026/07/28/02b21503b728d929ee3933928e14ed67.jpeg",
-    "https://ownshop.usbartimgotolink.qzz.io/2026/07/28/5fab541f31a5b6982e7c2c3728a8941f.webp",
-    "https://ownshop.usbartimgotolink.qzz.io/2026/07/28/cb82c0e3f2e491ac440df0c7668d1bd5.png",
-    "https://ownshop.usbartimgotolink.qzz.io/2026/07/28/379f38fece2b312c4a2b1d73d9c29894.png",
-    "https://ownshop.usbartimgotolink.qzz.io/2026/07/28/e82149bca097e9e01ef7813b18069d5b.jpg",
-    "https://ownshop.usbartimgotolink.qzz.io/2026/07/28/a4089420a66ce65a7c357c8c9368c68a.jpg",
-    "https://ownshop.usbartimgotolink.qzz.io/2026/07/28/6ee83d2b59b8b9e944b617460c9a2ea2.jpeg"
-  ],
-  "pw_cat_2_images": [
-    "https://ownshop.usbartimgotolink.qzz.io/2026/07/28/5e24d6731500f5cd6b18296427b22a81.png",
-    "https://ownshop.usbartimgotolink.qzz.io/2026/07/28/b145fb60e26d758ffb569249ca4f7be3.jpeg",
-    "https://images.pexels.com/photos/34718930/pexels-photo-34718930.jpeg?auto=compress&cs=tinysrgb&w=1200",
-    "https://images.pexels.com/photos/18631424/pexels-photo-18631424.jpeg?auto=compress&cs=tinysrgb&w=1200",
-    "https://ownshop.usbartimgotolink.qzz.io/2026/07/28/1d4889d09aff3cfb5056da57e4179921.png",
-    "https://ownshop.usbartimgotolink.qzz.io/2026/07/28/a1404340069aef47c19e1879a9e8a66a.png",
-    "https://images.pexels.com/photos/31212954/pexels-photo-31212954.jpeg?auto=compress&cs=tinysrgb&w=1200",
-    "https://images.pexels.com/photos/38357014/pexels-photo-38357014.jpeg?auto=compress&cs=tinysrgb&w=1200",
-    "https://images.pexels.com/photos/31112181/pexels-photo-31112181.jpeg?auto=compress&cs=tinysrgb&w=1200"
-  ],
-  "pw_cat_3_images": [
-    "https://images.pexels.com/photos/37466061/pexels-photo-37466061.jpeg?auto=compress&cs=tinysrgb&w=1200",
-    "https://images.pexels.com/photos/35383621/pexels-photo-35383621.jpeg?auto=compress&cs=tinysrgb&w=1200",
-    "https://images.pexels.com/photos/31336017/pexels-photo-31336017.jpeg?auto=compress&cs=tinysrgb&w=1200",
-    "https://images.pexels.com/photos/34054482/pexels-photo-34054482.jpeg?auto=compress&cs=tinysrgb&w=1200",
-    "https://images.pexels.com/photos/5953835/pexels-photo-5953835.jpeg?auto=compress&cs=tinysrgb&w=1200",
-    "https://images.pexels.com/photos/35383622/pexels-photo-35383622.jpeg?auto=compress&cs=tinysrgb&w=1200",
-    "https://images.pexels.com/photos/31090818/pexels-photo-31090818.jpeg?auto=compress&cs=tinysrgb&w=1200",
-    "https://images.pexels.com/photos/31112229/pexels-photo-31112229.jpeg?auto=compress&cs=tinysrgb&w=1200",
-    "https://images.pexels.com/photos/32845674/pexels-photo-32845674.jpeg?auto=compress&cs=tinysrgb&w=1200"
-  ],
-  "pw_cat_4_images": [
-    "https://images.pexels.com/photos/15016523/pexels-photo-15016523.jpeg?auto=compress&cs=tinysrgb&w=1200",
-    "https://ownshop.usbartimgotolink.qzz.io/2026/07/28/57ba263c392b00f6b7fae2f5840ae82d.jpg",
-    "https://ownshop.usbartimgotolink.qzz.io/2026/07/28/c5325d57171dcd51ae0af3f710c5023a.jpg",
-    "https://images.pexels.com/photos/5329064/pexels-photo-5329064.jpeg?auto=compress&cs=tinysrgb&w=1200",
-    "https://ownshop.usbartimgotolink.qzz.io/2026/07/28/31d538f00d124c93ca7ea084d88227fc.jpg",
-    "https://images.pexels.com/photos/4483774/pexels-photo-4483774.jpeg?auto=compress&cs=tinysrgb&w=1200",
-    "https://ownshop.usbartimgotolink.qzz.io/2026/07/28/ec0ef240ce4db438927e0861141439c9.png",
-    "https://images.pexels.com/photos/31251587/pexels-photo-31251587.jpeg?auto=compress&cs=tinysrgb&w=1200",
-    "https://images.pexels.com/photos/31112188/pexels-photo-31112188.jpeg?auto=compress&cs=tinysrgb&w=1200"
-  ]
+  "cta_description": "Contact us to schedule a live video walkthrough of our factory. We're proud to show you where your products come from."
 }
