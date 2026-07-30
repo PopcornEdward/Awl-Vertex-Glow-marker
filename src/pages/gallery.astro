@@ -190,7 +190,7 @@ const itemsJson = JSON.stringify(allItems);
 
   function renderNextPage() {
     var grid = document.getElementById("gallery-grid");
-    if (!grid || loading) return;
+    if (!grid) return;
     var batch = filteredItems.slice(renderedCount, renderedCount + PAGE);
     if (batch.length === 0) return;
     var html = "";
