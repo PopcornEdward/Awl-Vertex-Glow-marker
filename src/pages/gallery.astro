@@ -204,10 +204,10 @@ const itemsJson = JSON.stringify(allItems);
     var cards = grid.querySelectorAll(".gallery-card-img-wrap");
     for (var j = cards.length - batch.length; j < cards.length; j++) {
       (function(idx) {
+        var filteredIdx = renderedCount - batch.length + (idx - (cards.length - batch.length));
         cards[j].addEventListener("click", function(e) {
           // Don't open lightbox if user clicked a link/button
           if (e.target.closest("a")) return;
-          var filteredIdx = renderedCount - batch.length + (idx - (cards.length - batch.length));
           openLightbox(filteredIdx);
         });
       })(j);
