@@ -60,6 +60,7 @@ const gallery = defineCollection({
       "hair-kits",
       "makeup-kits",
       "daily-kits",
+      "beauty-kits",
       "other-kits",
     ]),
   }),

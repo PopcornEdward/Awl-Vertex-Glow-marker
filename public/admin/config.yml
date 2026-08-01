@@ -151,7 +151,7 @@ collections:
     label_singular: "Product"
     folder: "src/content/products"
     create: true
-    delete: false
+    delete: true
     slug: "{{slug}}"
     editor:
       preview: false
@@ -212,7 +212,7 @@ collections:
     label_singular: "Blog Post"
     folder: "src/content/blog"
     create: true
-    delete: false
+    delete: true
     slug: "{{slug}}"
     editor:
       preview: false
@@ -232,7 +232,7 @@ collections:
     label_singular: "Gallery Item"
     folder: "src/content/gallery"
     create: true
-    delete: false
+    delete: true
     slug: "{{slug}}"
     editor:
       preview: false
@@ -249,6 +249,7 @@ collections:
           - { label: "Hair Kits", value: "hair-kits" }
           - { label: "Makeup Kits", value: "makeup-kits" }
           - { label: "Daily Kits", value: "daily-kits" }
+          - { label: "Beauty Kits", value: "beauty-kits" }
           - { label: "Other Kits", value: "other-kits" }
       - { label: "Description", name: "description", widget: "text", required: false, hint: "Short description shown below the title" }
 
