@@ -146,9 +146,13 @@ export default {
       );
     }
 
-    // ── 其他所有请求 → 代理到 GitHub Pages 源站 ──
+    // ── Proxy all other requests to GitHub Pages origin ──
     const originUrl = new URL(request.url);
     originUrl.hostname = env.ORIGIN_HOST;
+    // Prepend the repo base path for project-site GitHub Pages
+    if (env.ORIGIN_BASE_PATH) {
+      originUrl.pathname = env.ORIGIN_BASE_PATH + originUrl.pathname;
+    }
     const originReq = new Request(originUrl.toString(), {
       method: request.method,
       headers: request.headers,
